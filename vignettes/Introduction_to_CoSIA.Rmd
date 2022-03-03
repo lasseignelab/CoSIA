@@ -1,0 +1,16 @@
+---
+title: "Introduction_to_CoSIA"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Introduction
+Add an “Introduction” section that serves as an abstract to introduce the objective, models, unique functions, key points, etc that distinguish the package from other packages in the same area.
+##Installation
+Add an “Installation” section that show to users how to download and load the package from Bioconductor.
+These instructions and any installations instructions should be in an eval=FALSE code chunk. No where in the code ( code, man pages, vignettes, Rmd files) should someone try to install or download system dependencies, applications, packages, etc. Developers can provide instructions to follow in unevaluated code chunks, and should assume all necessary dependencies, applications or packages are already set up on a user’s system.
+
+##Table of Contents
