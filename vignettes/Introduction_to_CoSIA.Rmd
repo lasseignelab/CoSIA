@@ -14,3 +14,32 @@ Add an “Installation” section that show to users how to download and load th
 These instructions and any installations instructions should be in an eval=FALSE code chunk. No where in the code ( code, man pages, vignettes, Rmd files) should someone try to install or download system dependencies, applications, packages, etc. Developers can provide instructions to follow in unevaluated code chunks, and should assume all necessary dependencies, applications or packages are already set up on a user’s system.
 
 ##Table of Contents
+
+
+
+```{r}
+.libPaths("/data/user/anishah/4.1.0RInteractiveLibs/")
+.libPaths()
+library(methods)
+FullHumanMDLKD <- read.csv("/data/user/anishah/Used_Case_CoSIA/scripts/outputs/FullHumanMDLKD.csv")
+
+UsedCase <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
+
+is(UsedCase)
+#> [1] "CosiaAnnotate"
+UsedCase@input_id
+#> [1] "SYMBOL"
+slot(UsedCase, "ortholog_database")
+#> [1] character(0)
+
+get_input(UsedCase) #Symbols
+set_input(UsedCase)<-FullHumanMDLKD$Human_Ensembl_ID
+get_input(UsedCase) #EnsemblID
+
+
+UsedCase <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
+getConversion(UsedCase)
+
+
+```
+
