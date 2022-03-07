@@ -33,13 +33,13 @@ Output1<-getConversion(Test1)
 head(Output1)
 unique(Output1)
 Db<-dplyr::sample_n(Output1, 20)
+colnames(Db)[which(names(Db) == "SYMBOL")] <- paste("homo_sapiens_Symbol",sep="_") #rename to a more formal name
+
 
 #Human to Mouse
 Test2 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
 Output2<-getConversion(Test2)
 head(Output2)
-
-
 
 #Human to Drosophila
 Test3 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "d_melanogaster", tool = "annotationDBI", ortholog_database = "HomoloGene")
@@ -63,11 +63,23 @@ Test6 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species
 Output6<-getConversion(Test6)
 head(Output6)
 
-Mouse <- new("CosiaAnnotate", input = Db$SYMBOL, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENTREZID","ENSEMBL"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
+Mouse <- new("CosiaAnnotate", input = Db$homo_sapiens_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENTREZID","ENSEMBL","SYMBOL"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
 Mouse_db<-getConversion(Mouse)
 
+Rat <- new("CosiaAnnotate", input = Db$homo_sapiens_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENTREZID","ENSEMBL","SYMBOL"), output_species = "r_norvegicus", tool = "annotationDBI", ortholog_database = "HomoloGene")
+Rat_db<-getConversion(Rat)
 
+merged_data<-merge.data.frame(data.frame(Db), data.frame(Mouse_db), by = "homo_sapiens_Symbol") #merge the two dataframes
 
+merged_data_1<-merge.data.frame(data.frame(merged_data), data.frame(Rat_db), by = "homo_sapiens_Symbol")
+
+zebrafish <- new("CosiaAnnotate", input = Db$homo_sapiens_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENTREZID","ENSEMBL","SYMBOL"), output_species = "danio_rerio", tool = "annotationDBI", ortholog_database = "HomoloGene")
+zebrafish_db<-getConversion(zebrafish)
+
+merged_data_2<-merge.data.frame(data.frame(merged_data_1), data.frame(zebrafish_db), by = "homo_sapiens_Symbol")
+
+gene_list<-data.frame(merged_data_2[6:13,])
+saveRDS(gene_list, "/data/user/anishah/gene_list.rds")
 
 
 

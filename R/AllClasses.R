@@ -47,6 +47,7 @@ setClass("CosiaExpressTissue", contains="CosiaExpress",
            single_gene = character(0),
            gene_species = character(0),
            tissues = character(0),
-           pathToData = character(0)
+           pathToData = character(0),
+           dataframe = data.frame(0)
          )
 )

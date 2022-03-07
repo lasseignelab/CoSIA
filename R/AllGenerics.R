@@ -1,5 +1,8 @@
 #All the package Generics
 
+#Show Generics for CosiaAnnotate Class
+setGeneric("showCosiaAnnotate", function(x) standardGeneric("showCosiaAnnotate"))
+
 # Accessor Generics for CosiaAnnotate Class
 
 setGeneric("get_input", function(x) standardGeneric("get_input"))
