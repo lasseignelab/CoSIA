@@ -1,0 +1,41 @@
+Package: CoSIA
+Type: Package
+Title: An Investigation Across Different Species and Tissues
+Version: 0.1.0
+Author: Anisha Haldar
+Maintainer: Anisha Haldar <anishah@uab.edu>
+Description: An investigation across different species allows for conversion between common gene IDs and their orthologs, as well as compare across gene expression. 
+License: file("LICENSE")
+Encoding: UTF-8
+LazyData: TRUE
+Depends:
+  R (>= 4.0)
+Imports:
+  AnnotationDbi (>= 1.52.0),
+  annotationTools (>= 1.64.0),
+  homologene (>= 1.4.68.19),
+  biomaRt (>= 2.46.3),
+  BgeeDB (>= 2.16.0),
+  RColorBrewer (>= 1.1-2),
+  data.table (>= 1.14.2),
+  stats (>= 4.0),
+  dbplyr (>= 2.1.1),
+  dplyr (>= 1.0.7),
+  plyr (>= 1.8.6),
+  plotly (>= 4.10.0),
+  ggplot2 (>= 3.3.5),
+  viridis (>= 0.6.2),
+  magrittr (>= 2.0.1),
+  org.Hs.eg.db (>= 3.12.0),
+  org.Mm.eg.db (>= 3.12.0),
+  org.Dr.eg.db (>= 3.12.0),
+  org.Ce.eg.db (>= 3.12.0),
+  org.Dm.eg.db (>= 3.12.0),
+  org.Rn.eg.db (>= 3.12.0),
+  stringr (>= 1.4.0)
+RoxygenNote: 7.1.1
+Suggest:
+  KEGGREST (>= 1.30.1)
+biocViews: Software, AnnotationData
+BugReports:
+URL:

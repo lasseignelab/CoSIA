@@ -24,9 +24,8 @@ setClass("CosiaExpressSpecies", contains="CosiaExpress",
          slots=
            c(list_of_ensembl_ids = "character",
              list_of_respective_species = "character",
-             single_tissue = "charcter",
+             single_tissue = "character",
              pathToData = "character", 
-             save.dataframe = "binary",
              dataframe = "data.frame"
            ),
          prototype = list(
@@ -34,7 +33,6 @@ setClass("CosiaExpressSpecies", contains="CosiaExpress",
            list_of_respective_species = character(0),
            single_tissue = character(0),
            pathToData = character(0),
-           save.dataframe = binary(0),
            dataframe = data.frame(0)
          )
 )
@@ -49,6 +47,6 @@ setClass("CosiaExpressTissue", contains="CosiaExpress",
            single_gene = character(0),
            gene_species = character(0),
            tissues = character(0),
-           pathToData = character(0),
+           pathToData = character(0)
          )
 )

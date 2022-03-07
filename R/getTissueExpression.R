@@ -1,10 +1,10 @@
 setMethod("getTissueExpression", signature(object = "CosiaExpressTissue"), function(object) { # user's input of the function
-    if (tissues=="all tissues"){
-      bgee_species <- BgeeDB::Bgee$new(species = gene_species, dataType= "rna_seq", pathToData = pathToData)
+    if (object@tissues=="all tissues"){
+      bgee_species <- BgeeDB::Bgee$new(species = object@gene_species, dataType= "rna_seq", pathToData = object@pathToData)
       bgee <- BgeeDB::getData(bgee_species)
       species_specific<- data.frame(dplyr::select(bgee, Gene.ID, Experiment.ID, Anatomical.entity.ID, Anatomical.entity.name, Read.count, TPM, FPKM,Detection.flag))
       species_specific$Anatomical.entity.name<-gsub('"',"",species_specific$Anatomical.entity.name)
-      gene_specific_data<-dplyr::filter(species_specific,Gene.ID== single_gene)
+      gene_specific_data<-dplyr::filter(species_specific,Gene.ID== object@single_gene)
       sample_size <- data.frame(table(gene_specific_data$Anatomical.entity.name))
       colnames(sample_size)[which(names(sample_size) == "Var1")] <- "Anatomical.entity.name"
       values<-aggregate(data = gene_specific_data,x = gene_specific_data$TPM,
@@ -38,7 +38,7 @@ setMethod("getTissueExpression", signature(object = "CosiaExpressTissue"), funct
           ))
       fig <- fig %>%
         plotly::layout(
-          title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", gene_species, "amoung", tissues, sep=" ")),
+          title = stringr::str_wrap(paste("Gene Expression of the gene", object@single_gene, "in", object@gene_species, "amoung", object@tissues, sep=" ")),
           xaxis = list(
             title = "Anatomical Entity Name",
             size = 2
@@ -53,11 +53,11 @@ setMethod("getTissueExpression", signature(object = "CosiaExpressTissue"), funct
       return(fig)
     }
     else{
-      bgee_species<- BgeeDB::getData(BgeeDB::Bgee$new(species = gene_species, dataType= "rna_seq"))
+      bgee_species<- BgeeDB::getData(BgeeDB::Bgee$new(species = object@gene_species, dataType= "rna_seq"))
       species_specific<- data.frame(dplyr::select(bgee_species, Gene.ID, Experiment.ID, Anatomical.entity.ID, Anatomical.entity.name, Read.count, TPM, FPKM,Detection.flag))
       species_specific$Anatomical.entity.name<-gsub('"',"",species_specific$Anatomical.entity.name)
       gene_specific_data<-dplyr::filter(species_specific,Gene.ID %in% single_gene)
-      tissue_specific_data<-dplyr::filter(gene_specific_data,Anatomical.entity.name %in% tissues)
+      tissue_specific_data<-dplyr::filter(gene_specific_data,Anatomical.entity.name %in% object@tissues)
       sample_size <- data.frame(table(tissue_specific_data$Anatomical.entity.name))
       colnames(sample_size)[which(names(sample_size) == "Var1")] <- "Anatomical.entity.name"
       values<-aggregate(data = tissue_specific_data,x = tissue_specific_data$TPM,
@@ -91,7 +91,7 @@ setMethod("getTissueExpression", signature(object = "CosiaExpressTissue"), funct
           ))
       fig <- fig %>%
         plotly::layout(
-          title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", gene_species, "amoung", tissues, sep=" ")),
+          title = stringr::str_wrap(paste("Gene Expression of the gene", object@single_gene, "in", object@gene_species, "amoung", object@tissues, sep=" ")),
           xaxis = list(
             title = "Anatomical Entity Name",
             size = 2

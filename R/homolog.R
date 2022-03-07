@@ -43,3 +43,4 @@ homolog<-function(entrez_data, species_number, ortholog_database){
     species_two_entrez_ID<-na.omit(manipulated_homologs)
     return(species_two_entrez_ID)
   }
+}
