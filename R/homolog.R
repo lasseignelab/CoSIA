@@ -2,6 +2,7 @@ homolog<-function(entrez_data, species_number, ortholog_database){
   if (ortholog_database=="HomoloGene"){
     myGenes<- as.character(entrez_data)
     species_one<-entrez_data
+    homologene<-homologene::homologeneData2
     data<- annotationTools::getHOMOLOG(myGenes, species_number,homologene, noIDsymbol = NA)
     data<-as.list(data)
     species_two<- as.character(data)

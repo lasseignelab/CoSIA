@@ -21,8 +21,8 @@ setMethod("getConversion", signature(object = "CosiaAnnotate"), function(object)
     return(celegan_data)
   }
   if(object@input_species=="r_norvegicus"){  #code follows this path if the user chooses r_norvegicus as their input species
-    celegan_data<-r_norvegicus(object@input_id,object@input,object@output_ids,object@output_species, object@tool, object@ortholog_database)
-    return(celegan_data)
+    rat_data<-r_norvegicus(object@input_id,object@input,object@output_ids,object@output_species, object@tool, object@ortholog_database)
+    return(rat_data)
   }
   else{ #code follows this path if the inout species is not correctly written or is not one of the available species.
     stop("Error. Invalid input species. Make sure it matches the proper format")

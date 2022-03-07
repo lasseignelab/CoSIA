@@ -26,11 +26,46 @@ library(devtools)
 install_github("lasseignelab/CoSIA", ref= "main", auth_token = "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") 
 
 library(CoSIA)
-Test1 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
-getConversion(Test1)
 
+#Human to Human
+Test1 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
+Output1<-getConversion(Test1)
+head(Output1)
+
+#Human to Mouse
 Test2 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
-CoSIA::getConversion(Test2)
+Output2<-getConversion(Test2)
+head(Output2)
+
+#Human to Drosophila
+Test3 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "d_melanogaster", tool = "annotationDBI", ortholog_database = "HomoloGene")
+Output3<-getConversion(Test3)
+head(Output3)
+#d_melanogaster is not included in NCBIOrthoAnnotationPipe
+
+#Human to Zebra Fish
+Test4 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "danio_rerio", tool = "annotationDBI", ortholog_database = "NCBIOrthoAnnotationPipe")
+Output4<-getConversion(Test4)
+head(Output4)
+
+Test5 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "r_norvegicus", tool = "annotationDBI", ortholog_database = "HomoloGene")
+Output5<-getConversion(Test5)
+head(Output5)
+
+Test6 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "c_elegans", tool = "annotationDBI", ortholog_database = "NCBIOrthoAnnotationPipe")
+# HomoloGene does not include C.elegans
+# NCBIOrtho does not include C.elegans
+Output6<-getConversion(Test6)
+head(Output6)
+
+
+
+
+
+
+
+
+
 
 
 ```
