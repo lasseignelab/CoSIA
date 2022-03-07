@@ -3,7 +3,7 @@ homolog<-function(entrez_data, species_number, ortholog_database){
     myGenes<- as.character(entrez_data)
     species_one<-entrez_data
     homologene<-homologene::homologeneData2
-    data<- annotationTools::getHOMOLOG(myGenes, species_number,homologene, noIDsymbol = NA)
+    data<- annotationTools::getHOMOLOG(myGenes, species_number,homologene, noIDsymbol = NA, clusterCol = 1, speciesCol = 3, idCol = 4)
     data<-as.list(data)
     species_two<- as.character(data)
     homologs<- as.data.frame(species_two)

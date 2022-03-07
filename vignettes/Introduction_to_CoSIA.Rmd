@@ -31,11 +31,15 @@ library(CoSIA)
 Test1 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
 Output1<-getConversion(Test1)
 head(Output1)
+unique(Output1)
+Db<-dplyr::sample_n(Output1, 20)
 
 #Human to Mouse
 Test2 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
 Output2<-getConversion(Test2)
 head(Output2)
+
+
 
 #Human to Drosophila
 Test3 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "d_melanogaster", tool = "annotationDBI", ortholog_database = "HomoloGene")
@@ -48,20 +52,19 @@ Test4 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species
 Output4<-getConversion(Test4)
 head(Output4)
 
+#Human to Rat
 Test5 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "r_norvegicus", tool = "annotationDBI", ortholog_database = "HomoloGene")
 Output5<-getConversion(Test5)
 head(Output5)
 
-Test6 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "c_elegans", tool = "annotationDBI", ortholog_database = "NCBIOrthoAnnotationPipe")
-# HomoloGene does not include C.elegans
+#Human to Celegans
+Test6 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "c_elegans", tool = "annotationDBI", ortholog_database = "HomoloGene")
 # NCBIOrtho does not include C.elegans
 Output6<-getConversion(Test6)
 head(Output6)
 
-
-
-
-
+Mouse <- new("CosiaAnnotate", input = Db$SYMBOL, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENTREZID","ENSEMBL"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
+Mouse_db<-getConversion(Mouse)
 
 
 
@@ -69,4 +72,7 @@ head(Output6)
 
 
 ```
+
+
+
 
