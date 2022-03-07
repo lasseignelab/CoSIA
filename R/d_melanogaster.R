@@ -5,7 +5,7 @@ d_melanogaster<-function(input_id,input_dataset,output_ids,output_species, tool,
       return(output_data)
     }
     if(output_species=="d_melanogaster"){ #code follows this path if the user chooses d_melanogaster as their output species
-      output_data<-CoSIA::BioM(input_id,input_dataset, output_ids,input_species="d_melanogaster", output_species, 10090, "dmelanogaster_gene_ensembl", "dmelanogaster_gene_ensembl", ortholog_database)
+      output_data<-CoSIA::BioM(input_id,input_dataset, output_ids,input_species="d_melanogaster", output_species, 7227, "dmelanogaster_gene_ensembl", "dmelanogaster_gene_ensembl", ortholog_database)
       return(output_data)
     }
     if(output_species=="mus_musculus"){ #code follows this path if the user chooses mus_musculus as their output species
@@ -34,7 +34,7 @@ d_melanogaster<-function(input_id,input_dataset,output_ids,output_species, tool,
       return(output_data)
     }
     if (output_species=="d_melanogaster"){ #code follows this path if the user chooses d_melanogaster as their output species
-      output_data<-CoSIA::AnnotateDBI(input_id,input_dataset,output_ids,input_species="d_melanogaster",output_species,9606, org.Dm.eg.db::org.Dm.eg.db , org.Dm.eg.db::org.Dm.eg.db, ortholog_database)
+      output_data<-CoSIA::AnnotateDBI(input_id,input_dataset,output_ids,input_species="d_melanogaster",output_species,7227, org.Dm.eg.db::org.Dm.eg.db , org.Dm.eg.db::org.Dm.eg.db, ortholog_database)
       return(output_data)
     }
     if (output_species=="mus_musculus"){ #code follows this path if the user chooses mus_musculus as their output species
