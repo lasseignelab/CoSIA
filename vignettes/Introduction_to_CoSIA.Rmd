@@ -20,28 +20,17 @@ These instructions and any installations instructions should be in an eval=FALSE
 ```{r}
 .libPaths("/data/user/anishah/4.1.0RInteractiveLibs/")
 .libPaths()
-library(methods)
 FullHumanMDLKD <- read.csv("/data/user/anishah/Used_Case_CoSIA/scripts/outputs/FullHumanMDLKD.csv")
 
 library(devtools)
 install_github("lasseignelab/CoSIA", ref= "main", auth_token = "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") 
 
-UsedCase <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
+library(CoSIA)
+Test1 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
+getConversion(Test1)
 
-is(UsedCase)
-#> [1] "CosiaAnnotate"
-UsedCase@input_id
-#> [1] "SYMBOL"
-slot(UsedCase, "ortholog_database")
-#> [1] character(0)
-
-get_input(UsedCase) #Symbols
-set_input(UsedCase)<-FullHumanMDLKD$Human_Ensembl_ID
-get_input(UsedCase) #EnsemblID
-
-
-UsedCase <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
-getConversion(UsedCase)
+Test2 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
+CoSIA::getConversion(Test2)
 
 
 ```
