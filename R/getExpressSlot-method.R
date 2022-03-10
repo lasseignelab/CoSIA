@@ -1,0 +1,1 @@
+setMethod("getExpressSlot", "CosiaExpress", function(object, slot) object@slot)
