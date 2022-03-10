@@ -41,7 +41,8 @@ setClass("CosiaExpressTissue", contains="CosiaExpress",
            c(single_gene = "character",
              gene_species = "character",
              tissues = "character",
-             pathToData = "character"
+             pathToData = "character",
+             dataframe = data.frame(0)
            ),
          prototype = list(
            single_gene = character(0),
