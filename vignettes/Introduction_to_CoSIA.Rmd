@@ -95,10 +95,16 @@ saveRDS(gene_list, "/data/user/anishah/gene_list.rds")
 ```{r}
 Mouse_expression <- new("CosiaExpressSpecies",list_of_ensembl_ids = c("ENSMUSG00000000182","ENSRNOG00000052205"), list_of_respective_species = c("Mus_musculus", "Rattus_norvegicus"), single_tissue = "kidney", pathToData = "/data/user/anishah/CoSIA/data/")
 
-# had issues with getting 
-
 getSpeciesExpression(Mouse_expression)
 
+Mouse_expression@dataframe
+
+```
+
+```{r}
+Mouse_expression <- new("CosiaExpressSpecies",list_of_ensembl_ids = c("ENSMUSG00000000182"), list_of_respective_species = c("Mus_musculus", "Rattus_norvegicus"), single_tissue = "kidney", pathToData = "/data/user/anishah/CoSIA/data/")
+
+getSpeciesExpression(Mouse_expression)
 ```
 
 
