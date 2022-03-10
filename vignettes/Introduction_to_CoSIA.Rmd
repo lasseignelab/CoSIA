@@ -30,6 +30,7 @@ library(CoSIA)
 
 
 ```{r}
+
 #Human to Human
 Test1 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
 Output1<-getConversion(Test1)
@@ -66,6 +67,11 @@ Test6 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species
 Output6<-getConversion(Test6)
 head(Output6)
 
+```
+
+
+```{r}
+
 Mouse <- new("CosiaAnnotate", input = Db$homo_sapiens_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENTREZID","ENSEMBL","SYMBOL"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
 Mouse_db<-getConversion(Mouse)
 
@@ -84,11 +90,14 @@ merged_data_2<-merge.data.frame(data.frame(merged_data_1), data.frame(zebrafish_
 gene_list<-data.frame(merged_data_2[6:13,])
 saveRDS(gene_list, "/data/user/anishah/gene_list.rds")
 
-
-
 ```
 
 ```{r}
+Mouse_expression <- new("CosiaExpressSpecies",list_of_ensembl_ids = c("ENSMUSG00000000182","ENSRNOG00000052205"), list_of_respective_species = c("Mus_musculus", "Rattus_norvegicus"), single_tissue = "kidney", pathToData = "/data/user/anishah/CoSIA/data/")
+
+# had issues with getting 
+
+getSpeciesExpression(Mouse_expression)
 
 ```
 
