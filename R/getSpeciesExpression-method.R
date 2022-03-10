@@ -23,7 +23,7 @@ setMethod("getSpeciesExpression", signature(object = "CosiaExpressSpecies"), fun
   value<- merge(values,sample_size,by="Species") #merge the median and sample size into the data
   value$S <- paste(value$Species,"(n=",value$Freq,")", sep = "") #set a new column with the new species column with sample size
   df_1 <- merge(value,df,by="Species") # merge the calculation to the main df
-  set_dataframe(object)<-df_1
+  object@dataframe<-df_1
     brewer.pal.info<-RColorBrewer::brewer.pal.info #set brewer's color
     palette5 <- RColorBrewer::brewer.pal.info[brewer.pal.info$category == "qual",] # set the palette
     color <- unlist(mapply(RColorBrewer::brewer.pal, palette5$maxcolors,rownames(palette5))) # set a list of unique colors to use
