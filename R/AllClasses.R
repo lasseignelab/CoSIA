@@ -1,5 +1,7 @@
 
-setClass("CosiaAnnotate",
+
+setClass("CoSIA", representation("VIRTUAL"))# virtual class
+setClass("CosiaAnnotate",contains="CoSIA", 
          slots = c(
            input = "character",
            input_species = "character",
@@ -19,8 +21,7 @@ setClass("CosiaAnnotate",
            ortholog_database = character(0)
          )
 )
-setClass("CosiaExpress", representation("VIRTUAL"))  # virtual class
-setClass("CosiaExpressSpecies", contains="CosiaExpress", 
+setClass("CosiaExpressSpecies", contains="CoSIA", 
          slots=
            c(list_of_ensembl_ids = "character",
              list_of_respective_species = "character",
@@ -36,7 +37,7 @@ setClass("CosiaExpressSpecies", contains="CosiaExpress",
            dataframe = data.frame(0)
          )
 )
-setClass("CosiaExpressTissue", contains="CosiaExpress", 
+setClass("CosiaExpressTissue", contains="CoSIA", 
          slots=
            c(single_gene = "character",
              gene_species = "character",
