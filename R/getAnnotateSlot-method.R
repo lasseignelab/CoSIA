@@ -1,1 +1,1 @@
-setMethod("getAnnotateSlot", "CosiaAnnotate", function(object, slot) object@slot)
+setMethod("getAnnotateSlot", "CosiaAnnotate", function(object, "slot") object@"slot")
