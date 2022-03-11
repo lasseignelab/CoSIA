@@ -1,13 +1,13 @@
 #All the package Generics
 
-#Show Generics for CosiaAnnotate Class
+#Show Generics 
 setGeneric("showCosiaAnnotate", function(object) standardGeneric("showCosiaAnnotate"))
 setGeneric("showCosiaExpressSpecies", function(object) standardGeneric("showCosiaExpressSpecies"))
 setGeneric("showCosiaExpressTissue", function(object) standardGeneric("showCosiaExpressTissue"))
 
 # Accessor Generics for CosiaAnnotate Class
-setGeneric("getAnnotateSlot", function(object, slot) standardGeneric("getAnnotateSlot"))
-setGeneric("setAnnotateSlot<-", function(object, slot, value) standardGeneric("setAnnotateSlot<-"))
+setGeneric("getAnnotateSlot", function(object, "slot") standardGeneric("getAnnotateSlot"))
+setGeneric("setAnnotateSlot<-", function(object, "slot", value) standardGeneric("setAnnotateSlot<-"))
 
 # Accessor Generics for CosiaExpress Class
 setGeneric("getExpressSlot", function(object, slot) standardGeneric("getExpressSlot"))
