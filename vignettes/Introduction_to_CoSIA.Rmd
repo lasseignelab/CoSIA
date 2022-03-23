@@ -106,7 +106,6 @@ Mouse_expression@dataframe
 ```
 
 ```{r}
-getAnnotateSlot(Test1,"input_id")
 ```
 
 
