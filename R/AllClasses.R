@@ -9,7 +9,8 @@ setClass("CosiaAnnotate",contains="CoSIA",
            output_ids = "character",
            output_species = "character",
            tool = "character",
-           ortholog_database = "character"
+           ortholog_database = "character",
+           data.frame = "data.frame"
          ),
          prototype = list(
            input = character(0),
@@ -18,7 +19,8 @@ setClass("CosiaAnnotate",contains="CoSIA",
            output_ids = character(0),
            output_species = character(0),
            tool =character(0),
-           ortholog_database = character(0)
+           ortholog_database = character(0),
+           data.frame = data.frame(0)
          )
 )
 setClass("CosiaExpressSpecies", contains="CoSIA", 
