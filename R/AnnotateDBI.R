@@ -1,4 +1,20 @@
 AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_species,species_number,input_org, output_org, ortholog_database){
+  input_id<-switch(input_id,
+                   "entrezgene_id" = "ENTREZID", 
+                   "ensembl_gene_id_version" = "ENSEMBLIDVERSION", 
+                   "ensembl_gene_id" = "ENSEMBL",
+                   "external_gene_name" = "GENENAME", 
+                   "hgnc_symbol" = "SYMBOL", 
+                   "mgi_symbol" = "SYMBOL", 
+                   input_id)
+  output_ids<-switch(output_ids,
+                   "entrezgene_id" = "ENTREZID", 
+                   "ensembl_gene_id_version" = "ENSEMBLIDVERSION", 
+                   "ensembl_gene_id" = "ENSEMBL",
+                   "external_gene_name" = "GENENAME", 
+                   "hgnc_symbol" = "SYMBOL", 
+                   "mgi_symbol" = "SYMBOL", 
+                   input_id)
   if (output_species==input_species){ #code follows this path if the user chooses the same input species as their output species
     if (input_id=="ENSEMBLIDVERSION"){ #code follows this path if the user chooses ENSEMBLIDVERSION as their input id
       input_dataset_new<-CoSIA::remove_version_number(input_dataset,input_species) #puts the genes through the remove version number function to remove the version number (everything after the dot)
