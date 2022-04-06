@@ -12,6 +12,7 @@
 setMethod("getConversion", signature(object = "CosiaAnnotate"), function(object) { # user's input of the function
   if (object@input_species=="homo_sapiens"){ #code follows this path if the user chooses homo_sapiens as their input species
     human_data<-homo_sapiens(object@input_id,object@input,object@output_ids,object@output_species, object@tool, object@ortholog_database)
+    #take this out if you are unable to fix it and make sure it works before you publish
     object@data.frame <-data.frame(missing_id_column(object@input, human_data[1]))
     return(human_data)
   }

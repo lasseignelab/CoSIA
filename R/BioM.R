@@ -1,4 +1,7 @@
 BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,species_number, species_dataset, output_species_dataset, ortholog_database){
+  switch(
+    
+  )
   if (input_species==output_species){ # goes through this path if the input and output species are the same
     mart<- biomaRt::useMart("ensembl", dataset= species_dataset) # pulls the biomaRt object for the species species that has been choosen
     attributes <- c(output_ids,input_id) # sets the attributes that the user wants makes sure to set both the input and output values
