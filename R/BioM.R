@@ -1,13 +1,32 @@
 BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,species_number, species_dataset, output_species_dataset, ortholog_database){
-  if(input_species=="mus_musculus"){
-    input_id<-switch(input_id,
-                     "symbol" = "mgi_symbol", 
-                     input_id)
+  #biomart
+  input_id <- switch(input_id,
+                     "Entrez.id"="entrezgene_id",
+                     "Ensembl.id"="ensembl_gene_id",
+                     "Ensembl.id.version"="ensembl_gene_id_version",
+                     "Gene.name"="external_gene_name"
+                     "Symbol"="symbol")
+  if(input_id=="Symbol"){
+    if(input_species=="mus_musculus")
+      input_id <- "mgi_symbol"
+    if(input_species=="homo_sapiens")
+      input_id <- "hgnc_symbol"
   }
-  if(input_species=="homo_sapiens"){
-    input_id<-switch(input_id,
-                     "symbol" = "hgnc_symbol", 
-                     input_id)
+  output_ids <- output_ids
+  for(x in seq(length(output_ids))){
+    output_ids[x] <- switch(output_ids[x],
+                            "Entrez.id"="entrezgene_id",
+                            "Ensembl.id"="ensembl_gene_id",
+                            "Ensembl.id.version"="ensembl_gene_id_version",
+                            "Gene.name"="external_gene_name",
+                            "Symbol"="Symbol",
+                            "DEFAULT")
+    if(output_ids[x]=="Symbol"){
+      if(input_species=="mus_musculus")
+        output_ids[x] <- "mgi_symbol"
+      if(input_species=="homo_sapiens")
+        output_ids[x] <- "hgnc_symbol"
+    }
   }
   if (input_species==output_species){ # goes through this path if the input and output species are the same
     mart<- biomaRt::useMart("ensembl", dataset= species_dataset) # pulls the biomaRt object for the species species that has been choosen
