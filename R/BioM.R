@@ -1,16 +1,16 @@
 BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,species_number, species_dataset, output_species_dataset, ortholog_database){
   #biomart
-  input_identification <- switch(input_id,
+  input_id <- switch(input_id,
                      "Entrez.id"="entrezgene_id",
                      "Ensembl.id"="ensembl_gene_id",
                      "Ensembl.id.version"="ensembl_gene_id_version",
                      "Gene.name"="external_gene_name",
                      "Symbol"="symbol")
-  if(input_identification=="Symbol"){
+  if(input_id=="Symbol"){
     if(input_species=="mus_musculus")
-      input_identification <- "mgi_symbol"
+      input_id <- "mgi_symbol"
     if(input_species=="homo_sapiens")
-      input_identification <- "hgnc_symbol"
+      input_id <- "hgnc_symbol"
   }
   output_ids <- output_ids
   for(x in seq(length(output_ids))){
@@ -29,15 +29,15 @@ BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,sp
   }
   if (input_species==output_species){ # goes through this path if the input and output species are the same
     mart<- biomaRt::useMart("ensembl", mirror = "useast", dataset= species_dataset) # pulls the biomaRt object for the species species that has been choosen
-    attributes <- c(output_ids,input_identification) # sets the attributes that the user wants makes sure to set both the input and output values
-    filters = input_identification # sets the filters as the input vales
+    attributes <- c(output_ids,input_id) # sets the attributes that the user wants makes sure to set both the input and output values
+    filters = input_id # sets the filters as the input vales
     output_data <- biomaRt::getBM(attributes=attributes, filters= filters,values= input_dataset, mart=mart, uniqueRows=TRUE, bmHeader=FALSE) # run conversion through biomaRt
     return(output_data) # returnt he biomaRt output
   }
   else{ #goes through this path if the input and output species are different
     mart<- biomaRt::useMart("ensembl",mirror = "useast", dataset= species_dataset) # sets up biomart for species input
-    attributes <- c("entrezgene_id",input_identification) # sets input ids and entrezids as attributes (output values)
-    filters <- input_identification # set the input ids as the filter (input values)
+    attributes <- c("entrezgene_id",input_id) # sets input ids and entrezids as attributes (output values)
+    filters <- input_id # set the input ids as the filter (input values)
     output_data <- biomaRt::getBM(attributes=attributes, filters= filters,values=input_dataset, mart=mart, uniqueRows=TRUE, bmHeader=FALSE)# run the convesion through biomaRt
     output_data<-na.omit(output_data) #omit the NA values
     id <- CoSIA::homolog(output_data$entrezgene_id, species_number, ortholog_database) #now that we have the entrezids for the input species we can run it through the homolog function and then get the entrezids for the other species
