@@ -5,8 +5,7 @@ AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_spe
                      "Ensembl.id"="ENSEMBL",
                      "Ensembl.id.version"="ENSEMBLIDVERSION",
                      "Gene.name"="GENENAME",
-                     "Symbol"="SYMBOL",
-                      input_id)
+                     "Symbol"="SYMBOL")
   output_ids <- output_ids
   for(x in seq(length(output_ids))){
     output_ids[x] <- switch(output_ids[x],
@@ -14,8 +13,7 @@ AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_spe
                             "Ensembl.id"="ENSEMBL",
                             "Ensembl.id.version"="ENSEMBLIDVERSION",
                             "Gene.name"="GENENAME",
-                            "Symbol"="SYMBOL",
-                            output_ids)
+                            "Symbol"="SYMBOL")
   }
   if (output_species==input_species){ #code follows this path if the user chooses the same input species as their output species
     if (input_id=="ENSEMBLIDVERSION"){ #code follows this path if the user chooses ENSEMBLIDVERSION as their input id
