@@ -1,6 +1,6 @@
 AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_species,species_number,input_org, output_org, ortholog_database){
   #AnnotationDBI
-  input_id <- switch(input_id,
+  input_id = switch(input_id,
                      "Entrez.id"="ENTREZID",
                      "Ensembl.id"="ENSEMBL",
                      "Ensembl.id.version"="ENSEMBLIDVERSION",
@@ -9,7 +9,7 @@ AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_spe
                      "DEFAULT")
   output_ids <- output_ids
   for(x in seq(length(output_ids))){
-    output_ids[x] <- switch(output_ids[x],
+    output_ids[x] = switch(output_ids[x],
                             "Entrez.id"="ENTREZID",
                             "Ensembl.id"="ENSEMBL",
                             "Ensembl.id.version"="ENSEMBLIDVERSION",
