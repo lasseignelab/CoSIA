@@ -1,6 +1,6 @@
 BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,species_number, species_dataset, output_species_dataset, ortholog_database){
   #biomart
-  input_id = switch(input_id,
+  input_id <- switch(input_id,
                      "Entrez.id"="entrezgene_id",
                      "Ensembl.id"="ensembl_gene_id",
                      "Ensembl.id.version"="ensembl_gene_id_version",
@@ -16,7 +16,7 @@ BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,sp
   }
   output_ids <- output_ids
   for(x in seq(length(output_ids))){
-    output_ids[x] = switch(output_ids[x],
+    output_ids[x] <- switch(output_ids[x],
                             "Entrez.id"="entrezgene_id",
                             "Ensembl.id"="ensembl_gene_id",
                             "Ensembl.id.version"="ensembl_gene_id_version",
