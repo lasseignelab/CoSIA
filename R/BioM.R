@@ -6,8 +6,7 @@ BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,sp
                      "Ensembl.id.version"="ensembl_gene_id_version",
                      "Gene.name"="external_gene_name",
                      "Symbol"="symbol",
-                     "DEFAULT",
-                    input_id)
+                     input_id)
   if(input_id=="Symbol"){
     if(input_species=="mus_musculus")
       input_id <- "mgi_symbol"
@@ -22,7 +21,6 @@ BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,sp
                             "Ensembl.id.version"="ensembl_gene_id_version",
                             "Gene.name"="external_gene_name",
                             "Symbol"="Symbol",
-                            "DEFAULT",
                             output_ids)
     if(output_ids[x]=="Symbol"){
       if(input_species=="mus_musculus")
