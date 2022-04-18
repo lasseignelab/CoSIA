@@ -30,14 +30,14 @@ BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,sp
     }
   }
   if (input_species==output_species){ # goes through this path if the input and output species are the same
-    mart<- biomaRt::useMart("ensembl", mirror = "useast", dataset= species_dataset) # pulls the biomaRt object for the species species that has been choosen
+    mart<- biomaRt::useMart("ensembl", dataset= species_dataset) # pulls the biomaRt object for the species species that has been choosen
     attributes <- c(output_ids,input_id) # sets the attributes that the user wants makes sure to set both the input and output values
     filters = input_id # sets the filters as the input vales
     output_data <- biomaRt::getBM(attributes=attributes, filters= filters,values= input_dataset, mart=mart, uniqueRows=TRUE, bmHeader=FALSE) # run conversion through biomaRt
     return(output_data) # returnt he biomaRt output
   }
   else{ #goes through this path if the input and output species are different
-    mart<- biomaRt::useMart("ensembl",mirror = "useast", dataset= species_dataset) # sets up biomart for species input
+    mart<- biomaRt::useMart("ensembl",dataset= species_dataset) # sets up biomart for species input
     attributes <- c("entrezgene_id",input_id) # sets input ids and entrezids as attributes (output values)
     filters <- input_id # set the input ids as the filter (input values)
     output_data <- biomaRt::getBM(attributes=attributes, filters= filters,values=input_dataset, mart=mart, uniqueRows=TRUE, bmHeader=FALSE)# run the convesion through biomaRt
@@ -53,7 +53,7 @@ BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,sp
     colnames(merged_data)[which(names(merged_data) == "mgi_symbol")] <- paste(input_species,"MGI_Symbol",sep="_")#rename to a more formal name
     colnames(merged_data)[which(names(merged_data) == "ensembl_gene_id_version")] <- paste(input_species,"Ensembl_ID_with_Version_ID",sep="_")#rename to a more formal name
     #names(output_data)[names(output_data) == "entrezgene_id"] <- "species_one"
-    marts<-biomaRt::useMart("ensembl", mirror = "useast", dataset= output_species_dataset) #set the biomart species to the new species
+    marts<-biomaRt::useMart("ensembl", dataset= output_species_dataset) #set the biomart species to the new species
     ortho <- biomaRt::getBM(attributes= c(output_ids,"entrezgene_id"), filters= "entrezgene_id" ,values= id$species_two, mart=marts,uniqueRows=TRUE,bmHeader=FALSE) # run the homologous entrezids to the other gene identifiers
     non_na <- which(is.na(ortho$entrezgene_id) == FALSE) #pick non na values from ortholog conversion
     ortho <- ortho[non_na,] #subset only nonna values
