@@ -1,22 +1,18 @@
 AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_species,species_number,input_org, output_org, ortholog_database){
   #AnnotationDBI
-  input_id <- switch(input_id,
-                     "Entrez.id"="ENTREZID",
-                     "Ensembl.id"="ENSEMBL",
-                     "Ensembl.id.version"="ENSEMBLIDVERSION",
-                     "Gene.name"="GENENAME",
-                     "Symbol"="SYMBOL")
-  for(x in 1:length(output_ids)){
-    output<-output_ids[x]
-    output_ids[x] <- switch(output,
-                            "Entrez.id"="ENTREZID",
-                            "Ensembl.id"="ENSEMBL",
-                            "Ensembl.id.version"="ENSEMBLIDVERSION",
-                            "Gene.name"="GENENAME",
-                            "Symbol"="SYMBOL")
+  switch_ids <- function(ids) {
+    switch(ids, 
+           "Entrez.id"="ENTREZID",
+           "Ensembl.id"="ENSEMBL",
+           "Ensembl.id.version"="ENSEMBLIDVERSION",
+           "Gene.name"="GENENAME",
+           "Symbol"="SYMBOL");
   }
+  output_ids<-sapply(output_ids, switch_ids)
+  input_id<-substr(input_id,2,nchar(input_id))
+  input_id<-sapply(input_id, switch_ids)
   if (output_species==input_species){ #code follows this path if the user chooses the same input species as their output species
-    if (input_id=="ENSEMBLIDVERSION"){ #code follows this path if the user chooses ENSEMBLIDVERSION as their input id
+    if (input_id == "ENSEMBLIDVERSION"){ #code follows this path if the user chooses ENSEMBLIDVERSION as their input id
       input_dataset_new<-CoSIA::remove_version_number(input_dataset,input_species) #puts the genes through the remove version number function to remove the version number (everything after the dot)
       #return(input_dataset_new)
       annotationDbi_data<- AnnotationDbi::select(input_org, keys=as.character(as.matrix(input_dataset_new$ENSEMBL)),columns=output_ids , keytype="ENSEMBL") # after the version number has been removed run the gene through the annotationDBI package using ensembl id as the gene identifer
@@ -29,7 +25,7 @@ AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_spe
     }
   }
   else{ # this code follows this path if the input gene is different than the output gene
-    if (input_id=="ENSEMBLIDVERSION"){ #code follows this path if the user chooses ENSEMBLIDVERSION as their input id
+    if (input_id == "ENSEMBLIDVERSION"){ #code follows this path if the user chooses ENSEMBLIDVERSION as their input id
       input_dataset_new<-CoSIA::remove_version_number(input_dataset,input_species) #puts the genes through the remove version number function to remove the version number (everything after the dot)
       input_dataset_new<- data.frame(input_dataset_new) #sets the new list of genes without versionIDs as a dataframe
       output_data<- AnnotationDbi::select(input_species, keys=as.character(as.matrix(input_dataset_new)), columns="ENTREZID","ENSEMBL", keytype="ENSEMBL") #runs the gene through annotationdbi to get EntrezID conversion in order to conduct ortholog mapping
