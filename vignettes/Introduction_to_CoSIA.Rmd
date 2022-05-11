@@ -23,7 +23,7 @@ These instructions and any installations instructions should be in an eval=FALSE
 FullHumanMDLKD <- read.csv("/data/user/anishah/Used_Case_CoSIA/scripts/outputs/FullHumanMDLKD.csv")
 
 library(devtools)
-install_github("lasseignelab/CoSIA", ref= "main", auth_token = "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") 
+install_github("lasseignelab/CoSIA", ref= "main", auth_token = "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") 
 
 library(CoSIA)
 ```
