@@ -103,6 +103,11 @@ Mouse_expression@dataframe
 
 ```{r}
 
+SGO1_expression_across_tissues <- new("CosiaExpressSpecies",list_of_ensembl_ids = c("ENSMUSG00000023940", "ENSRNOG00000022499", "ENSDARG00000103907"), list_of_respective_species = c("mus_musculus", "rattus_norvegicus","danio_rerio"), single_tissue = "kidney")
+getSpeciesExpression(SGO1_expression_across_tissues)
+
+
+
 ```
 
 ```{r}
