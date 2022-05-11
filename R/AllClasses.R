@@ -1,5 +1,3 @@
-
-
 setClass("CoSIA", representation("VIRTUAL"))# virtual class
 setClass("CosiaAnnotate",contains="CoSIA", 
          slots = c(
@@ -28,14 +26,12 @@ setClass("CosiaExpressSpecies", contains="CoSIA",
            c(list_of_ensembl_ids = "character",
              list_of_respective_species = "character",
              single_tissue = "character",
-             pathToData = "character", 
              dataframe = "data.frame"
            ),
          prototype = list(
            list_of_ensembl_ids = character(0),
            list_of_respective_species = character(0),
            single_tissue = character(0),
-           pathToData = character(0),
            dataframe = data.frame(0)
          )
 )
@@ -44,14 +40,12 @@ setClass("CosiaExpressTissue", contains="CoSIA",
            c(single_gene = "character",
              gene_species = "character",
              tissues = "character",
-             pathToData = "character",
              dataframe = "data.frame"
            ),
          prototype = list(
            single_gene = character(0),
            gene_species = character(0),
            tissues = character(0),
-           pathToData = character(0),
            dataframe = data.frame(0)
          )
 )
