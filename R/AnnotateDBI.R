@@ -6,7 +6,6 @@ AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_spe
                      "Ensembl.id.version"="ENSEMBLIDVERSION",
                      "Gene.name"="GENENAME",
                      "Symbol"="SYMBOL")
-  return(output_ids)
   for(x in 1:length(output_ids)){
     output<-output_ids[x]
     output_ids[x] <- switch(output,
