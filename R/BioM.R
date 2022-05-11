@@ -14,7 +14,7 @@ BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,sp
       input_id <- "hgnc_symbol"
   }
   output_ids <- output_ids
-  for(x in 1:length(output_ids)){
+  for(x in 2:length(output_ids)){
     output_ids[x] <- switch(output_ids[x],
                             "Entrez.id"="entrezgene_id",
                             "Ensembl.id"="ensembl_gene_id",
