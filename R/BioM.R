@@ -9,7 +9,6 @@ BioM<-function(input_id,input_dataset,output_ids,input_species,output_species,sp
                                   "Ensembl.id"="ensembl_gene_id",
                                   "Ensembl.id.version"="ensembl_gene_id_version",
                                   "Gene.name"="external_gene_name",
-                                  "Symbol"="Symbol",
                                   "MGI.Symbol" = "mgi_symbol",
                                   "HGNC.Symbol" = "hgnc_symbol")})
   input_id<-ID_SWITCH(ids = input_id)
