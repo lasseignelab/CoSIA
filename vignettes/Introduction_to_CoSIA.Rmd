@@ -32,7 +32,7 @@ library(CoSIA)
 ```{r}
 
 #Human to Human
-Test1 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
+Test1 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "Symbol", output_ids = c("ENSEMBL","ENTREZID"), output_species = "homo_sapiens", tool = "annotationDBI")
 Output1<-getConversion(Test1)
 head(Output1)
 unique(Output1)
@@ -40,19 +40,24 @@ Db<-dplyr::sample_n(Output1, 20)
 colnames(Db)[which(names(Db) == "SYMBOL")] <- paste("homo_sapiens_Symbol",sep="_") #rename to a more formal name
 
 
-#Human to Mouse
-Test2 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
+#Human to Mouse - AnnotationDBI
+Test2 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "Symbol", output_ids = c("Ensembl.id","Entrez.id"), output_species = "mus_musculus", tool = "annotationDBI", ortholog_database = "HomoloGene")
+Output2<-getConversion(Test2)
+head(Output2)
+
+#Human to Mouse - BiomaRt
+Test2 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "Symbol", output_ids = c("Ensembl.id","Entrez.id"), output_species = "mus_musculus", tool = "biomaRt", ortholog_database = "HomoloGene")
 Output2<-getConversion(Test2)
 head(Output2)
 
 #Human to Drosophila
-Test3 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "d_melanogaster", tool = "annotationDBI", ortholog_database = "HomoloGene")
+Test3 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "Symbol", output_ids = c("Ensembl.id","Entrez.id"), output_species = "d_melanogaster", tool = "annotationDBI", ortholog_database = "HomoloGene")
 Output3<-getConversion(Test3)
 head(Output3)
 #d_melanogaster is not included in NCBIOrthoAnnotationPipe
 
 #Human to Zebra Fish
-Test4 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "SYMBOL", output_ids = c("ENSEMBL","ENTREZID"), output_species = "danio_rerio", tool = "annotationDBI", ortholog_database = "NCBIOrthoAnnotationPipe")
+Test4 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "Symbol", output_ids = c("Ensembl.id","Entrez.id"), output_species = "danio_rerio", tool = "annotationDBI", ortholog_database = "NCBIOrthoAnnotationPipe")
 Output4<-getConversion(Test4)
 head(Output4)
 
