@@ -46,7 +46,7 @@ Output2<-getConversion(Test2)
 head(Output2)
 
 #Human to Mouse - BiomaRt
-Test2 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "Symbol", output_ids = c("Ensembl.id","Entrez.id"), output_species = "mus_musculus", tool = "biomaRt", ortholog_database = "HomoloGene")
+Test2 <- new("CosiaAnnotate", input = FullHumanMDLKD$Human_Symbol, input_species = "homo_sapiens", input_id = "HGNC.Symbol", output_ids = c("Ensembl.id","Entrez.id"), output_species = "mus_musculus", tool = "biomaRt", ortholog_database = "HomoloGene")
 Output2<-getConversion(Test2)
 head(Output2)
 
