@@ -1,12 +1,18 @@
 # CoSIA: **C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis
 
-CoSIA is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across model organisms and their tissues. Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene’s expression across tissues and model organisms. CoSIA also streamlines conversions between
+CoSIA is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across model organisms and their tissues. Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene’s expression across tissues and model organisms. CoSIA also streamlines conversions between gene identifiers among the same species and different species.
 
 <img src="images/CoSIA Workflow.png" alt="Figure 1. CoSIA Workflow" width="705"/>
 
-CoSIA is split into 5 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics. The first module and second module have a shared method, getConversion, that is used to conduction conversion between different gene identifiers in the same species as well as in different species. The third module has a method, getTissueExpression, that is used to visualize the raw gene expression values of a gene across multiple tissues in one species. The fourth module has a method, getSpeciesExpression, that is used to visualize the raw gene expression values of
+CoSIA is split into 5 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
-Shannon Entropy and Normalized Coefficient of Variation are the current metrics that CoSIA measures and visualizes to provide a more extensive gene expression profile for determining a suitable model organism.
+The first module and second module have a shared method, getConversion, that is used to conduction conversion between different gene identifiers in the same species as well as in different species.
+
+The third module has a method, getTissueExpression, that is used to visualize the raw gene expression values of a gene across multiple tissues in one species.
+
+The fourth module has a method, getSpeciesExpression, that is used to visualize the raw gene expression values of
+
+The fifth module has a method, getTranscriptomeDiversity, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and species.
 
 ## Getting Started
 
