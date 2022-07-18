@@ -8,11 +8,11 @@ CoSIA is split into 5 modules that provide various resources in order for resear
 
 The first module and second module have a shared method, getConversion, that is used to conduction conversion between different gene identifiers in the same species as well as in different species.
 
-The third module has a method, getTissueExpression, that is used to visualize the raw gene expression values of a gene across multiple tissues in one species.
+The third module has a method, getTissueExpression, that is used to visualize the raw gene expression values of a gene across multiple tissues in one model organism.
 
-The fourth module has a method, getSpeciesExpression, that is used to visualize the raw gene expression values of
+The fourth module has a method, getSpeciesExpression, that is used to visualize the raw gene expression values of a gene in one tissues across multiple model organisms.
 
-The fifth module has a method, getTranscriptomeDiversity, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and species.
+The fifth module has a method, getTranscriptomeDiversity, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and model organisms.
 
 ## Getting Started
 
