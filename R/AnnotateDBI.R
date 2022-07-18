@@ -1,5 +1,7 @@
 AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_species,species_number,input_org, output_org, ortholog_database){
-  #AnnotationDBI
+  #This function uses annotationDBI to convert between gene identifiers
+  
+  #Switch function below is used to transition the id names into the proper format for using annotationdbi
   input_id<-as.character(input_id)
   output_ids <- as.character(output_ids)
   ID_SWITCH <- Vectorize(vectorize.args = "ids",
@@ -13,6 +15,7 @@ AnnotateDBI<-function(input_id,input_dataset,output_ids,input_species,output_spe
   
   input_id<-ID_SWITCH(ids = input_id)
   output_ids<-ID_SWITCH(ids = output_ids)
+  
   
   
   if (output_species==input_species){ #code follows this path if the user chooses the same input species as their output species
