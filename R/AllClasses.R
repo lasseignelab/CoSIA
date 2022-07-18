@@ -49,3 +49,27 @@ setClass("CosiaExpressTissue", contains="CoSIA",
            dataframe = data.frame(0)
          )
 )
+setClass("CosiaDiversity",contains="CoSIA", 
+         slots = c(
+           metric = "character",
+           gene_set_species_one = "character",
+           species_one = "character", 
+           gene_set_species_two = "character",
+           species_two = "character", 
+           gene_set_species_three = "character",
+           species_three = "character", 
+           gene_set_species_four = "character",
+           species_four = "character"
+         ),
+         prototype = list(
+           metric = character(0),
+           gene_set_species_one = character(0),
+           species_one = character(0), 
+           gene_set_species_two = character(0),
+           species_two = character(0), 
+           gene_set_species_three = character(0),
+           species_three = character(0), 
+           gene_set_species_four = character(0),
+           species_four = character(0)
+         )
+)
