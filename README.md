@@ -28,9 +28,13 @@ library(CoSIA)
 
 ### Test Case: 10 Monogenic Kidney Disease Genes
 
-In the following example, we will aim to portray how CoSIA can be used using 10 genes from [Natera's Monogenic Kidney Gene Panel](https://www.natera.com/resource-library/renasight/385-genes-associated-with-monogenic-disorders-linked-to-kidney-disease). First we will create a data frame with the Gene Symbols and Conditions for
+In the following example, we will aim to portray how CoSIA can be used using 10 genes from [Natera's Monogenic Kidney Gene Panel](https://www.natera.com/resource-library/renasight/385-genes-associated-with-monogenic-disorders-linked-to-kidney-disease). First we will create a data frame with 10 Human Gene Symbols and Conditions from this panel.
 
-    Give an example
+``` r
+Monogenic_Kidney_Genes <- data.frame (
+  Human_Gene_Symbols = 
+)
+```
 
 ## Deployment
 
