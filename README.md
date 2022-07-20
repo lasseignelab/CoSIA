@@ -6,7 +6,7 @@ CoSIA is an R package that provides researchers with the tools to measure and vi
 
 CoSIA is split into 5 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
-The first module and second module have a shared method, `getConversion`, that is used to conduction conversion between different gene identifiers in the same species as well as in different species. The third module has a method, `getTissueExpression`, that is used to visualize the raw gene expression values of a gene across multiple tissues in one model organism. The fourth module has a method, `getSpeciesExpression`, that is used to visualize the raw gene expression values of a gene in one tissues across multiple model organisms.The fifth module has a method, `getTranscriptomeDiversity`, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and model organisms.
+The first module and second module have a shared method, `getConversion`, that is used to conduct conversion between different gene identifiers in the same species as well as in different species. The third module has a method, `getTissueExpression`, that is used to visualize the raw gene expression values of a gene across multiple tissues in one model organism. The fourth module has a method, `getSpeciesExpression`, that is used to visualize the raw gene expression values of a gene in one tissues across multiple model organisms.The fifth module has a method, `getTranscriptomeDiversity`, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and model organisms.
 
 ## Getting Started
 
@@ -14,25 +14,21 @@ The first module and second module have a shared method, `getConversion`, that i
 
 In R:
 
-``` R
+``` r
 install_github("lasseignelab/CoSIA", ref= "main", auth_token = "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")
 ```
-### How to use CoSIA
 
+## How to use the CoSIA package
 
-## Running the tests
+### Load the package
 
-Explain how to run the automated tests for this system
+``` r
+library(CoSIA)
+```
 
-### Break down into end to end tests
+### Test Case: 10 Monogenic Kidney Disease Genes
 
-Explain what these tests test and why
-
-    Give an example
-
-### And coding style tests
-
-Explain what these tests test and why
+In the following example, we will aim to portray how CoSIA can be used using 10 genes from [Natera's Monogenic Kidney Gene Panel](https://www.natera.com/resource-library/renasight/385-genes-associated-with-monogenic-disorders-linked-to-kidney-disease). First we will create a data frame with the Gene Symbols and Conditions for
 
     Give an example
 
