@@ -6,37 +6,19 @@ CoSIA is an R package that provides researchers with the tools to measure and vi
 
 CoSIA is split into 5 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
-The first module and second module have a shared method, getConversion, that is used to conduction conversion between different gene identifiers in the same species as well as in different species.
-
-The third module has a method, getTissueExpression, that is used to visualize the raw gene expression values of a gene across multiple tissues in one model organism.
-
-The fourth module has a method, getSpeciesExpression, that is used to visualize the raw gene expression values of a gene in one tissues across multiple model organisms.
-
-The fifth module has a method, getTranscriptomeDiversity, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and model organisms.
+The first module and second module have a shared method, `getConversion`, that is used to conduction conversion between different gene identifiers in the same species as well as in different species. The third module has a method, `getTissueExpression`, that is used to visualize the raw gene expression values of a gene across multiple tissues in one model organism. The fourth module has a method, `getSpeciesExpression`, that is used to visualize the raw gene expression values of a gene in one tissues across multiple model organisms.The fifth module has a method, `getTranscriptomeDiversity`, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and model organisms.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-    Give examples
-
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+In R:
 
-Say what the step will be
+``` R
+install_github("lasseignelab/CoSIA", ref= "main", auth_token = "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")
+```
+### How to use CoSIA
 
-    Give the example
-
-And repeat
-
-    until finished
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
