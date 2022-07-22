@@ -36,15 +36,13 @@ Monogenic_Kidney_Genes <- data.frame (
 )
 ```
 
-
-
 ## Authors
 
-- Anisha Haldar
-- Vishal H. Oza
-- Elizabeth Wilk
-- Jordan Whitlock
-- Brittany N. Lasseigne
+-   Anisha Haldar
+-   Vishal H. Oza
+-   Elizabeth Wilk
+-   Jordan Whitlock
+-   Brittany N. Lasseigne
 
 ## License
 
