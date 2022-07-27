@@ -7,5 +7,10 @@ setClass("CoSIAn",
            o_species = "character",
            o_ids = "character",
            tool = "character",
-           ortholog_database = "character"
+           ortholog_database = "character",
+           converted_id = "dataframe",
+           map_tissues = "character",
+           map_species = "character",
+           gex = "dataframe",
+           
          )
