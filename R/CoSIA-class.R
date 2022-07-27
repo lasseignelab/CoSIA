@@ -12,5 +12,5 @@ setClass("CoSIAn",
            map_tissues = "character",
            map_species = "character",
            gex = "dataframe",
-           
+           metric = "dataframe"
          )
