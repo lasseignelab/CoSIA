@@ -33,18 +33,18 @@ setClass("CoSIAn",
            metric = "data.frame"
          ),
          prototype = list(
-           gene_set = NA_character_,
-           i_species = NA_character_,
-           i_id = NA_character_,
-           o_species = NA_character_,
-           o_ids = NA_character_,
+           gene_set = character(0),
+           i_species = character(0),
+           i_id = character(0),
+           o_species = character(0),
+           o_ids = character(0),
            mapping_tool = "annotationDBI", #AnnotationDBI is the default
            ortholog_database = "HomoloGene", #HomoloGene is the default
-           converted_id = NA_complex_,
-           map_tissues = NA_complex_,
-           map_species = NA_character_,
-           gex = NA_complex_,
-           metric = NA_complex_
+           converted_id = data.frame(0),
+           map_tissues = character(0),
+           map_species = character(0),
+           gex = data.frame(0),
+           metric = data.frame(0)
          ))
 
 ## Constructor (COPY OVER THE DESCRIPTION AFTER APPROVAL FROM CLASS)
