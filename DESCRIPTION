@@ -24,6 +24,7 @@ Imports:
   plyr (>= 1.8.6),
   plotly (>= 4.10.0),
   ggplot2 (>= 3.3.5),
+  readr (>=2.1.2),
   viridis (>= 0.6.2),
   magrittr (>= 2.0.1),
   org.Hs.eg.db (>= 3.12.0),
