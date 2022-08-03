@@ -26,6 +26,7 @@ homolog<-function(entrez_data, species_number, ortholog_database){
     myGenes<- as.vector(entrez_data)
     species_one<-entrez_data
     NCBIOrtho <- readr::read_table('https://ftp.ncbi.nih.gov/gene/DATA/gene_orthologs.gz',col_types = "ccccc",show_col_types = TRUE)
+    gene_orthologs<-as.data.frame(gene_orthologs)
     data<- annotationTools::getHOMOLOG(myGenes, species_number,NCBIOrtho, tableType="gene_orthologs")
     data<-as.list(data)
     species_two<- as.character(data)
