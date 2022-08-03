@@ -24,7 +24,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
                                },
                                r_norvegicus = {
                                  species_data<-r_norvegicus(input_id,input,output_ids,output_species, tool, ortholog_database)
-                               }
+                               },
                                danio_rerio = {
                                  species_data<-danio_rerio(input_id,input,output_ids,output_species, tool, ortholog_database)
                                },
