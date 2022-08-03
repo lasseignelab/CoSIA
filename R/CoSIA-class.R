@@ -69,7 +69,7 @@ setClass("CoSIAn",
 
 CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species,metric_type) {
     
-  new("CoSIAn", gene_set=gene_set, i_species=i_species, i_id=i_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, ortholog_database=ortholog_database, map_tissues=map_tissues, map_species=map_species)
+  new("CoSIAn", gene_set, i_species, i_id, o_species, o_ids, mapping_tool, ortholog_database, map_tissues, map_species, metric_type)
 }
 
 ## Validity of the CoSIAn Class
