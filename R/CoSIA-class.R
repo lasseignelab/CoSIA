@@ -13,6 +13,7 @@
 #' @slot map_tissues character. A list of tissues being investigated.
 #' @slot map_species character. A list of species being investigated. 
 #' @slot gex dataframe. Output of gene expression data.
+#' @slot metric_type character. A list of possible metric the user wants to calculate.
 #' @slot metric dataframe. Output of gene expression metrics data.
 #' @exportClass CoSIAn
 
@@ -30,6 +31,7 @@ setClass("CoSIAn",
            map_tissues = "character",
            map_species = "character",
            gex = "data.frame",
+           metric_type = "character",
            metric = "data.frame"
          ),
          prototype = list(
@@ -44,6 +46,7 @@ setClass("CoSIAn",
            map_tissues = character(0),
            map_species = character(0),
            gex = data.frame(0),
+           metric_type = character(0),
            metric = data.frame(0)
          ))
 
@@ -58,12 +61,13 @@ setClass("CoSIAn",
 #' @param mapping_tool 
 #' @param ortholog_database 
 #' @param map_tissues 
-#' @param map_species 
+#' @param map_species
+#' @param metric_type 
 #' @return An S4 \code{CoSIAn} object with character vector(s) as slots.
 #' @export
 #' @examples
 
-CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species) {
+CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species,metric_type) {
     
   new("CoSIAn", gene_set=gene_set, i_species=i_species, i_id=i_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, ortholog_database=ortholog_database, map_tissues=map_tissues, map_species=map_species)
 }
@@ -102,7 +106,10 @@ setValidity("CoSIAn", function(object) {
     "@map_tissues needs to be filled"
   }
   if(length(map_species)< 1){
-    "@gene_set needs to be filled"
+    "@map_species needs to be filled"
+  }
+  if(length(metric_type)< 1){
+    "@metric_type needs to be filled"
   }
   else {
     TRUE
