@@ -74,41 +74,41 @@ CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="an
 
 ## Validity of the CoSIAn Class
 setValidity("CoSIAn", function(object) {
-  if(length(gene_set)< 1){
+  if(length(object@gene_set)< 1){
     "@gene_set needs to be filled"
   }
-  if(length(i_species) != 1){
+  if(length(object@i_species) != 1){
     "@i_species needs to be a length of 1"
   }
-  if(length(i_id) != 1){
+  if(length(object@i_id) != 1){
     "@i_id needs to be a length of 1"
   }
-  if (length(i_species@name) != length(i_id@age)) {
+  if (length(object@i_species@name) != length(i_id@age)) {
     "@i_species and @i_id must be the same length"
   }
-  if(length(o_species) < 1){
+  if(length(object@o_species) < 1){
     "@o_species needs to be filled"
   }
-  if(length(o_ids) < 1){
+  if(length(object@o_ids) < 1){
     "@o_ids needs to be filled"
   }
-  if (length(o_species@name) != length(o_ids@age)) {
+  if (length(object@o_species) != length(object@o_ids)) {
     "@o_species and @o_ids must be the same length"
   }
   
-  if(length(mapping_tool) != 1){
+  if(length(object@mapping_tool) != 1){
     "@mapping_tool needs to be a length of 1"
   }
-  if(length(ortholog_database) != 1){
+  if(length(object@ortholog_database) != 1){
     "@ortholog_database needs to be a length of 1"
   }
-  if(length(map_tissues)< 1){
+  if(length(object@map_tissues)< 1){
     "@map_tissues needs to be filled"
   }
-  if(length(map_species)< 1){
+  if(length(object@map_species)< 1){
     "@map_species needs to be filled"
   }
-  if(length(metric_type)< 1){
+  if(length(object@metric_type)< 1){
     "@metric_type needs to be filled"
   }
   else {
