@@ -1,6 +1,6 @@
 # CoSIA: **C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis
 
-CoSIA is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across model organisms and their tissues. Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene’s expression across tissues and model organisms. CoSIA also streamlines conversions between gene identifiers among the same species and different species.
+CoSIA is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across model organisms and their tissues. Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene's expression across tissues and model organisms. CoSIA also streamlines conversions between gene identifiers among the same species and different species.
 
 <img src="images/CoSIA Workflow.png" alt="Figure 1. CoSIA Workflow" width="705"/>
 
