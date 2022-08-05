@@ -79,7 +79,7 @@ CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="an
   metric_type<- as.character(metric_type)
   converted_id<- data.frame(0)
   gex<- data.frame(0)
-  metrics <- data.frame(0)
+  metric <- data.frame(0)
   new("CoSIAn", gene_set=gene_set, i_species=i_species, i_id=i_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, 
       ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
 }
