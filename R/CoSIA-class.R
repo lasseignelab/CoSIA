@@ -9,12 +9,12 @@
 #' @slot o_ids character. The singular or list of ide types that the gene set is being converted to.
 #' @slot mapping_tool character. The mapping tool, BiomaRt or annotationDBI, being used to map the conversion between IDs.
 #' @slot ortholog_database character. The ortholog database, HomoloGene or NCBIOrtho, being used to map the conversion between species.
-#' @slot converted_id dataframe. Output of getConversion.
+#' @slot converted_id data frame. Output of getConversion.
 #' @slot map_tissues character. A list of tissues being investigated.
 #' @slot map_species character. A list of species being investigated. 
-#' @slot gex dataframe. Output of gene expression data.
+#' @slot gex data frame. Output of gene expression data.
 #' @slot metric_type character. A list of possible metric the user wants to calculate.
-#' @slot metric dataframe. Output of gene expression metrics data.
+#' @slot metric data frame. Output of gene expression metrics data.
 #' @exportClass CoSIAn
 
 
