@@ -1,5 +1,3 @@
-setClass("CoSIA", representation("VIRTUAL"))# virtual class
-
 #' CoSIAn Class
 #' @name CoSIAn
 #' @rdname CoSIA-class
@@ -20,7 +18,7 @@ setClass("CoSIA", representation("VIRTUAL"))# virtual class
 #' @exportClass CoSIAn
 
 
-setClass("CoSIAn", contains="CoSIA",
+setClass("CoSIAn",
          slots = c(
            gene_set = "character",
            i_species = "character",
