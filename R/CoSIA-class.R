@@ -35,6 +35,21 @@ setClass("CoSIAn", contains="CoSIA",
            gex = "data.frame",
            metric_type = "character",
            metric = "data.frame"
+         ),
+         prototype = list(
+           gene_set = character(0),
+           i_species = character(0),
+           i_id = character(0),
+           o_species = character(0),
+           o_ids = character(0),
+           mapping_tool = "annotationDBI", #AnnotationDBI is the default
+           ortholog_database = "HomoloGene", #HomoloGene is the default
+           converted_id = data.frame(0),
+           map_tissues = character(0),
+           map_species = character(0),
+           gex = data.frame(0),
+           metric_type = character(0),
+           metric = data.frame(0)
          )
 )
 
@@ -55,7 +70,7 @@ setClass("CoSIAn", contains="CoSIA",
 #' @export
 #' @examples
 
-CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species,metric_type, gex= NA, metric= NA) {
+CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species,metric_type) {
   gene_set<- as.character(gene_set)
   i_species<-as.character(i_species)
   i_id<-as.character(i_id)
@@ -64,7 +79,7 @@ CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="an
   map_tissues<- as.character(map_tissues)
   map_species<- as.character(map_species)
   metric_type<- as.character(metric_type)
-  new("CoSIAn", gene_set=gene_set, i_species=i_species, i_id=i_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, ortholog_database=ortholog_database,converted_id=NA, map_tissues=map_tissues, map_species=map_species, metric_type=metric_type)
+  new("CoSIAn", gene_set=gene_set, i_species=i_species, i_id=i_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, ortholog_database=ortholog_database, map_tissues=map_tissues, map_species=map_species, metric_type=metric_type)
 
   }
 
