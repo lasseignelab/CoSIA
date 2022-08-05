@@ -1,3 +1,5 @@
+setClass("CoSIA", representation("VIRTUAL"))# virtual class
+
 #' CoSIAn Class
 #' @name CoSIAn
 #' @rdname CoSIA-class
@@ -18,7 +20,7 @@
 #' @exportClass CoSIAn
 
 
-setClass("CoSIAn", 
+setClass("CoSIAn", contains="CoSIA",
          slots = c(
            gene_set = "character",
            i_species = "character",
@@ -48,7 +50,8 @@ setClass("CoSIAn",
            gex = data.frame(0),
            metric_type = character(0),
            metric = data.frame(0)
-         ))
+         )
+)
 
 ## Constructor (COPY OVER THE DESCRIPTION AFTER APPROVAL FROM CLASS)
 #' @description The \code{CoSIAn} constructor creates a \code{CoSIAn} object from character vector(s).
