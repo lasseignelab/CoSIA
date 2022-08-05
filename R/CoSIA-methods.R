@@ -34,7 +34,8 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
                                d_melanogaster = {
                                  species_data<-d_melanogaster(input_id,input,output_ids,output_species, tool, ortholog_database)
                                },
-                               stop("Error: Invalid i_species in CoSIAn Object. Make sure the species in the i_species slot is an avalible model organism and is in the correct format.")
+                               stop("Error: Invalid i_species in CoSIAn Object. Make sure the species in the i_species slot is an avalible model 
+                                    organism and is in the correct format.")
                                
     )
     return(species_data)

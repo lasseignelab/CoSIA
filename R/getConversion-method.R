@@ -18,7 +18,6 @@ setMethod("getConversion", signature(object = "CosiaAnnotate"), function(object)
   output_species<-object@output_species
   tool<-object@tool
   ortholog_database<-object@ortholog_database
-  
   if (input_species=="homo_sapiens"){ #code follows this path if the user chooses homo_sapiens as their input species
     human_data<-homo_sapiens(input_id,input,output_ids,output_species, tool, ortholog_database)
     #take this out if you are unable to fix it and make sure it works before you publish
