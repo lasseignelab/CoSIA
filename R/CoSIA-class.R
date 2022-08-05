@@ -35,21 +35,6 @@ setClass("CoSIAn", contains="CoSIA",
            gex = "data.frame",
            metric_type = "character",
            metric = "data.frame"
-         ),
-         prototype = list(
-           gene_set = character(0),
-           i_species = character(0),
-           i_id = character(0),
-           o_species = character(0),
-           o_ids = character(0),
-           mapping_tool = "annotationDBI", #AnnotationDBI is the default
-           ortholog_database = "HomoloGene", #HomoloGene is the default
-           converted_id = data.frame(0),
-           map_tissues = character(0),
-           map_species = character(0),
-           gex = data.frame(0),
-           metric_type = character(0),
-           metric = data.frame(0)
          )
 )
 
