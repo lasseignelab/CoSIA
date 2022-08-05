@@ -91,7 +91,7 @@ setValidity("CoSIAn", function(object) {
   if(length(object@i_id) != 1){
     "@i_id needs to be a length of 1"
   }
-  if (length(object@i_species@name) != length(i_id@age)) {
+  if (length(object@i_species) != length(i_id)) {
     "@i_species and @i_id must be the same length"
   }
   if(length(object@o_species) < 1){
