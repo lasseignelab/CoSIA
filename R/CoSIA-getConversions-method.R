@@ -6,10 +6,10 @@
 #' @export
 #'
 #' @examples
+
 setGeneric("getConversions", function(object) standardGeneric("getConversions"))
 
-
-#' getConversion Method
+#' getConversions Method
 #'
 #' @param object CoSIAn. 
 #'
@@ -17,6 +17,7 @@ setGeneric("getConversions", function(object) standardGeneric("getConversions"))
 #' @export
 #'
 #' @examples
+
 setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # user's input of the function
   #Set each part of the object that this method uses into their own variable that will be used inside the code
     input_species<-object@i_species
@@ -53,7 +54,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
     return(species_data)
 })
 
-### getConversion Functions
+### getConversions Functions
 
 ## Species Functions
 
