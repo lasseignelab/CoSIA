@@ -4,7 +4,7 @@
 #' @aliases CoSIA-class
 #' @slot gene_set character. A singular gene or a list of genes.
 #' @slot i_species character. The species corresponding to gene_set.
-#' @slot i_id character. The type of id corresponding to gene_set.
+#' @slot input_id character. The type of id corresponding to gene_set.
 #' @slot o_species character. The singular or list of species that the gene set is being converted to.
 #' @slot o_ids character. The singular or list of id types that the gene set is being converted to.
 #' @slot mapping_tool character. The mapping tool, BiomaRt or annotationDBI, being used to map the conversion between IDs.
@@ -87,8 +87,8 @@ CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool
 setValidity("CoSIAn", function(object) {
   if(length(object@gene_set)< 1){"@gene_set needs to be filled"}
   if(length(object@i_species) != 1){"@i_species needs to be a length of 1"}
-  if(length(object@i_id) != 1){"@i_id needs to be a length of 1"}
-  if (length(object@i_species) != length(i_id)) { "@i_species and @i_id must be the same length" }
+  if(length(object@input_id) != 1){"@input_id needs to be a length of 1"}
+  if (length(object@i_species) != length(input_id)) { "@i_species and @input_id must be the same length" }
   if(length(object@o_species) < 1){ "@o_species needs to be filled" }
   if(length(object@o_ids) < 1){ "@o_ids needs to be filled" }
   if (length(object@o_species) != length(object@o_ids)) {"@o_species and @o_ids must be the same length" }
