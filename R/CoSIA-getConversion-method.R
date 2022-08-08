@@ -38,6 +38,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
                                     organism and is in the correct format.")
                                
     )
+    object@converted_id<- data.frame(species_data)
     return(species_data)
 })
 
