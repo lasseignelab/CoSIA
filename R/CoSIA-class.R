@@ -21,7 +21,7 @@ setClass("CoSIAn",
          slots = c(
            gene_set = "character",
            i_species = "character",
-           i_id = "character",
+           input_id = "character",
            o_species = "character",
            o_ids = "character",
            mapping_tool = "character",
@@ -36,7 +36,7 @@ setClass("CoSIAn",
          prototype = list(
            gene_set = NA_character_,
            i_species = NA_character_,
-           i_id = NA_character_,
+           input_id = NA_character_,
            o_species = NA_character_,
            o_ids = NA_character_,
            mapping_tool = "annotationDBI", #AnnotationDBI is the default
@@ -55,7 +55,7 @@ setClass("CoSIAn",
 #' @rdname CoSIA-class
 #' @param gene_set 
 #' @param i_species 
-#' @param i_id 
+#' @param input_id 
 #' @param o_species 
 #' @param o_ids 
 #' @param mapping_tool 
@@ -67,10 +67,10 @@ setClass("CoSIAn",
 #' @export
 #' @examples
 
-CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species,metric_type) {
+CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species,metric_type) {
   gene_set<- as.character(gene_set)
   i_species<-as.character(i_species)
-  i_id<-as.character(i_id)
+  input_id<-as.character(input_id)
   o_species<- as.character(o_species)
   o_ids<- as.character(o_ids)
   map_tissues<- as.character(map_tissues)
@@ -79,7 +79,7 @@ CoSIAn <- function(gene_set, i_species, i_id, o_species, o_ids, mapping_tool="an
   converted_id<- data.frame(0)
   gex<- data.frame(0)
   metric <- data.frame(0)
-  new("CoSIAn", gene_set=gene_set, i_species=i_species, i_id=i_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, 
+  new("CoSIAn", gene_set=gene_set, i_species=i_species, input_id=input_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, 
       ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
 }
 
