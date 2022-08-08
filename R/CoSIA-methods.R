@@ -9,7 +9,7 @@
 setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # user's input of the function
   #Set each part of the object that this method uses into their own variable that will be used inside the code
     input_species<-object@i_species
-    input_id<-object@i_id
+    input_id<-object@input_id
     input<-object@gene_set
     output_ids<-object@o_ids
     output_species<-object@o_species
