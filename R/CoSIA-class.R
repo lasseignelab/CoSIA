@@ -6,7 +6,7 @@
 #' @slot i_species character. The species corresponding to gene_set.
 #' @slot i_id character. The type of id corresponding to gene_set.
 #' @slot o_species character. The singular or list of species that the gene set is being converted to.
-#' @slot o_ids character. The singular or list of ide types that the gene set is being converted to.
+#' @slot o_ids character. The singular or list of id types that the gene set is being converted to.
 #' @slot mapping_tool character. The mapping tool, BiomaRt or annotationDBI, being used to map the conversion between IDs.
 #' @slot ortholog_database character. The ortholog database, HomoloGene or NCBIOrtho, being used to map the conversion between species.
 #' @slot converted_id data frame. Output of getConversion.
