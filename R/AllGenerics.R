@@ -1,6 +1,6 @@
-#All the package Generics
+# All the package Generics
 
-#Show Generics 
+# Show Generics
 setGeneric("showCosiaAnnotate", function(object) standardGeneric("showCosiaAnnotate"))
 setGeneric("showCosiaExpressSpecies", function(object) standardGeneric("showCosiaExpressSpecies"))
 setGeneric("showCosiaExpressTissue", function(object) standardGeneric("showCosiaExpressTissue"))
@@ -34,25 +34,14 @@ setGeneric("list_of_ensembl_ids", function(x) standardGeneric("list_of_ensembl_i
 setGeneric("list_of_ensembl_ids<-", function(x, value) standardGeneric("list_of_ensembl_ids<-"))
 
 setMethod("showCosiaExpressSpecies", "CosiaExpressSpecies", function(object) {
-  cat(is(object)[[1]], "\n",
-      "  list_of_ensembl_ids: ", object@list_of_ensembl_ids, "\n",
-      "  list_of_respective_species:  ", object@list_of_respective_species, "\n",
-      "  single_tissue: ", object@single_tissue, "\n",
-      "  pathToData:  ", object@pathToData, "\n",
-      "  dataframe: ", object@dataframe, "\n",
-      sep = ""
-  )
+    cat(is(object)[[1]], "\n", "  list_of_ensembl_ids: ", object@list_of_ensembl_ids, "\n", "  list_of_respective_species:  ", object@list_of_respective_species,
+        "\n", "  single_tissue: ", object@single_tissue, "\n", "  pathToData:  ", object@pathToData, "\n", "  dataframe: ", object@dataframe,
+        "\n", sep = "")
 })
 
 setMethod("showCosiaExpressTissue", "CosiaExpressTissue", function(object) {
-  cat(is(object)[[1]], "\n",
-      "  single_gene: ", object@single_gene, "\n",
-      "  gene_species:  ", object@gene_species, "\n",
-      "  tissues: ", object@tissues, "\n",
-      "  pathToData:  ", object@pathToData, "\n",
-      "  dataframe: ", object@dataframe, "\n",
-      sep = ""
-  )
+    cat(is(object)[[1]], "\n", "  single_gene: ", object@single_gene, "\n", "  gene_species:  ", object@gene_species, "\n", "  tissues: ", object@tissues,
+        "\n", "  pathToData:  ", object@pathToData, "\n", "  dataframe: ", object@dataframe, "\n", sep = "")
 })
 
 
