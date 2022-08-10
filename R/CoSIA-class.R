@@ -10,7 +10,7 @@ setClass("CoSIA", representation("VIRTUAL"))  # virtual class
 #' @slot o_ids character. The singular or list of id types that the gene set is being converted to.
 #' @slot mapping_tool character. The mapping tool, BiomaRt or annotationDBI, being used to map the conversion between IDs.
 #' @slot ortholog_database character. The ortholog database, HomoloGene or NCBIOrtho, being used to map the conversion between species.
-#' @slot converted_id data frame. Output of getConversion.
+#' @slot converted_ids data frame. Output of getConversion.
 #' @slot map_tissues character. A list of tissues being investigated.
 #' @slot map_species character. A list of species being investigated. 
 #' @slot gex data frame. Output of gene expression data.
@@ -26,7 +26,7 @@ setClass("CoSIAn",contains = "CoSIA",
            o_ids = "character",
            mapping_tool = "character",
            ortholog_database = "character",
-           converted_id = "data.frame",
+           converted_ids = "data.frame",
            map_tissues = "character",
            map_species = "character",
            gex = "data.frame",
@@ -41,7 +41,7 @@ setClass("CoSIAn",contains = "CoSIA",
            o_ids = NA_character_,
            mapping_tool = "annotationDBI", #AnnotationDBI is the default
            ortholog_database = "HomoloGene", #HomoloGene is the default
-           converted_id = data.frame(0),
+           converted_ids = data.frame(0),
            map_tissues = NA_character_,
            map_species = NA_character_,
            gex = data.frame(0),
@@ -76,11 +76,11 @@ CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool
   map_tissues<- as.character(map_tissues)
   map_species<- as.character(map_species)
   metric_type<- as.character(metric_type)
-  converted_id<- data.frame(0)
+  converted_ids<- data.frame(0)
   gex<- data.frame(0)
   metric <- data.frame(0)
   new("CoSIAn", gene_set=gene_set, i_species=i_species, input_id=input_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, 
-      ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
+      ortholog_database=ortholog_database,converted_ids = converted_ids, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
 }
 
 ## Validity of the CoSIAn Class
