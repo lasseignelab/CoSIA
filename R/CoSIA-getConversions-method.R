@@ -51,8 +51,9 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                
     )
     
-    slot(object, converted_id, check = TRUE) <- species_data
-    return(slot(object, converted_id))
+    slot(object, converted_id, check = TRUE) <- data.frame(species_data)
+    converted_id<-slot(object, converted_id)
+    return(converted_id)
 })
 
 ### getConversions Functions
