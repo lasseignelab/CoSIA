@@ -1,7 +1,8 @@
+setClass("CoSIA", representation("VIRTUAL"))  # virtual class
+
 #' CoSIAn Class
 #' @name CoSIAn
 #' @rdname CoSIA-class
-#' @aliases CoSIA-class
 #' @slot gene_set character. A singular gene or a list of genes.
 #' @slot i_species character. The species corresponding to gene_set.
 #' @slot input_id character. The type of id corresponding to gene_set.
@@ -16,8 +17,7 @@
 #' @slot metric_type character. A list of possible metric the user wants to calculate.
 #' @slot metric data frame. Output of gene expression metrics data.
 #' @exportClass CoSIAn
-
-setClass("CoSIAn",
+setClass("CoSIAn",contains = "CoSIA",
          slots = c(
            gene_set = "character",
            i_species = "character",
