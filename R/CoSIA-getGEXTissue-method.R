@@ -1,4 +1,4 @@
-#' getConversions Generic
+#' getGExTissue Generic
 #'
 #' @param object
 #'
@@ -8,6 +8,7 @@
 #' @examples
 
 setGeneric("getGExTissue", function(object) standardGeneric("getGExTissue"))
+
 #CoSIAn getGExTissue
 
 setMethod("getGExTissue", signature(object = "CoSIAn"), function(object) {
@@ -19,20 +20,23 @@ setMethod("getGExTissue", signature(object = "CoSIAn"), function(object) {
     }
     else{
       if (gene_species == "m_musculus") {
-        bgee_species <- filter(Experimental_Hub_File, Species == "Mouse")
+        bgee_species <- filter(Experimental_Hub_File, Species == "Mus_musculus")
       }
       if (gene_species == "r_norvegicus") {
-        bgee_species <- filter(Experimental_Hub_File, Species == "Rat")
+        bgee_species <- filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
       }
       if (gene_species == "d_rerio") {
-        bgee_species <- filter(Experimental_Hub_File, Species == "Zebrafish")
+        bgee_species <- filter(Experimental_Hub_File, Species == "Danio_rerio")
       }
       if (gene_species == "h_sapiens") {
-        bgee_species <- filter(Experimental_Hub_File, Species == "Human")
+        bgee_species <- filter(Experimental_Hub_File, Species == "Homo_sapiens")
       }
     }
     #have to pull the conversion id here
-    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == object@converted_id)
+    converted_id<-object@converted_id
+    
+    
+    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == )
     sample_size <- data.frame(table(gene_specific_data$Anatomical.entity.name))
     colnames(sample_size)[which(names(sample_size) == "Var1")] <- "Anatomical.entity.name"
     values <- aggregate(data = gene_specific_data, x = gene_specific_data$TPM, by = list(gene_specific_data$Anatomical.entity.name), FUN = median)
