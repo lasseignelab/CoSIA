@@ -1,3 +1,13 @@
+#' getConversions Generic
+#'
+#' @param object
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+setGeneric("getGExTissue", function(object) standardGeneric("getGExTissue"))
 #CoSIAn getGExTissue
 
 setMethod("getGExTissue", signature(object = "CoSIAn"), function(object) {
