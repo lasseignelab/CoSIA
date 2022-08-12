@@ -15,7 +15,7 @@ BioM <- function(input_id, input_dataset, output_ids, input_species, output_spec
         attributes <- c(output_ids, input_id)  # sets the attributes that the user wants makes sure to set both the input and output values
         filters = input_id  # sets the filters as the input vales
         output_data <- biomaRt::getBM(attributes = attributes, filters = filters, values = input_dataset, mart = mart, uniqueRows = TRUE, bmHeader = FALSE)  # run conversion through biomaRt
-        return(output_data)  # returnt he biomaRt output
+        return(output_data)  # return he biomaRt output
     } else {
         # goes through this path if the input and output species are different
         mart <- biomaRt::useMart("ensembl", dataset = species_dataset)  # sets up biomart for species input
