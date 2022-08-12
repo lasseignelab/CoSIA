@@ -7,6 +7,7 @@ Maintainer: Anisha Haldar <anishah@uab.edu>
 Description: An investigation across different species allows for conversion between common gene IDs and their orthologs, as well as compare across gene expression. 
 License: file("LICENSE")
 Encoding: UTF-8
+LazyData: true
 Depends:
   R (>= 4.0)
 Imports:
