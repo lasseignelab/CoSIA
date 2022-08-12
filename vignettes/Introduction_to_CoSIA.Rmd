@@ -115,9 +115,27 @@ getSpeciesExpression(SGO1_expression_across_tissues)
 
 
 ```
-
+8/12/2022
 ```{r}
+library(CoSIA)
+conversion_test <- new("CosiaAnnotate",
+                              input = "NGN1", 
+                              input_species = "homo_sapiens", 
+                              input_id = "Symbol", 
+                              output_ids = "Ensembl.id",
+                              output_species = "homo_sapiens", 
+                              tool = "biomaRt")
 
+test_dataframe <- getConversion(conversion_test_one)
+
+
+conversion_test_one <- new("CosiaAnnotate",
+                       input="SGO1",
+                       input_species="homo_sapiens",
+                       output_species="mus_musculus",
+                       input_id=c("Gene.name"),
+                       output_ids="Ensembl.id",
+                       tool="annotationDBI")
 
 ```
 
