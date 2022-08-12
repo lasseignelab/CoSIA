@@ -21,20 +21,27 @@ setMethod("getGExTissue", signature(object = "CoSIAn"), function(object) {
     else{
       if (gene_species == "m_musculus") {
         bgee_species <- filter(Experimental_Hub_File, Species == "Mus_musculus")
+        gene_set<-object@converted_id
+        gene_list<- gene_set #call the specific column 
       }
       if (gene_species == "r_norvegicus") {
         bgee_species <- filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
+        gene_set<-object@converted_id
+        gene_list<- gene_set
       }
       if (gene_species == "d_rerio") {
         bgee_species <- filter(Experimental_Hub_File, Species == "Danio_rerio")
+        gene_set<-object@converted_id
+        gene_list<- gene_set
       }
       if (gene_species == "h_sapiens") {
         bgee_species <- filter(Experimental_Hub_File, Species == "Homo_sapiens")
+        gene_set<-object@converted_id
+        gene_list<- gene_set
       }
     }
     #have to pull the conversion id here
-    converted_id<-object@converted_id
-    
+
     
     gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == )
     sample_size <- data.frame(table(gene_specific_data$Anatomical.entity.name))
