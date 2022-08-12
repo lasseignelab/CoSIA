@@ -1,9 +1,20 @@
 setMethod("getTissueExpression", signature(object = "CosiaExpressTissue"), function(object) {
     # user's input of the function
     if (object@tissues == "all tissues") {
-        bgee_species <- BgeeDB::Bgee$new(species = object@gene_species, dataType = "rna_seq", pathToData = object@pathToData)
-        bgee <- BgeeDB::getData(bgee_species)
-        species_specific <- data.frame(dplyr::select(bgee, Gene.ID, Experiment.ID, Anatomical.entity.ID, Anatomical.entity.name, Read.count,
+        gene_species <- object@gene_species
+        if (gene_species == "mus_musculus") {
+          bgee_species <- filter_mouse
+        }
+        if (gene_species == "rattus_norvegicus") {
+          bgee_species <- filter_rat
+        }
+        if (gene_species == "danio_rerio") {
+          bgee_species <- filter_zebrafish
+        }
+        if (gene_species == "homo_sapiens") {
+          bgee_species <- filter_human
+        }
+        species_specific <- data.frame(dplyr::select(bgee_species, Gene.ID, Experiment.ID, Anatomical.entity.ID, Anatomical.entity.name, Read.count,
             TPM, FPKM, Detection.flag))
         species_specific$Anatomical.entity.name <- gsub("\"", "", species_specific$Anatomical.entity.name)
         gene_specific_data <- dplyr::filter(species_specific, Gene.ID == object@single_gene)
@@ -29,7 +40,19 @@ setMethod("getTissueExpression", signature(object = "CosiaExpressTissue"), funct
 
         return(fig)
     } else {
-        bgee_species <- BgeeDB::getData(BgeeDB::Bgee$new(species = object@gene_species, dataType = "rna_seq"))
+        gene_species <- object@gene_species
+        if (gene_species == "mus_musculus") {
+          bgee_species <- filter_mouse
+        }
+        if (gene_species == "rattus_norvegicus") {
+          bgee_species <- filter_rat
+        }
+        if (gene_species == "danio_rerio") {
+          bgee_species <- filter_zebrafish
+        }
+        if (gene_species == "homo_sapiens") {
+          bgee_species <- filter_human
+        }
         species_specific <- data.frame(dplyr::select(bgee_species, Gene.ID, Experiment.ID, Anatomical.entity.ID, Anatomical.entity.name, Read.count,
             TPM, FPKM, Detection.flag))
         species_specific$Anatomical.entity.name <- gsub("\"", "", species_specific$Anatomical.entity.name)
