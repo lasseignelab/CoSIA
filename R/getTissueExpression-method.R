@@ -53,10 +53,7 @@ setMethod("getTissueExpression", signature(object = "CosiaExpressTissue"), funct
         if (gene_species == "homo_sapiens") {
           bgee_species <- human_specific
         }
-        species_specific <- data.frame(dplyr::select(bgee_species, Gene.ID, Experiment.ID, Anatomical.entity.ID, Anatomical.entity.name, Read.count,
-            TPM, FPKM, Detection.flag))
-        species_specific$Anatomical.entity.name <- gsub("\"", "", species_specific$Anatomical.entity.name)
-        gene_specific_data <- dplyr::filter(species_specific, Gene.ID %in% object@single_gene)
+        gene_specific_data <- dplyr::filter(bgee_species, Gene.ID %in% object@single_gene)
         tissue_specific_data <- dplyr::filter(gene_specific_data, Anatomical.entity.name %in% object@tissues)
         sample_size <- data.frame(table(tissue_specific_data$Anatomical.entity.name))
         colnames(sample_size)[which(names(sample_size) == "Var1")] <- "Anatomical.entity.name"
