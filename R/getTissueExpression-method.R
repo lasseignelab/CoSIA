@@ -42,16 +42,16 @@ setMethod("getTissueExpression", signature(object = "CosiaExpressTissue"), funct
     } else {
         gene_species <- object@gene_species
         if (gene_species == "mus_musculus") {
-          bgee_species <- filter_mouse
+          bgee_species <- mouse_specific
         }
         if (gene_species == "rattus_norvegicus") {
-          bgee_species <- filter_rat
+          bgee_species <- rat_specific
         }
         if (gene_species == "danio_rerio") {
-          bgee_species <- filter_zebrafish
+          bgee_species <- zebrafish_specific
         }
         if (gene_species == "homo_sapiens") {
-          bgee_species <- filter_human
+          bgee_species <- human_specific
         }
         species_specific <- data.frame(dplyr::select(bgee_species, Gene.ID, Experiment.ID, Anatomical.entity.ID, Anatomical.entity.name, Read.count,
             TPM, FPKM, Detection.flag))

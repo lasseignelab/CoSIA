@@ -43,7 +43,7 @@ setMethod("getGExTissue", signature(object = "CoSIAn"), function(object) {
     #have to pull the conversion id here
 
     
-    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == )
+    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == bgee_species)
     sample_size <- data.frame(table(gene_specific_data$Anatomical.entity.name))
     colnames(sample_size)[which(names(sample_size) == "Var1")] <- "Anatomical.entity.name"
     values <- aggregate(data = gene_specific_data, x = gene_specific_data$TPM, by = list(gene_specific_data$Anatomical.entity.name), FUN = median)
