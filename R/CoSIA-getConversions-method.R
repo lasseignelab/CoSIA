@@ -50,10 +50,9 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                     organism and is in the correct format.")
                                
     )
-    
-    slot(object, converted_id) <- data.frame(species_data)
-    converted_id<-slot(object, converted_id)
-    return(converted_id)
+    object@converted_id <- data.frame(species_data)
+    #converted_id<-slot(object, converted_id)
+    return(object)
 })
 
 ### getConversions Functions
