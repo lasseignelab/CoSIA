@@ -1,4 +1,4 @@
-#' getGExTissue Generic
+#' getGEx Generic
 #'
 #' @param object
 #'
@@ -7,11 +7,14 @@
 #'
 #' @examples
 
-setGeneric("getGExTissue", function(object) standardGeneric("getGExTissue"))
+setGeneric("getGEx", function(object) standardGeneric("getGEx"))
 
-#CoSIAn getGExTissue
+#CoSIAn getGEx
 
-setMethod("getGExTissue", signature(object = "CoSIAn"), function(object) {
+setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
+  id_dataframe<-object@converted_id
+  
+  
   # user's input of the function
   if (object@map_tissues == "all_tissues") {
     gene_species <- object@map_species

@@ -239,22 +239,22 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
     Filter_BO_HS <- switch(output_species,
                            c_elegans = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 6239, "hsapiens_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 6239, "hsapiens_gene_ensembl",
                                                         "drerio_gene_ensembl", ortholog_database)                           },
                            d_melanogaster = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 7227, "hsapiens_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7227, "hsapiens_gene_ensembl",
                                                         "dmelanogaster_gene_ensembl", ortholog_database)                          },
                            m_musculus = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 10090, "hsapiens_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 10090, "hsapiens_gene_ensembl",
                                                         "mmusculus_gene_ensembl", ortholog_database)                           },
                            d_rerio = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 7955, "hsapiens_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7955, "hsapiens_gene_ensembl",
                                                         "drerio_gene_ensembl", ortholog_database)                               },
                            h_sapien = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 9606, "hsapiens_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 9606, "hsapiens_gene_ensembl",
                                                         "hsapiens_gene_ensembl", ortholog_database)                           },
                            r_norvegicus ={
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 10116, "hsapiens_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 10116, "hsapiens_gene_ensembl",
                                                         "rnorvegicus_gene_ensembl", ortholog_database)                           },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
                                     organism and is in the correct format.")
@@ -263,22 +263,22 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
   if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
     Filter_AO_HS <- switch(output_species,
                            h_sapiens = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 9606, org.Hs.eg.db::org.Hs.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 9606, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Hs.eg.db::org.Hs.eg.db, ortholog_database)                          },
                            m_musculus = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 10090, org.Hs.eg.db::org.Hs.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 10090, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Mm.eg.db::org.Mm.eg.db, ortholog_database)                           },
                            d_melanogaster = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 7227, org.Hs.eg.db::org.Hs.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7227, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Dm.eg.db::org.Dm.eg.db, ortholog_database)                           },
                            danio_rerio = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 7955, org.Hs.eg.db::org.Hs.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7955, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Dr.eg.db::org.Dr.eg.db, ortholog_database)                           },
                            c_elegans = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 6239, org.Hs.eg.db::org.Hs.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 6239, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Ce.eg.db::org.Ce.eg.db, ortholog_database)                           },
                            r_norvegicus ={
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "homo_sapiens", output_species, 10116, org.Hs.eg.db::org.Hs.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 10116, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Rn.eg.db::org.Rn.eg.db, ortholog_database)                           },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
                                     organism and is in the correct format.")
@@ -295,22 +295,22 @@ m_musculus<-function(input_id,input_dataset,output_ids,output_species, tool, ort
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
     Filter_BO_MM <- switch(output_species,
                            c_elegans = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 6239, "mmusculus_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 6239, "mmusculus_gene_ensembl",
                                                         "celegans_gene_ensembl", ortholog_database)                           },
                            d_melanogaster = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 7227, "mmusculus_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 7227, "mmusculus_gene_ensembl",
                                                         "dmelanogaster_gene_ensembl", ortholog_database)                         },
                            m_musculus = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 10090, "mmusculus_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 10090, "mmusculus_gene_ensembl",
                                                         "mmusculus_gene_ensembl", ortholog_database)                           },
                            d_rerio = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 7955, "mmusculus_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 7955, "mmusculus_gene_ensembl",
                                                         "drerio_gene_ensembl", ortholog_database)                               },
                            h_sapien = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 9606, "mmusculus_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 9606, "mmusculus_gene_ensembl",
                                                         "hsapiens_gene_ensembl", ortholog_database)                           },
                            r_norvegicus ={
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 10116, "mmusculus_gene_ensembl",
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 10116, "mmusculus_gene_ensembl",
                                                         "rnorvegicus_gene_ensembl", ortholog_database)                           },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
                                     organism and is in the correct format.")
@@ -319,22 +319,22 @@ m_musculus<-function(input_id,input_dataset,output_ids,output_species, tool, ort
   if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
     Filter_AO_MM <- switch(output_species,
                            h_sapiens = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 9606, org.Mm.eg.db::org.Mm.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 9606, org.Mm.eg.db::org.Mm.eg.db,
                                                                org.Hs.eg.db::org.Hs.eg.db, ortholog_database)                          },
                            m_musculus = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 10090, org.Mm.eg.db::org.Mm.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 10090, org.Mm.eg.db::org.Mm.eg.db,
                                                                org.Mm.eg.db::org.Mm.eg.db, ortholog_database)                          },
                            d_melanogaster = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 7227, org.Mm.eg.db::org.Mm.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 7227, org.Mm.eg.db::org.Mm.eg.db,
                                                                org.Dm.eg.db::org.Dm.eg.db, ortholog_database)                           },
                            danio_rerio = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 7955, org.Mm.eg.db::org.Mm.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 7955, org.Mm.eg.db::org.Mm.eg.db,
                                                                org.Dr.eg.db::org.Dr.eg.db, ortholog_database)                           },
                            c_elegans = {
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 6239, org.Mm.eg.db::org.Mm.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 6239, org.Mm.eg.db::org.Mm.eg.db,
                                                                org.Ce.eg.db::org.Ce.eg.db, ortholog_database)                           },
                            r_norvegicus ={
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "mus_musculus", output_species, 10116, org.Mm.eg.db::org.Mm.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 10116, org.Mm.eg.db::org.Mm.eg.db,
                                                                org.Rn.eg.db::org.Rn.eg.db, ortholog_database)                           },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
                                     organism and is in the correct format.")
@@ -626,6 +626,75 @@ homolog <- function(entrez_data, species_number, ortholog_database) {
     return(species_two_entrez_ID)
   }
 }
+
+#remove_version_number (only for inputs with Ensembl_id_version)
+
+remove_version_numbers <- function(input_dataset, species) {
+  if (species == "m_musculus") {
+    # if the user's input species is a mouse the code follows this path
+    input_dataset <- data.frame(input_dataset)  # create a new input dataset to manipulate
+    colnames(input_dataset)[1] <- "ENSEMBLIDVERSION"  # set the column name as ensemblid
+    input_dataset = cbind(input_dataset, replicate(1, input_dataset$ENSEMBLIDVERSION))  # create a new identical column that will be used to manipulate
+    ensembl_id <- input_dataset  # set the input dataset into a new column
+    ensembl_id <- data.frame(ensembl_id)
+    x <- 1:(nrow(ensembl_id))
+    for (i in seq_along(x)) {
+      char <- input_dataset[i, 1]
+      char1 <- substr(char, start = 1, stop = 15)
+      input_dataset[i, 1] <- char1
+    }
+    input_dataset <- data.frame(input_dataset)
+    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBLIDVERSION")] <- "ENSEMBL"
+    colnames(input_dataset)[which(names(input_dataset) == "replicate.1..input_dataset.ENSEMBLIDVERSION.")] <- "ENSEMBLIDVERSION"
+    return(input_dataset)
+  }
+  if (species == "h_sapiens") {
+    input_dataset <- data.frame(input_dataset)
+    colnames(input_dataset)[1] <- "ENSEMBLIDVERSION"
+    input_dataset = cbind(input_dataset, replicate(1, input_dataset$ENSEMBLIDVERSION))
+    ensembl_id <- input_dataset
+    ensembl_id <- data.frame(ensembl_id)
+    x <- 1:(nrow(ensembl_id))
+    for (i in seq_along(x)) {
+      char <- input_dataset[i, 1]
+      char1 <- substr(char, start = 1, stop = 18)
+      input_dataset[i, 1] <- char1
+    }
+    input_dataset <- data.frame(input_dataset)
+    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBLIDVERSION")] <- "ENSEMBL"
+    colnames(input_dataset)[which(names(input_dataset) == "replicate.1..input_dataset.ENSEMBLIDVERSION.")] <- "ENSEMBLIDVERSION"
+    return(input_dataset)
+  }
+  
+  if (species == "d_rerio") {
+    input_dataset <- data.frame(input_dataset)
+    colnames(input_dataset)[1] <- "ENSEMBLIDVERSION"
+    input_dataset = cbind(input_dataset, replicate(1, input_dataset$ENSEMBLIDVERSION))
+    ensembl_id <- input_dataset
+    ensembl_id <- data.frame(ensembl_id)
+    x <- 1:(nrow(ensembl_id))
+    for (i in seq_along(x)) {
+      char <- input_dataset[i, 1]
+      char1 <- substr(char, start = 1, stop = 18)
+      input_dataset[i, 1] <- char1
+    }
+    input_dataset <- data.frame(input_dataset)
+    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBLIDVERSION")] <- "ENSEMBL"
+    colnames(input_dataset)[which(names(input_dataset) == "replicate.1..input_dataset.ENSEMBLIDVERSION.")] <- "ENSEMBLIDVERSION"
+    return(input_dataset)
+  }
+  
+  
+  if (species == "c_elegans") {
+    stop("Error. Incorrect ID evaluation. C. elegans do not have Ensembl Ids with Version.")
+  } 
+  
+  else {
+    stop("Error. Invalid species. Make sure it matches the proper format.")
+  }
+  
+}
+
 
 
 
