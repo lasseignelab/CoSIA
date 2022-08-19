@@ -115,7 +115,7 @@ c_elegans<-function(input_id,input_dataset,output_ids,output_species, tool, orth
   }
 }
 
-#Drosophila Melanogaster - Fruit Fly
+# Drosophila Melanogaster - Fruit Fly
 
 d_melanogaster<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
@@ -171,7 +171,7 @@ d_melanogaster<-function(input_id,input_dataset,output_ids,output_species, tool,
   }
 }
 
-#Danio_Rerio - Zebrafish
+# Danio_Rerio - Zebrafish
 
 d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
@@ -233,7 +233,7 @@ d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, orthol
   }
 }
 
-#Homo sapiens - Humans
+# Homo sapiens - Humans
 
 h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
@@ -289,7 +289,7 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
   }
 }
 
-#Mus musculus - Mouse
+# Mus musculus - Mouse
 
 m_musculus<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
@@ -345,7 +345,7 @@ m_musculus<-function(input_id,input_dataset,output_ids,output_species, tool, ort
   }
 }
 
-#Rattus norvegicus- Rat
+# Rattus norvegicus- Rat
 
 r_norvegicus<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
@@ -401,9 +401,9 @@ r_norvegicus<-function(input_id,input_dataset,output_ids,output_species, tool, o
   }
 }
 
-#Tool functions 
+# Tool functions 
 
-#annotationDBI
+# annotationDBI
 
 annotationDBI <- function(input_id, input_dataset, output_ids, input_species, output_species, species_number, input_org, output_org, ortholog_database) {
   # This function uses annotationDBI to convert between gene identifier
@@ -529,7 +529,7 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
   }
 }
 
-#biomaRT
+# biomaRt
 
 biomaRt <- function(input_id, input_dataset, output_ids, input_species, output_species, species_number, species_dataset, output_species_dataset,
                  ortholog_database) {
