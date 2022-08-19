@@ -27,6 +27,15 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
     output_species<-object@o_species
     tool<-object@mapping_tool
     ortholog_database<-object@ortholog_database
+    Vectorize(vectorize.args = "ids", FUN = function(ids) {
+      switch(as.character(ids), 
+             Entrez_id = "entrezgene_id", 
+             Ensembl_id = "ensembl_gene_id", 
+             Ensembl_id_version = "ensembl_gene_id_version",
+             Gene_name = "external_gene_name", 
+             MGI_Symbol = "mgi_symbol", 
+             HGNC_Symbol = "hgnc_symbol")
+    })
     Filter_I_Species <- switch(input_species,
                                h_sapiens = {
                                  species_data<-h_sapiens(input_id,input,output_ids,output_species, tool, ortholog_database)
@@ -237,7 +246,8 @@ d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, orthol
 
 h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
-    Filter_BO_HS <- switch(output_species,
+    Filter_BO_HS <- Vectorize(vectorize.args = "output_species", FUN = function(output_species){
+      switch(as.character(output_species),
                            c_elegans = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 6239, "hsapiens_gene_ensembl",
                                                         "drerio_gene_ensembl", ortholog_database)                           },
@@ -258,10 +268,11 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
                                                         "rnorvegicus_gene_ensembl", ortholog_database)                           },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
                                     organism and is in the correct format.")
-    )
+    )})
   }
   if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
-    Filter_AO_HS <- switch(output_species,
+    Filter_AO_HS <- Vectorize(vectorize.args = "output_species", FUN = function(output_species){
+      switch(as.character(output_species),
                            h_sapiens = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 9606, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Hs.eg.db::org.Hs.eg.db, ortholog_database)                          },
@@ -282,7 +293,7 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
                                                                org.Rn.eg.db::org.Rn.eg.db, ortholog_database)                           },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
                                     organism and is in the correct format.")
-    )
+    )})
   }
   else{ # code follows this path if the tool that was inputted into the system does not match.
     stop("Error: Invalid tool in CoSIAn Object. Make sure the tool is either annotationDBI or biomaRt.")
