@@ -139,7 +139,3 @@ conversion_test_one <- new("CosiaAnnotate",
 
 ```
 
-
-
-
-
