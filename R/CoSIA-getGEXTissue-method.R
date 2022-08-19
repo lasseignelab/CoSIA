@@ -13,6 +13,33 @@ setGeneric("getGEx", function(object) standardGeneric("getGEx"))
 
 setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   id_dataframe<-object@converted_id
+  id_dataframe<- as.data.frame(id_dataframe)
+  o_species<- object@o_species
+  map_tissues<- object@map_tissues
+  Species_SWITCH <- Vectorize(vectorize.args = "o_species", FUN = function(o_species) {
+    switch(as.character(o_species), 
+           h_sapiens ="h_sapiens_ensembl_id",
+           m_musculus = "m_musculus_ensembl_id",
+           r_norvegicus = "r_norvegicus_ensembl_id",
+           d_rerio = "d_rerio_ensembl_id",
+           d_melanogaster = "d_melanogaster_ensembl_id",
+           c_elegans = "c_elegans_ensembl_id",
+           stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot are an avalible model 
+                                    organism and are in the correct format.")
+           )
+  })
+  o_species <- Species_SWITCH(o_species)
+  return(o_species)
+  id_dataframe<- dplyr::select(id_dataframe,matches(o_species))
+  
+  return(id_dataframe)
+  
+  
+  
+  
+  
+  
+  
   
   
   # user's input of the function
