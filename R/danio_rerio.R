@@ -23,7 +23,7 @@ danio_rerio <- function(input_id, input_dataset, output_ids, output_species, too
                 "celegans_gene_ensembl", ortholog_database)
             return(output_data)
         }
-        if (output_species == "homo_sapien") {
+        if (output_species == "homo_sapiens") {
             output_data <- CoSIA::BioM(input_id, input_dataset, output_ids, input_species = "danio_rerio", output_species, 9606, "drerio_gene_ensembl",
                 "hsapiens_gene_ensembl", ortholog_database)
             return(output_data)

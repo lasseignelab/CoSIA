@@ -25,7 +25,7 @@ c_elegans <- function(input_id, input_dataset, output_ids, output_species, tool,
                 "drerio_gene_ensembl", ortholog_database)
             return(output_data)
         }
-        if (output_species == "homo_sapien") {
+        if (output_species == "homo_sapiens") {
             # code follows this path if the user chooses homo_sapien
             output_data <- CoSIA::BioM(input_id, input_dataset, output_ids, input_species = "c_elegans", output_species, 9606, "celegans_gene_ensembl",
                 "hsapiens_gene_ensembl", ortholog_database)
