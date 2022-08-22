@@ -24,7 +24,7 @@ r_norvegicus <- function(input_id, input_dataset, output_ids, output_species, to
                 "celegans_gene_ensembl", ortholog_database)
             return(output_data)
         }
-        if (output_species == "homo_sapien") {
+        if (output_species == "homo_sapiens") {
             output_data <- CoSIA::BioM(input_id, input_dataset, output_ids, input_species = "r_norvegicus", output_species, 9606, "rnorvegicus_gene_ensembl",
                 "hsapiens_gene_ensembl", ortholog_database)
             return(output_data)

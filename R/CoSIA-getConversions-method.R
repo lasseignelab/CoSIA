@@ -249,7 +249,7 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
                            d_rerio = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7955, "hsapiens_gene_ensembl",
                                                         "drerio_gene_ensembl", ortholog_database)                               },
-                           h_sapien = {
+                           h_sapiens = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 9606, "hsapiens_gene_ensembl",
                                                         "hsapiens_gene_ensembl", ortholog_database)                           },
                            r_norvegicus ={
@@ -305,7 +305,7 @@ m_musculus<-function(input_id,input_dataset,output_ids,output_species, tool, ort
                            d_rerio = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 7955, "mmusculus_gene_ensembl",
                                                         "drerio_gene_ensembl", ortholog_database)                               },
-                           h_sapien = {
+                           h_sapiens = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 9606, "mmusculus_gene_ensembl",
                                                         "hsapiens_gene_ensembl", ortholog_database)                           },
                            r_norvegicus ={
@@ -361,7 +361,7 @@ r_norvegicus<-function(input_id,input_dataset,output_ids,output_species, tool, o
                            d_rerio = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "r_norvegicus", output_species, 7955, "rnorvegicus_gene_ensembl",
                                                         "drerio_gene_ensembl", ortholog_database)                               },
-                           h_sapien = {
+                           h_sapiens = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "r_norvegicus", output_species, 9606, "rnorvegicus_gene_ensembl",
                                                         "hsapiens_gene_ensembl", ortholog_database)                          },
                            r_norvegicus ={
