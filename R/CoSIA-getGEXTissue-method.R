@@ -14,7 +14,6 @@ setGeneric("getGEx", function(object) standardGeneric("getGEx"))
 setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   id_dataframe<-object@converted_id
   id_dataframe<- as.data.frame(id_dataframe)
-  
   map_species<- object@map_species
   map_tissues<- object@map_tissues
   Species_SWITCH <- Vectorize(vectorize.args = "map_species", FUN = function(map_species) {
@@ -27,11 +26,43 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
            c_elegans = "c_elegans_ensembl_id",
            stop("Error: Invalid map_species in CoSIAn Object. Make sure the species in the map_species slot are an avalible model 
                                     organism and are in the correct format.")
-           )
+    )
   })
   map_species <- Species_SWITCH(map_species)
   id_dataframe<- dplyr::select(id_dataframe,matches(map_species))
-  return(id_dataframe)
+  GEx_data<- data.frame(0)
+  #load EH_Data here (git it off of cheaha soon the EH method will be used to pull the data here)
+  if (map_species == "m_musculus") {
+    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus")
+    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
+    GEx_data <- rbind(GEx_data, gene_specific_data)
+  }
+  if (map_species == "r_norvegicus") {
+    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
+    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
+    GEx_data <- rbind(GEx_data, gene_specific_data)
+  }
+  if (map_species == "d_rerio") {
+    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Danio_rerio")
+    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
+    GEx_data <- rbind(GEx_data, gene_specific_data)
+  }
+  if (map_species == "h_sapiens") {
+    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Homo_sapiens")
+    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
+    GEx_data <- rbind(GEx_data, gene_specific_data)
+  }
+  if (map_species == "c_elegans") {
+    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Caenorhabditis_elegans")
+    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
+    GEx_data <- rbind(GEx_data, gene_specific_data)
+  }
+  if (map_species == "d_melanogaster") {
+    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Drosophila_melanogaster")
+    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
+    GEx_data <- rbind(GEx_data, gene_specific_data)
+  }
+  return(GEx_data)
   
   
   
