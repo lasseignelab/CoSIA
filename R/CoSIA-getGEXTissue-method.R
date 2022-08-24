@@ -8,9 +8,7 @@
 #' @examples
 
 setGeneric("getGEx", function(object) standardGeneric("getGEx"))
-
 #CoSIAn getGEx
-
 setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   id_dataframe<-object@converted_id
   id_dataframe<- as.data.frame(id_dataframe)
@@ -30,118 +28,61 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   })
   map_species <- Species_SWITCH(map_species)
   id_dataframe<- dplyr::select(id_dataframe,matches(map_species))
-  GEx_data<- data.frame(0)
-  #load EH_Data here (git it off of cheaha soon the EH method will be used to pull the data here)
-  if (map_species == "m_musculus") {
-    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus")
-    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
-    GEx_data <- rbind(GEx_data, gene_specific_data)
-  }
-  if (map_species == "r_norvegicus") {
-    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
-    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
-    GEx_data <- rbind(GEx_data, gene_specific_data)
-  }
-  if (map_species == "d_rerio") {
-    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Danio_rerio")
-    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
-    GEx_data <- rbind(GEx_data, gene_specific_data)
-  }
-  if (map_species == "h_sapiens") {
-    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Homo_sapiens")
-    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
-    GEx_data <- rbind(GEx_data, gene_specific_data)
-  }
-  if (map_species == "c_elegans") {
-    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Caenorhabditis_elegans")
-    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
-    GEx_data <- rbind(GEx_data, gene_specific_data)
-  }
-  if (map_species == "d_melanogaster") {
-    bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Drosophila_melanogaster")
-    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == id_dataframe$m_musculus_ensembl_id)
-    GEx_data <- rbind(GEx_data, gene_specific_data)
-  }
-  return(GEx_data)
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  # user's input of the function
-  if (object@map_tissues == "all_tissues") {
-    gene_species <- object@map_species
-    if(length(gene_species)> 1){
-      stop("Error: map_species slot has more than 1 species. This method only works if the map_species slot has only 1 species identified.")
+  #load EH_Data here (get it off of cheaha soon the EH method will be used to pull the data here)
+  return_filtered_Gex_data<- function(map_species){
+    GEx_data<- data.frame(matrix(ncol = 12, nrow = 0))
+    colnames(GEx_data) <- c('Anatomical_entity_name', 'Ensembl_ID', 'Sample_size', 'Minimum_TPM', 'First_Quartile_TPM', 'Median_TPM', 'Third_Quartile_TPM','Maximum_TPM','Standard_Deviation','Experiment_ID','Anatomical_entity_ID','Species')
+    if (any(map_species == "m_musculus_ensembl_id")) {
+      bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus")
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$m_musculus)
+      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
     }
-    else{
-      if (gene_species == "m_musculus") {
-        bgee_species <- filter(Experimental_Hub_File, Species == "Mus_musculus")
-        gene_set<-object@converted_id
-        gene_list<- gene_set #call the specific column 
-      }
-      if (gene_species == "r_norvegicus") {
-        bgee_species <- filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
-        gene_set<-object@converted_id
-        gene_list<- gene_set
-      }
-      if (gene_species == "d_rerio") {
-        bgee_species <- filter(Experimental_Hub_File, Species == "Danio_rerio")
-        gene_set<-object@converted_id
-        gene_list<- gene_set
-      }
-      if (gene_species == "h_sapiens") {
-        bgee_species <- filter(Experimental_Hub_File, Species == "Homo_sapiens")
-        gene_set<-object@converted_id
-        gene_list<- gene_set
-      }
+    if (any(map_species == "r_norvegicus_ensembl_id")) {
+      bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$r_norvegicus)
+      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
     }
-    #have to pull the conversion id here
-
-    
-    gene_specific_data <- dplyr::filter(bgee_species, Gene.ID == bgee_species)
-    sample_size <- data.frame(table(gene_specific_data$Anatomical.entity.name))
-    colnames(sample_size)[which(names(sample_size) == "Var1")] <- "Anatomical.entity.name"
-    values <- aggregate(data = gene_specific_data, x = gene_specific_data$TPM, by = list(gene_specific_data$Anatomical.entity.name), FUN = median)
-    colnames(values)[which(names(values) == "Group.1")] <- "Anatomical.entity.name"
-    value <- merge(values, sample_size, by = "Anatomical.entity.name")
-    value$AEN <- paste(value$Anatomical.entity.name, "(n=", value$Freq, ")", sep = "")
-    gene_specific_data <- merge(value, gene_specific_data, by = "Anatomical.entity.name")
-    return(gene_specific_data)
-    } 
-  else {
-    gene_species <- object@map_species
-    #add an error here about gene species only being a length of 1
-    if (gene_species == "mus_musculus") {
-      bgee_species <- filter(Experimental_Hub_File, Species == "Mouse")
+    if (any(map_species == "d_rerio_ensembl_id")) {
+      bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Danio_rerio")
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$d_rerio)
+      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
     }
-    if (gene_species == "rattus_norvegicus") {
-      bgee_species <- filter(Experimental_Hub_File, Species == "Rat")
+    if (any(map_species == "h_sapiens_ensembl_id")) {
+      bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Homo_sapiens")
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$h_sapiens)
+      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
     }
-    if (gene_species == "danio_rerio") {
-      bgee_species <- filter(Experimental_Hub_File, Species == "Zebrafish")
+    if (any(map_species == "c_elegans_ensembl_id")) {
+      bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Caenorhabditis_elegans")
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$c_elegans)
+      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
     }
-    if (gene_species == "homo_sapiens") {
-      bgee_species <- filter(Experimental_Hub_File, Species == "Human")
+    if (any(map_species == "d_melanogaster_ensembl_id")) {
+      bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Drosophila_melanogaster")
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$d_melanogaster)
+      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
     }
-    species_specific <- data.frame(dplyr::select(bgee_species, Gene.ID, Experiment.ID, Anatomical.entity.ID, Anatomical.entity.name, Read.count,
-                                                 TPM, FPKM, Detection.flag))
-    species_specific$Anatomical.entity.name <- gsub("\"", "", species_specific$Anatomical.entity.name)
-    gene_specific_data <- dplyr::filter(species_specific, Gene.ID %in% object@single_gene)
-    tissue_specific_data <- dplyr::filter(gene_specific_data, Anatomical.entity.name %in% object@tissues)
-    sample_size <- data.frame(table(tissue_specific_data$Anatomical.entity.name))
-    colnames(sample_size)[which(names(sample_size) == "Var1")] <- "Anatomical.entity.name"
-    values <- aggregate(data = tissue_specific_data, x = tissue_specific_data$TPM, by = list(tissue_specific_data$Anatomical.entity.name),
-                        FUN = median)
-    colnames(values)[which(names(values) == "Group.1")] <- "Anatomical.entity.name"
-    value <- merge(values, sample_size, by = "Anatomical.entity.name")
-    value$AEN <- paste(value$Anatomical.entity.name, "(n=", value$Freq, ")", sep = "")
-    tissue_specific_data <- merge(value, tissue_specific_data, by = "Anatomical.entity.name")
-    return(tissue_specific_data)
+    return(GEx_data)
   }
-})
-
+  GEx_data<-sapply(map_species,return_filtered_Gex_data)
+  combine_GEx<-data.frame(0)
+  for (i in 1: length(GEx_data)){
+    combine_GEx<-merge(combine_GEx,GEx_data[i])
+  }
+  return(combine_GEx)
+  
+  
+  
+  
+  tissue_specific_data <- dplyr::filter(gene_specific_data, Anatomical.entity.name %in% object@tissues)
+  sample_size <- data.frame(table(tissue_specific_data$Anatomical.entity.name))
+  colnames(sample_size)[which(names(sample_size) == "Var1")] <- "Anatomical.entity.name"
+  values <- aggregate(data = tissue_specific_data, x = tissue_specific_data$TPM, by = list(tissue_specific_data$Anatomical.entity.name),
+                      FUN = median)
+  colnames(values)[which(names(values) == "Group.1")] <- "Anatomical.entity.name"
+  value <- merge(values, sample_size, by = "Anatomical.entity.name")
+  value$AEN <- paste(value$Anatomical.entity.name, "(n=", value$Freq, ")", sep = "")
+  tissue_specific_data <- merge(value, tissue_specific_data, by = "Anatomical.entity.name")
+  return(tissue_specific_data)
+}
+)
