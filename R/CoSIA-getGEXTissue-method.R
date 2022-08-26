@@ -26,6 +26,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
                                     organism and are in the correct format.")
     )
   })
+  
   map_species <- Species_SWITCH(map_species)
   id_dataframe<- dplyr::select(id_dataframe,matches(map_species))
   #load EH_Data here (get it off of cheaha soon the EH method will be used to pull the data here)
@@ -35,42 +36,53 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
     if (any(map_species == "m_musculus_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$m_musculus)
-      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
+      GEx_data <- rbind(GEx_data, gene_specific_data)
+      GEx_data<-as.data.frame(GEx_data)
     }
     if (any(map_species == "r_norvegicus_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$r_norvegicus)
-      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
+      GEx_data <- rbind(GEx_data, gene_specific_data)
+      GEx_data<-as.data.frame(GEx_data)
     }
     if (any(map_species == "d_rerio_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Danio_rerio")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$d_rerio)
-      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
+      GEx_data <- rbind(GEx_data, gene_specific_data)
+      GEx_data<-as.data.frame(GEx_data)
     }
     if (any(map_species == "h_sapiens_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Homo_sapiens")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$h_sapiens)
-      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
+      GEx_data <- rbind(GEx_data, gene_specific_data)
+      GEx_data<-as.data.frame(GEx_data)
     }
     if (any(map_species == "c_elegans_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Caenorhabditis_elegans")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$c_elegans)
-      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
+      GEx_data <- rbind(GEx_data, gene_specific_data)
+      GEx_data<-as.data.frame(GEx_data)
     }
     if (any(map_species == "d_melanogaster_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Drosophila_melanogaster")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$d_melanogaster)
-      GEx_data <- merge(GEx_data, gene_specific_data, by = "Ensembl_ID")
+      GEx_data <- rbind(GEx_data, gene_specific_data)
+      GEx_data<-as.data.frame(GEx_data)
     }
     return(GEx_data)
   }
-  GEx_data<-sapply(map_species,return_filtered_Gex_data)
-  combine_GEx<-data.frame(0)
-  for (i in 1: length(GEx_data)){
-    combine_GEx<-merge(combine_GEx,GEx_data[i])
-  }
-  return(combine_GEx)
+  GEx_data<-lapply(map_species,return_filtered_Gex_data)
+  return(GEx_data)
+
   
+  
+  
+  # combine_GEx<-data.frame(0)
+  # for (i in 1: length(GEx_data)){
+  #   combine_GEx<-merge(combine_GEx,GEx_data[i])
+  # }
+  # return(combine_GEx)
+  # 
   
   
   
