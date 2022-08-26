@@ -1,14 +1,21 @@
 BioM <- function(input_id, input_dataset, output_ids, input_species, output_species, species_number, species_dataset, output_species_dataset,
     ortholog_database) {
-    # biomart
+    #Make sure ids are in the class character
     input_id <- as.character(input_id)
     output_ids <- as.character(output_ids)
+    #create a switch function that renames the user ids into the designated format for bioconductor
     ID_SWITCH <- Vectorize(vectorize.args = "ids", FUN = function(ids) {
-        switch(as.character(ids), Entrez.id = "entrezgene_id", Ensembl.id = "ensembl_gene_id", Ensembl.id.version = "ensembl_gene_id_version",
-            Gene.name = "external_gene_name", MGI.Symbol = "mgi_symbol", HGNC.Symbol = "hgnc_symbol")
-    })
+        switch(as.character(ids), 
+               Entrez.id = "entrezgene_id", 
+               Ensembl.id = "ensembl_gene_id", 
+               Ensembl.id.version = "ensembl_gene_id_version",
+               Gene.name = "external_gene_name", 
+               MGI.Symbol = "mgi_symbol", 
+               HGNC.Symbol = "hgnc_symbol")
+      })
     input_id <- ID_SWITCH(ids = input_id)
     output_ids <- ID_SWITCH(ids = output_ids)
+    
     if (input_species == output_species) {
         # goes through this path if the input and output species are the same
         mart <- biomaRt::useMart("ensembl", dataset = species_dataset)  # pulls the biomaRt object for the species species that has been choosen
