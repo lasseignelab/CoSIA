@@ -530,11 +530,12 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
 
 # biomaRt
 
-biomaRt <- function(input_id, input_dataset, output_ids, input_species, output_species, species_number, species_dataset, output_species_dataset,
-                 ortholog_database) {
-  # biomart
+biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_species, species_number, species_dataset, output_species_dataset,
+                   ortholog_database) {
+  #Make sure ids are in the class character
   input_id <- as.character(input_id)
   output_ids <- as.character(output_ids)
+  #create a switch function that renames the user ids into the designated format for bioconductor
   ID_SWITCH <- Vectorize(vectorize.args = "ids", FUN = function(ids) {
     switch(as.character(ids), 
            Entrez_id = "entrezgene_id", 
@@ -543,7 +544,9 @@ biomaRt <- function(input_id, input_dataset, output_ids, input_species, output_s
            Gene_name = "external_gene_name", 
            MGI_Symbol = "mgi_symbol", 
            HGNC_Symbol = "hgnc_symbol")
-  })
+  }
+  )
+  #set the id names to their new formats
   input_id <- ID_SWITCH(ids = input_id)
   output_ids <- ID_SWITCH(ids = output_ids)
   if (input_species == output_species) {
@@ -552,9 +555,16 @@ biomaRt <- function(input_id, input_dataset, output_ids, input_species, output_s
     attributes <- c(output_ids, input_id)  # sets the attributes that the user wants makes sure to set both the input and output values
     filters = input_id  # sets the filters as the input vales
     output_data <- biomaRt::getBM(attributes = attributes, filters = filters, values = input_dataset, mart = mart, uniqueRows = TRUE, bmHeader = FALSE)  # run conversion through biomaRt
-    return(output_data)  # returnt he biomaRt output
-  } else {
-    # goes through this path if the input and output species are different
+    colnames(output_data)[which(names(output_data) == "ensembl_gene_id")] <- paste(input_species,"ensembl_id",sep = "_")
+    colnames(output_data)[which(names(output_data) == "entrezgene_id")] <- paste(input_species,"entrez_id",sep = "_")
+    colnames(output_data)[which(names(output_data) == "ensembl_gene_id_version")] <- paste(input_species,"ensembl_id_version",sep = "_")
+    colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
+    colnames(output_data)[which(names(output_data) == "mgi_symbol")] <- paste(input_species,"mgi_symbol",sep = "_")
+    colnames(output_data)[which(names(output_data) == "hgnc_symbol")] <- paste(input_species,"hgnc_symbol",sep = "_")
+    return(output_data)  # return the biomaRt output
+  } 
+  else
+  { # goes through this path if the input and output species are different
     mart <- biomaRt::useMart("ensembl", dataset = species_dataset)  # sets up biomart for species input
     attributes <- c("entrezgene_id", input_id)  # sets input ids and entrezids as attributes (output values)
     filters <- input_id  # set the input ids as the filter (input values)
@@ -563,14 +573,14 @@ biomaRt <- function(input_id, input_dataset, output_ids, input_species, output_s
     id <- CoSIA::homolog(output_data$entrezgene_id, species_number, ortholog_database)  #now that we have the entrezids for the input species we can run it through the homolog function and then get the entrezids for the other species
     id <- data.frame(id)  #this makes sure that our homologous gene list is in a dataframe
     names(output_data)[names(output_data) == "entrezgene_id"] <- "species_one"  # change the name so we can merge the original and the homologous dataframes together
+    #change the name of the input id
+    colnames(output_data)[which(names(output_data) == "ensembl_gene_id")] <- paste(input_species,"ensembl_id",sep = "_")
+    colnames(output_data)[which(names(output_data) == "ensembl_gene_id_version")] <- paste(input_species,"ensembl_id_version",sep = "_")
+    colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
+    colnames(output_data)[which(names(output_data) == "mgi_symbol")] <- paste(input_species,"mgi_symbol",sep = "_")
+    colnames(output_data)[which(names(output_data) == "hgnc_symbol")] <- paste(input_species,"hgnc_symbol",sep = "_")
     merged_data <- merge.data.frame(data.frame(output_data), data.frame(id), by = "species_one")  #merge the two dataframes
-    colnames(merged_data)[which(names(merged_data) == "entrezgene_id")] <- paste(input_species, "Entrez_ID", sep = "_")  #rename to a more formal name
-    colnames(merged_data)[which(names(merged_data) == "ensembl_gene_id")] <- paste(input_species, "Ensembl_ID", sep = "_")  #rename to a more formal name
-    colnames(merged_data)[which(names(merged_data) == "external_gene_name")] <- paste(input_species, "Gene_Name", sep = "_")  #rename to a more formal name
-    colnames(merged_data)[which(names(merged_data) == "hgnc_symbol")] <- paste(input_species, "HGNC_Symbol", sep = "_")  #rename to a more formal name
-    colnames(merged_data)[which(names(merged_data) == "mgi_symbol")] <- paste(input_species, "MGI_Symbol", sep = "_")  #rename to a more formal name
-    colnames(merged_data)[which(names(merged_data) == "ensembl_gene_id_version")] <- paste(input_species, "Ensembl_ID_with_Version_ID", sep = "_")  #rename to a more formal name
-    # names(output_data)[names(output_data) == 'entrezgene_id'] <- 'species_one'
+    colnames(merged_data)[which(names(merged_data) == "species_one")] <- paste(input_species, "entrez_id", sep = "_")  #rename to a more formal name
     marts <- biomaRt::useMart("ensembl", dataset = output_species_dataset)  #set the biomart species to the new species
     ortho <- biomaRt::getBM(attributes = c(output_ids, "entrezgene_id"), filters = "entrezgene_id", values = id$species_two, mart = marts,
                             uniqueRows = TRUE, bmHeader = FALSE)  # run the homologous entrezids to the other gene identifiers
@@ -581,19 +591,27 @@ biomaRt <- function(input_id, input_dataset, output_ids, input_species, output_s
     ortho <- data.frame(ortho)  # set the ortho variable as a dataframe
     names(ortho)[names(ortho) == "entrezgene_id"] <- "species_two"  # rename the entrezid as species two
     merged_species_data <- merge.data.frame(data.frame(ortho), data.frame(merged_data), by = "species_two")  # merge the ortholog dataframe and the original data
-    names(merged_species_data)[names(merged_species_data) == "species_two"] <- paste(output_species, "Entrez_ID", sep = "_")  # clean up names
-    names(merged_species_data)[names(merged_species_data) == "species_one"] <- paste(input_species, "Entrez_ID", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "entrezgene_id")] <- paste(output_species, "Entrez_ID", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id")] <- paste(output_species, "Ensembl_ID", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "hgnc_symbol")] <- paste(output_species, "HGNC_Symbol", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "mgi_symbol")] <- paste(output_species, "MGI_Symbol", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "external_gene_name")] <- paste(output_species, "Gene_Name", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id_version")] <- paste(output_species, "Ensembl_ID_with_Version_ID",
-                                                                                                           sep = "_")  #clean up names
+    merged_species_data <- merged_species_data[ , ! names(merged_species_data) %in% c("entrezgene_id.1")]
+    names(merged_species_data)[names(merged_species_data) == "species_two"] <- paste(output_species, "entrez_id", sep = "_")  # clean up names
+    colnames(merged_species_data)[which(names(merged_species_data) == "entrezgene_id")] <- paste(output_species, "entrez_id", sep = "_")  #clean up names
+    colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id")] <- paste(output_species, "ensembl_id", sep = "_")  #clean up names
+    colnames(merged_species_data)[which(names(merged_species_data) == "hgnc_symbol")] <- paste(output_species, "hgnc_symbol", sep = "_")  #clean up names
+    colnames(merged_species_data)[which(names(merged_species_data) == "mgi_symbol")] <- paste(output_species, "mgi_symbol", sep = "_")  #clean up names
+    colnames(merged_species_data)[which(names(merged_species_data) == "external_gene_name")] <- paste(output_species, "gene_name", sep = "_")  #clean up names
+    colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id_version")] <- paste(output_species, "ensembl_id_version",sep = "_")  #clean up names
     merged_species_data <- merged_species_data[!duplicated(as.list(merged_species_data))]  #remove duplicates
+    if(input_id != "entrezgene_id"){
+      entrez_id_col_name_input<- paste(input_species,"entrez_id",sep = "_")
+      merged_species_data <- merged_species_data %>% dplyr::select(-all_of(entrez_id_col_name_input))      
+    }
+    if("entrezgene_id" %in% output_ids == FALSE){
+      entrez_id_col_output<- paste(output_species,"entrez_id",sep = "_")
+      merged_species_data <- merged_species_data %>% dplyr::select(-all_of(entrez_id_col_output))      
+    }
     return(merged_species_data)  # return the final table
   }
 }
+
 
 #homolog files
 
