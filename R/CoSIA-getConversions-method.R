@@ -86,7 +86,7 @@ c_elegans<-function(input_id,input_dataset,output_ids,output_species, tool, orth
                                     organism and is in the correct format.")
                            )
   }
-  if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
+  else if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
     Filter_AO_CE <- switch(output_species,
                            h_sapiens = {
                              output_data<-CoSIA::annotationDBI(input_id,input_dataset,output_ids,input_species="c_elegans",output_species,9606, org.Ce.eg.db::org.Ce.eg.db , org.Hs.eg.db::org.Hs.eg.db, ortholog_database)
@@ -142,7 +142,7 @@ d_melanogaster<-function(input_id,input_dataset,output_ids,output_species, tool,
                                     organism and is in the correct format.")
     )
   }
-  if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
+  else if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
     Filter_AO_DM <- switch(output_species,
                            h_sapiens = {
                              output_data<-CoSIA::annotationDBI(input_id,input_dataset,output_ids,input_species="d_melanogaster",output_species,9606, org.Dm.eg.db::org.Dm.eg.db , org.Hs.eg.db::org.Hs.eg.db, ortholog_database)
@@ -204,7 +204,7 @@ d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, orthol
                                     organism and is in the correct format.")
     )
   }
-  if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
+  else if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
     Filter_AO_DR <- switch(output_species,
                            h_sapiens = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 9606, org.Dr.eg.db::org.Dr.eg.db,
@@ -259,7 +259,7 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
                                     organism and is in the correct format.")
     )
   }
-  if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
+  else if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
     Filter_AO_HS <- switch(output_species,
                            h_sapiens = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 9606, org.Hs.eg.db::org.Hs.eg.db,
@@ -315,7 +315,7 @@ m_musculus<-function(input_id,input_dataset,output_ids,output_species, tool, ort
                                     organism and is in the correct format.")
     )
   }
-  if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
+  else if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
     Filter_AO_MM <- switch(output_species,
                            h_sapiens = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 9606, org.Mm.eg.db::org.Mm.eg.db,
@@ -371,7 +371,7 @@ r_norvegicus<-function(input_id,input_dataset,output_ids,output_species, tool, o
                                     organism and is in the correct format.")
     )
   }
-  if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
+  else if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
     Filter_AO_RN <- switch(output_species,
                            h_sapiens = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "r_norvegicus", output_species, 9606, org.Rn.eg.db::org.Rn.eg.db,
