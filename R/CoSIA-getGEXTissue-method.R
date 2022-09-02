@@ -29,6 +29,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   
   map_species <- Species_SWITCH(map_species)
   id_dataframe<- dplyr::select(id_dataframe,matches(map_species))
+  return(id_dataframe)
   #load EH_Data here (get it off of cheaha soon the EH method will be used to pull the data here)
   return_filtered_Gex_data<- function(map_species){
     GEx_data<- data.frame(matrix(ncol = 12, nrow = 0))

@@ -64,7 +64,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
 c_elegans<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
     Filter_BO_CE <- switch(output_species,
-                           h_sapien = {
+                           h_sapiens = {
                              output_data<-CoSIA::biomaRt(input_id,input_dataset, output_ids,input_species="c_elegans", output_species, 9606, "celegans_gene_ensembl", "hsapiens_gene_ensembl", ortholog_database)
                            },
                            m_musculus = {
@@ -120,7 +120,7 @@ c_elegans<-function(input_id,input_dataset,output_ids,output_species, tool, orth
 d_melanogaster<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
     Filter_BO_DM <- switch(output_species,
-                           h_sapien = {
+                           h_sapiens = {
                              output_data<-CoSIA::biomaRt(input_id,input_dataset, output_ids,input_species="d_melanogaster", output_species, 9606, "dmelanogaster_gene_ensembl", "hsapiens_gene_ensembl", ortholog_database)
                            },
                            m_musculus = {
@@ -176,7 +176,7 @@ d_melanogaster<-function(input_id,input_dataset,output_ids,output_species, tool,
 d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
     Filter_BO_DR <- switch(output_species,
-                           h_sapien = {
+                           h_sapiens = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 9606, "drerio_gene_ensembl","hsapiens_gene_ensembl", ortholog_database)
                              },
                            c_elegans = {
@@ -192,7 +192,7 @@ d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, orthol
                            d_rerio = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 7955, "drerio_gene_ensembl","drerio_gene_ensembl", ortholog_database)                           
                              },
-                           h_sapien = {
+                           h_sapiens = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 9606, "drerio_gene_ensembl",
                                                         "hsapiens_gene_ensembl", ortholog_database)                           
                              },
