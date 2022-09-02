@@ -73,29 +73,8 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
     return(GEx_data)
   }
   GEx_data<-lapply(map_species,return_filtered_Gex_data)
-  return(GEx_data)
-
-  
-  
-  
-  # combine_GEx<-data.frame(0)
-  # for (i in 1: length(GEx_data)){
-  #   combine_GEx<-merge(combine_GEx,GEx_data[i])
-  # }
-  # return(combine_GEx)
-  # 
-  
-  
-  
-  tissue_specific_data <- dplyr::filter(gene_specific_data, Anatomical.entity.name %in% object@tissues)
-  sample_size <- data.frame(table(tissue_specific_data$Anatomical.entity.name))
-  colnames(sample_size)[which(names(sample_size) == "Var1")] <- "Anatomical.entity.name"
-  values <- aggregate(data = tissue_specific_data, x = tissue_specific_data$TPM, by = list(tissue_specific_data$Anatomical.entity.name),
-                      FUN = median)
-  colnames(values)[which(names(values) == "Group.1")] <- "Anatomical.entity.name"
-  value <- merge(values, sample_size, by = "Anatomical.entity.name")
-  value$AEN <- paste(value$Anatomical.entity.name, "(n=", value$Freq, ")", sep = "")
-  tissue_specific_data <- merge(value, tissue_specific_data, by = "Anatomical.entity.name")
-  return(tissue_specific_data)
+  GEx_data<-as.data.frame(do.call(rbind, GEx_data))
+  object@gex <- data.frame(GEx_data)
+  return(object)
 }
 )
