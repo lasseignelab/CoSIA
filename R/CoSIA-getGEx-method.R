@@ -77,8 +77,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   }
   GEx_data<-lapply(map_species,return_filtered_Gex_data)
   GEx_data<-as.data.frame(do.call(rbind, GEx_data))
-  GEx_data <- filter(GEx_data,
-                     map_tissues %in% GEx_data$Anatomical_Entity_Name)
+  GEx_data <- dplyr::filter(GEx_data, Anatomical_entity_name %in% map_tissues)
   object@gex <- data.frame(GEx_data)
   return(object)
 }
