@@ -39,36 +39,37 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
-    if (any(map_species == "r_norvegicus_ensembl_id")) {
+    else if (any(map_species == "r_norvegicus_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$r_norvegicus)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
-    if (any(map_species == "d_rerio_ensembl_id")) {
+    else if (any(map_species == "d_rerio_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Danio_rerio")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$d_rerio)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
-    if (any(map_species == "h_sapiens_ensembl_id")) {
+    else if (any(map_species == "h_sapiens_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Homo_sapiens")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$h_sapiens)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
-    if (any(map_species == "c_elegans_ensembl_id")) {
+    else if (any(map_species == "c_elegans_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Caenorhabditis_elegans")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$c_elegans)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
-    if (any(map_species == "d_melanogaster_ensembl_id")) {
+    else if (any(map_species == "d_melanogaster_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Drosophila_melanogaster")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$d_melanogaster)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
+    else 
     return(GEx_data)
   }
   GEx_data<-lapply(map_species,return_filtered_Gex_data)
