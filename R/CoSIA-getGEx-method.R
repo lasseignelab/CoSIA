@@ -69,11 +69,15 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
-    else 
+    else{
+      stop("Error: map_species in CoSIAn Object. Make sure the species in the map_species slot are avalible model 
+                                    organisms and are in the correct format.")
+    }
     return(GEx_data)
   }
   GEx_data<-lapply(map_species,return_filtered_Gex_data)
   GEx_data<-as.data.frame(do.call(rbind, GEx_data))
+  GEx_data<- filter(GEx_data, map_tissues)
   object@gex <- data.frame(GEx_data)
   return(object)
 }
