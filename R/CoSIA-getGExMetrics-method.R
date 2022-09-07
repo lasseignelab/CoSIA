@@ -14,18 +14,18 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   expression_dataframe<-object@gex
   expression_dataframe<- as.data.frame(expression_dataframe)
   metric_type<- object@metric_type
-  return_caluclated_metric_data<- function(metric_type){
+  return_calculated_metric_data<- function(metric_type){
     GEx_metric_data<- data.frame(matrix(0))
     if (any(metric_type == "CV")) {
-      
-      
-      
-      
-      bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus")
-      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$m_musculus)
-      GEx_data <- rbind(GEx_data, gene_specific_data)
-      GEx_data<-as.data.frame(GEx_data)
-    }
+    #   CV_function <- function(x, na.rm = FALSE){
+    #     stopifnot(is.numeric(x))
+    #     if(na.rm) x <- x[!is.na(x)]
+    #     if(any(x < 0)) #changed this from <= to < 
+    #       stop("Your data must be greater than zero!")
+    #     sd(x, na.rm = FALSE)/mean(x)
+    #   }
+    #   CV<-expression_dataframe %>% group_by(Gene.ID_Tissue) %>% summarise(SUM = sum(TPM),Sample_Size = n(),Median = median(TPM), CV = CV_function(TPM, na.rm=FALSE))
+     }
     else if (any(metric_type == "Entropy_Specificity")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$r_norvegicus)
