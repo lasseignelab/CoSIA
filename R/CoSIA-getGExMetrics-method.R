@@ -17,18 +17,24 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   return_caluclated_metric_data<- function(metric_type){
     GEx_metric_data<- data.frame(matrix(0))
     if (any(metric_type == "CV")) {
+      
+      
+      
+      
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$m_musculus)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
-    else if (any(map_species == "r_norvegicus_ensembl_id")) {
+    else if (any(metric_type == "Entropy_Specificity")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$r_norvegicus)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
-    else()
+    else{
+    stop("Error: metric_type in CoSIAn Object. Make sure the metric type in the metric_type slot are avalible metrics and are written in the correct format.")
+    }
     return(GEx_metric_data)
   }
   GEx_data<-lapply(map_species,return_filtered_Gex_data)
