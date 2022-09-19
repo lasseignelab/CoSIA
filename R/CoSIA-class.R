@@ -119,8 +119,6 @@ CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool
 }
 
 
-
-
 ## Validity of the CoSIAn Class
 setValidity("CoSIAn", function(object) {
   if(length(object@gene_set)< 1){"@gene_set needs to be filled"}
@@ -129,7 +127,7 @@ setValidity("CoSIAn", function(object) {
   if (length(object@i_species) != length(input_id)) { "@i_species and @input_id must be the same length" }
   if(length(object@o_species) < 1){ "@o_species needs to be filled" }
   if(length(object@o_ids) < 1){ "@o_ids needs to be filled" }
-  if (length(object@o_species) != length(object@o_ids)) {"@o_species and @o_ids must be the same length" }
+  #if (length(object@o_species) != length(object@o_ids)) {"@o_species and @o_ids must be the same length" }
   if(length(object@mapping_tool) != 1){"@mapping_tool needs to be a length of 1"}
   if(length(object@ortholog_database) != 1){ "@ortholog_database needs to be a length of 1" }
   if(length(object@map_tissues)< 1){"@map_tissues needs to be filled"}
