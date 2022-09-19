@@ -67,7 +67,25 @@ setClass("CoSIAn",contains = "CoSIA",
 #' @export
 #' @examples
 
-CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species,metric_type) {
+#constructor for user who is not using the metric function
+CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species) {
+  gene_set<- as.character(gene_set)
+  i_species<-as.character(i_species)
+  input_id<-as.character(input_id)
+  o_species<- as.character(o_species)
+  o_ids<- as.character(o_ids)
+  map_tissues<- as.character(map_tissues)
+  map_species<- as.character(map_species)
+  metric_type<- NA_character_
+  converted_id<- data.frame(0)
+  gex<- data.frame(0)
+  metric <- data.frame(0)
+  new("CoSIAn", gene_set=gene_set, i_species=i_species, input_id=input_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, 
+      ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
+}
+
+#constructor for user who is using all of the functions
+CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species, metric_type) {
   gene_set<- as.character(gene_set)
   i_species<-as.character(i_species)
   input_id<-as.character(input_id)
@@ -82,6 +100,26 @@ CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool
   new("CoSIAn", gene_set=gene_set, i_species=i_species, input_id=input_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, 
       ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
 }
+
+#constructor for user who is only doing conversion data
+CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species, metric_type) {
+  gene_set<- as.character(gene_set)
+  i_species<-as.character(i_species)
+  input_id<-as.character(input_id)
+  o_species<- as.character(o_species)
+  o_ids<- as.character(o_ids)
+  map_tissues<- NA_character_
+  map_species<- NA_character_
+  metric_type<- NA_character_
+  converted_id<- data.frame(0)
+  gex<- data.frame(0)
+  metric <- data.frame(0)
+  new("CoSIAn", gene_set=gene_set, i_species=i_species, input_id=input_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, 
+      ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
+}
+
+
+
 
 ## Validity of the CoSIAn Class
 setValidity("CoSIAn", function(object) {
