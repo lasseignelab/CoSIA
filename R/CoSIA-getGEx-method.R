@@ -10,6 +10,7 @@
 setGeneric("getGEx", function(object) standardGeneric("getGEx"))
 #CoSIAn getGEx
 setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
+  #add validity that converted_id is filled in
   id_dataframe<-object@converted_id
   id_dataframe<- as.data.frame(id_dataframe)
   map_species<- object@map_species
@@ -31,8 +32,8 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   id_dataframe<- dplyr::select(id_dataframe,matches(map_species))
   #load EH_Data here (get it off of cheaha soon the EH method will be used to pull the data here)
   return_filtered_Gex_data<- function(map_species){
-    GEx_data<- data.frame(matrix(ncol = 12, nrow = 0))
-    colnames(GEx_data) <- c('Anatomical_entity_name', 'Ensembl_ID', 'Sample_size', 'Minimum_TPM', 'First_Quartile_TPM', 'Median_TPM', 'Third_Quartile_TPM','Maximum_TPM','Standard_Deviation','Experiment_ID','Anatomical_entity_ID','Species')
+    GEx_data<- data.frame(matrix(ncol = 13, nrow = 0))
+    #colnames(GEx_data) <- c('Anatomical_entity_name', 'Ensembl_ID', 'Sample_size','TPM','Experiment_ID','Anatomical_entity_ID','Species')
     if (any(map_species == "m_musculus_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus")
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$m_musculus)
@@ -78,6 +79,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   GEx_data<-lapply(map_species,return_filtered_Gex_data)
   GEx_data<-as.data.frame(do.call(rbind, GEx_data))
   GEx_data <- dplyr::filter(GEx_data, Anatomical_entity_name %in% map_tissues)
+  
   object@gex <- data.frame(GEx_data)
   return(object)
 }
