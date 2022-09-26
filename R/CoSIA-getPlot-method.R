@@ -18,14 +18,27 @@ setGeneric("plotSpeciesGEx", function(object, single_tissue, single_gene) standa
 #'
 #' @examples
 
+plotSpeciesGEx(SGO1_gex,"kidney","ENSG00000129810")
+library(magrittr)
 setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, single_tissue, single_gene) {
   gex_dataframe<-object@gex
   converted_id<-object@converted_id
   gex_dataframe<- as.data.frame(gex_dataframe)
   converted_id<- as.data.frame(converted_id)
+  single_gene<-single_gene
+  #filter converted id for rows with that have the single gene
+  
+  
+  
   map_species<- object@map_species
   single_tissue<- single_tissue
-  list_of_ensembl_ids<- list_of_ensembl_ids
+  single_gene<- single_gene
+  if (converted_id %in% single_gene ){
+    stop("Single gene is not in converted_id. Use getConversions to get the ensembl_id and ortholog_ensembl ids for species in the mapped_species slot")
+  }
+  converted_id<-converted_id %>% dplyr::filter(stringr::str_detect(single_gene))
+  return(converted_id)
+  
   #filter gex_dataframe for single gene and single tissue
   filtered_gex_dataframe<- dplyr::filter(gex_dataframe, Anatomical_entity_name == single_tissue & Ensembl_ID == list_of_ensembl_ids)
   #color palette for plot (we can make this more modifiable)
@@ -33,6 +46,8 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
   palette5 <- RColorBrewer::brewer.pal.info[brewer.pal.info$category == "qual", ]
   color <- unlist(mapply(RColorBrewer::brewer.pal, palette5$maxcolors, rownames(palette5)))
   #build plot
+  
+  
   
   fig <- plotly::plot_ly(filtered_gex_dataframe, x = ~Species, y = ~Median_TPM, type = "scatter", mode = "markers", color = ~Anatomical_entity_name, colors = color) %>%
   

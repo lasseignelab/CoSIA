@@ -236,29 +236,29 @@ d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, orthol
 # Homo sapiens - Humans
 h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
-    Filter_BO_HS <-switch(output_species,
+    Filter_BO_HS <- switch(output_species,
                            c_elegans = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 6239, "hsapiens_gene_ensembl",
-                                                        "drerio_gene_ensembl", ortholog_database)                           },
+                                                        "drerio_gene_ensembl", ortholog_database)},
                            d_melanogaster = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7227, "hsapiens_gene_ensembl",
-                                                        "dmelanogaster_gene_ensembl", ortholog_database)                          },
+                                                        "dmelanogaster_gene_ensembl", ortholog_database)},
                            m_musculus = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 10090, "hsapiens_gene_ensembl",
-                                                        "mmusculus_gene_ensembl", ortholog_database)                           },
+                                                        "mmusculus_gene_ensembl", ortholog_database) },
                            d_rerio = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7955, "hsapiens_gene_ensembl",
-                                                        "drerio_gene_ensembl", ortholog_database)                               },
+                                                        "drerio_gene_ensembl", ortholog_database)},
                            h_sapiens = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 9606, "hsapiens_gene_ensembl",
-                                                        "hsapiens_gene_ensembl", ortholog_database)                           },
+                                                        "hsapiens_gene_ensembl", ortholog_database)},
                            r_norvegicus ={
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 10116, "hsapiens_gene_ensembl",
-                                                        "rnorvegicus_gene_ensembl", ortholog_database)                           },
+                                                        "rnorvegicus_gene_ensembl", ortholog_database)},
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
-                                    organism and is in the correct format.")
-    )
-  }
+                                    organism and is in the correct format."))
+    return(output_data)
+    }
   else if(tool=="annotationDBI"){# code follows this path if the user chooses annotationDBI as their tool of choice
     Filter_AO_HS <- switch(output_species,
                            h_sapiens = {
@@ -280,9 +280,8 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 10116, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Rn.eg.db::org.Rn.eg.db, ortholog_database)                           },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
-                                    organism and is in the correct format.")
-    )
-  }
+                                    organism and is in the correct format."))
+    return(output_data)}
   else{ # code follows this path if the tool that was inputted into the system does not match.
     stop("Error: Invalid tool in CoSIAn Object. Make sure the tool is either annotationDBI or biomaRt.")
   }
@@ -465,11 +464,11 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
       entrez_id_col_name<- paste(input_species,"entrez_id",sep = "_")
       ortholog_data <- ortholog_data %>% dplyr::select(-all_of(entrez_id_col_name))      
       ortho <- AnnotationDbi::select(output_org, keys = as.character(as.matrix(ortholog_data$species_two)), columns = c(output_ids, "ENTREZID"),keytype = "ENTREZID") # next we are going to take the entrezids of the orthologs and return the output values of the gene
-      non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # determine the indices for the non-NA genes
-      ortho <- ortho[non_na, ]  #return only the genes with annotations using indices
-      non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  #determine the indices for the non-duplicated genes
-      ortho <- ortho[non_dups, ]  #return only the non-duplicated genes using indices
-      ortho <- data.frame(ortho)  #make this into a data frame
+      #non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # determine the indices for the non-NA genes
+      #ortho <- ortho[non_na, ]  #return only the genes with annotations using indices
+      #non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  #determine the indices for the non-duplicated genes
+      #ortho <- ortho[non_dups, ]  #return only the non-duplicated genes using indices
+      #ortho <- data.frame(ortho)  #make this into a data frame
       names(ortho)[names(ortho) == "ENTREZID"] <- "species_two"  # set the entrezID into a dataframe
       merged_data_orthologs <- merge.data.frame(data.frame(ortho), data.frame(ortholog_data), by = "species_two")  #merge the ortholog conversion dataframe with the merge dataframe
       colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "species_two")] <- paste(output_species,"entrez_id",sep = "_")
@@ -505,11 +504,11 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
       colnames(merged_data)[which(names(merged_data) == "GENENAME")] <- paste(input_species, "gene_name", sep = "_")  #changes name to more formal names
       ortho <- AnnotationDbi::select(output_org, keys = as.character(as.matrix(merged_data$species_two)), columns = output_ids,
                                      keytype = "ENTREZID")  # now that you have the entrezids of the converted species we can convert to different gene identifiers
-      non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-NA genes
-      ortho <- ortho[non_na, ]  # Return only the genes with annotations using indices
-      non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-duplicated genes
-      ortho <- ortho[non_dups, ]  # Return only the non-duplicated genes using indices
-      ortho <- data.frame(ortho)  # make the ortholog conversion into a dataframe
+      #non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-NA genes
+      #ortho <- ortho[non_na, ]  # Return only the genes with annotations using indices
+      #non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-duplicated genes
+      #ortho <- ortho[non_dups, ]  # Return only the non-duplicated genes using indices
+      #ortho <- data.frame(ortho)  # make the ortholog conversion into a dataframe
       names(ortho)[names(ortho) == "ENTREZID"] <- "species_two"  #rename the species into species two in order to merge the orthologs and the original data
       merged_data_ortholog <- merge.data.frame(data.frame(ortho), data.frame(merged_data), by = "species_two")  # merge
       colnames(merged_data_ortholog)[names(merged_data_ortholog) == "species_two"] <- paste(output_species, "entrez_id", sep = "_")  #changes name to more formal names
