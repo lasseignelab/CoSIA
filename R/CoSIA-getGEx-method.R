@@ -32,41 +32,49 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   id_dataframe<- dplyr::select(id_dataframe,matches(map_species))
   #load EH_Data here (get it off of cheaha soon the EH method will be used to pull the data here)
   return_filtered_Gex_data<- function(map_species){
-    GEx_data<- data.frame(matrix(ncol = 13, nrow = 0))
-    #colnames(GEx_data) <- c('Anatomical_entity_name', 'Ensembl_ID', 'Sample_size','TPM','Experiment_ID','Anatomical_entity_ID','Species')
+    GEx_data<- data.frame(matrix(ncol = 7, nrow = 0))
+    colnames(GEx_data) <- c('Anatomical_entity_name', 'Ensembl_ID', 'Sample_size','TPM','Experiment_ID','Anatomical_entity_ID','Species')
+    
     if (any(map_species == "m_musculus_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus")
-      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$m_musculus)
+      m_ensembl_id<- id_dataframe$m_musculus
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% m_ensembl_id)
+      #gene_specific_data<-gene_specific_data %>% summarise(Sample_size = n(), Minimum_TPM = min(TPM), First_Quartile_TPM = quantile(TPM,0.25), Median_TPM = median(TPM), Third_Quartile_TPM = quantile(TPM,0.75),Maximum_TPM = max(TPM), Standard_Deviation = sd(TPM), TPM = paste(unique(TPM), collapse = ', '), Experiment_ID = paste(unique(Experiment.ID), collapse = ', '))
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
     else if (any(map_species == "r_norvegicus_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Rattus_norvegicus")
-      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$r_norvegicus)
+      r_ensembl_id<- id_dataframe$r_norvegicus
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% r_ensembl_id)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
     else if (any(map_species == "d_rerio_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Danio_rerio")
-      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$d_rerio)
+      dr_ensembl_id<- id_dataframe$id_dataframe$d_rerio
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% dr_ensembl_id)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
     else if (any(map_species == "h_sapiens_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Homo_sapiens")
-      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$h_sapiens)
+      hs_ensembl_id<- id_dataframe$h_sapiens
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% hs_ensembl_id)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
     else if (any(map_species == "c_elegans_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Caenorhabditis_elegans")
-      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$c_elegans)
+      c_ensembl_id<- id_dataframe$c_elegans
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% c_ensembl_id)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
     else if (any(map_species == "d_melanogaster_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Drosophila_melanogaster")
-      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID == id_dataframe$d_melanogaster)
+      dm_ensembl_id<- id_dataframe$d_melanogaster
+      gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% dm_ensembl_id)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
@@ -82,5 +90,4 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   
   object@gex <- data.frame(GEx_data)
   return(object)
-}
-)
+})

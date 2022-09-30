@@ -18,16 +18,15 @@ setGeneric("plotSpeciesGEx", function(object, single_tissue, single_gene) standa
 #'
 #' @examples
 
-plotSpeciesGEx(SGO1_gex,"kidney","ENSG00000129810")
-library(magrittr)
 setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, single_tissue, single_gene) {
   gex_dataframe<-object@gex
-  converted_id<-object@converted_id
   gex_dataframe<- as.data.frame(gex_dataframe)
+  converted_id<-object@converted_id
   converted_id<- as.data.frame(converted_id)
-  single_gene<-single_gene
-  #filter converted id for rows with that have the single gene
+  filter_ids<-dplyr::select(converted_id, ends_with("ensembl_id"))
+  filter_ids %>% tibble::as_tibble() %>% dplyr::filter_all(any_vars(. %in% single_gene))
   
+  return(filter_ids)
   
   
   map_species<- object@map_species
