@@ -11,6 +11,25 @@
 setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
 #CoSIAn getGEx
 setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
+  # don't depend of the gex data
+  # pull the object
+  # EH data pull 
+  # CV, Diversity, Specificity
+  
+  #CV_Tissues and CV_Species
+    #std/median
+    #tissues (multiple tissues that are given)
+    #species (calculate across) calculate that before hand
+    
+  #Diversity_Tissue and Specificity_Tissue
+    #Calculate the Entropy and specificity for each gene in that tissue in that species across all the genes in that tissue in that species
+    #we can precalculate this in EH
+
+    
+  
+  
+  
+  
   expression_dataframe<-object@gex
   expression_dataframe<- as.data.frame(expression_dataframe)
   metric_type<- object@metric_type
@@ -22,7 +41,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     #     if(na.rm) x <- x[!is.na(x)]
     #     if(any(x < 0)) #changed this from <= to < 
     #       stop("Your data must be greater than zero!")
-    #     sd(x, na.rm = FALSE)/mean(x)
+    #     sd(x, na.rm = FALSE)/median(x)
     #   }
     #   CV<-expression_dataframe %>% group_by(Gene.ID_Tissue) %>% summarise(SUM = sum(TPM),Sample_Size = n(),Median = median(TPM), CV = CV_function(TPM, na.rm=FALSE))
      }
