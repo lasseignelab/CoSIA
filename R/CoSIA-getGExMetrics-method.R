@@ -96,8 +96,8 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   })
   Metric<- Metric_SWITCH(metric_type)
   Metric<- as.data.frame(Metric)
-  columns_to_remove <- grep(".1", names(Metric))
-  Metric %>% select(-all_of(contains(columns_to_remove)))
+  columns_to_remove <- grep("*.1", colnames(Metric))
+  Metric %>% select(-all_of((columns_to_remove)))
   object@metric<-Metric
   return(object)
 }) 
