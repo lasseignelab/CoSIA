@@ -63,20 +63,43 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
     filter_gex<-tidyr::separate_rows(filter_gene, TPM)
     filter_gex$TPM <- as.numeric(filter_gex$TPM)
-    filter_gex$Gene.ID_Tissue <- paste(filter_gex$Ensembl_ID, filter_gex$Anatomical_entity_name, sep = "_")
-    CV_Tissue<-filter_gex %>% group_by(Gene.ID_Tissue) %>% summarise(CV = CV_function(TPM, na.rm=FALSE))
-    dplyr::full_join(CV_Tissue,filter_gex)
-    return(CV_Tissue)
-    } 
-  
-  if (metric_type == "CV_Tissue"){
-    CV_Tissue<-CV_Tissue(map_species,map_tissues)
+    CV_Tissue<-filter_gex %>% group_by(Ensembl_ID,Anatomical_entity_name,Species,Sample_size, Experiment_ID, Anatomical_entity_ID) %>% summarise(CV_Tissue = CV_function(TPM, na.rm=FALSE))
     return(CV_Tissue)
   }
-  else {
-    stop("Error: Invalid metric_type in CoSIAn Object. Make sure the value given in the metric_type slot are avalible and in the correct format.")
+  
+  CV_Species <- function(map_species, map_tissues){
+    filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
+    id<-as.vector(t(id_dataframe))
+    filter_gene <- dplyr::filter(filter_species,Ensembl_ID %in% id)
+    filter_gex<-tidyr::separate_rows(filter_gene, TPM)
+    filter_gex$TPM <- as.numeric(filter_gex$TPM)
+    CV_Species<-filter_gex %>% group_by(Ensembl_ID,Species) %>% summarise(CV_Species = CV_function(TPM, na.rm=FALSE))
+    return(CV_Species)
   }
   
+  Metric<- data.frame(matrix(ncol = 1, nrow = 0))
+  colnames(Metric) <- 'Ensembl_ID'
+  Metric$Ensembl_ID<-as.character(Metric$Ensembl_ID)
+  
+  Metric_SWITCH <- Vectorize(vectorize.args = "metric_type", USE.NAMES = FALSE,FUN = function(metric_type) {
+    if (metric_type %in% "CV_Tissue"){
+      CV_Tissue<-CV_Tissue(map_species,map_tissues)
+      Metric<- Metric %>% full_join(CV_Tissue)
+    }
+    else if (metric_type %in% "CV_Species"){
+      CV_Species<-CV_Species(map_species,map_tissues)
+      Metric<- Metric %>% full_join(CV_Species)
+    }
+    else {
+      stop("Error: Invalid metric_type in CoSIAn Object. Make sure the value given in the metric_type slot are avalible and in the correct format.")
+    }
+  })
+  Metric<- Metric_SWITCH(metric_type)
+  Metric<- as.data.frame(Metric)
+  columns_to_remove <- grep(".1", names(Metric))
+  Metric %>% select(-all_of(contains(columns_to_remove)))
+  object@metric<-Metric
+  return(object)
 }) 
     
     
