@@ -30,6 +30,8 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
   filter_gex<-filter_gex[filter_gex$Anatomical_entity_name %in% single_tissue, ]
   filter_gex<-tidyr::separate_rows(filter_gex, TPM)
   filter_gex$TPM <- as.numeric(filter_gex$TPM)
+  median <- filter_gex %>% group_by(Anatomical_entity_name,Ensembl_ID,Species) %>% summarise(Median = median(TPM))
+  filter_gex<- filter_gex%>% full_join(median)
   #add some validation methods here : check and make sure that the tissue is in gex the species in mapped species are in gex and that the single gene has been converted
   #color palette for plot (we can make this more modifiable)
   brewer.pal.info <- RColorBrewer::brewer.pal.info
@@ -45,7 +47,7 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
       colors = color
     ) %>%
     plotly::add_markers(x = ~Species, 
-                        y = ~median(TPM), 
+                        y = ~Median, 
                         marker = list(symbol = "line-ew", 
                                       size = 20, 
                                       line = list(color = "grey"
@@ -56,7 +58,7 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
                       showlegend = F)
   
   fig <- fig %>%
-    plotly::add_trace(type = "violin", 
+    plotly::add_trace(type = "violin", spanmode = "hard",
                       showlegend = F)
   fig <- fig %>%
     plotly::layout(xaxis = list(title = "Anatomical Entity Name", size = 2), 
@@ -113,6 +115,8 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
   filter_gex<-filter_gex[filter_gex$Species %in% single_species, ]
   filter_gex<-tidyr::separate_rows(filter_gex, TPM)
   filter_gex$TPM <- as.numeric(filter_gex$TPM)
+  median <- filter_gex %>% group_by(Anatomical_entity_name,Ensembl_ID,Species) %>% summarise(Median = median(TPM))
+  filter_gex<- filter_gex%>% full_join(median)
   #add some validation methods here : check and make sure that the tissue is in gex the species in mapped species are in gex and that the single gene has been converted
   #color palette for plot (we can make this more modifiable)
   brewer.pal.info <- RColorBrewer::brewer.pal.info
@@ -128,7 +132,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
       colors = color
     ) %>%
     plotly::add_markers(x = ~Anatomical_entity_name, 
-                        y = ~median(TPM), 
+                        y = ~Median, 
                         marker = list(symbol = "line-ew", 
                                       size = 20, 
                                       line = list(color = "grey"
@@ -139,7 +143,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
                       showlegend = F)
   
   fig <- fig %>%
-    plotly::add_trace(type = "violin", 
+    plotly::add_trace(type = "violin", spanmode = "hard",
                       showlegend = F)
   fig <- fig %>%
     plotly::layout(xaxis = list(title = "Anatomical Entity Name", size = 2), 
