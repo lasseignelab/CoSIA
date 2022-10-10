@@ -77,41 +77,63 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     return(CV_Species)
   }
   
-  #Diversity - Entropy
-  Diversity_Tissue<-function(map_species, map_tissues){
-    #DS Gene : output genes restricted by mapped tissues and gene set 
-      # subset for these restriction and then run entropy
+  DS_Gene<- function(map_species, map_tissues){
+    filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
+    filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
+    id<-as.vector(t(id_dataframe))
+    filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
+    filter_gex<-tidyr::separate_rows(filter_gene, TPM)
+    filter_gex$TPM <- as.numeric(filter_gex$TPM)
+    return(filter_gex)
+  }
+  
+  #Diversity and Specificity
+    #DS_Gene : output genes restricted by mapped tissues and gene set 
+    # subset for these restriction and then run entropy
     #DS_Gene_All: outputs genes only restricted to selected genes across all tissues
     #DS_Tissues: output is tissues restricted to mapped tissues and gene set
     #DS_Tissues_All: output is tissues restricted to mapped tissues across all genes
     #make a column for species and then put the species below in indivual rows
     #make complex heat maps for each species (diversity)
-    
+  
+  
+  # Metric<- data.frame(matrix(ncol = 1, nrow = 0))
+  # colnames(Metric) <- 'Ensembl_ID'
+  # Metric$Ensembl_ID<-as.character(Metric$Ensembl_ID)
+  # 
+  # Metric_SWITCH <- Vectorize(vectorize.args = "metric_type", USE.NAMES = FALSE,FUN = function(metric_type) {
+  #   if (metric_type %in% "CV_Tissue"){
+  #     CV_Tissue<-CV_Tissue(map_species,map_tissues)
+  #     Metric<- Metric %>% full_join(CV_Tissue)
+  #   }
+  #   else if (metric_type %in% "CV_Species"){
+  #     CV_Species<-CV_Species(map_species,map_tissues)
+  #     Metric<- Metric %>% full_join(CV_Species)
+  #   }
+  #   else {
+  #     stop("Error: Invalid metric_type in CoSIAn Object. Make sure the value given in the metric_type slot are avalible and in the correct format.")
+  #   }
+  # })
+  # Metric<- Metric_SWITCH(metric_type)
+  # Metric<- as.data.frame(Metric)
+  # columns_to_remove <- grep("*.1", colnames(Metric))
+  # Metric %>% select(-all_of((columns_to_remove)))
+  #object@metric<-Metric
+  
+  if(metric_type == "CV_Tissue"){
+    CV_Tissue<-CV_Tissue(map_species,map_tissues)
+    object@CV<-CV_Tissue
   }
-  
-  Metric<- data.frame(matrix(ncol = 1, nrow = 0))
-  colnames(Metric) <- 'Ensembl_ID'
-  Metric$Ensembl_ID<-as.character(Metric$Ensembl_ID)
-  
-  Metric_SWITCH <- Vectorize(vectorize.args = "metric_type", USE.NAMES = FALSE,FUN = function(metric_type) {
-    if (metric_type %in% "CV_Tissue"){
-      CV_Tissue<-CV_Tissue(map_species,map_tissues)
-      Metric<- Metric %>% full_join(CV_Tissue)
-    }
-    else if (metric_type %in% "CV_Species"){
-      CV_Species<-CV_Species(map_species,map_tissues)
-      Metric<- Metric %>% full_join(CV_Species)
-    }
-    else {
-      stop("Error: Invalid metric_type in CoSIAn Object. Make sure the value given in the metric_type slot are avalible and in the correct format.")
-    }
-  })
-  Metric<- Metric_SWITCH(metric_type)
-  Metric<- as.data.frame(Metric)
-  columns_to_remove <- grep("*.1", colnames(Metric))
-  Metric %>% select(-all_of((columns_to_remove)))
-  object@metric<-Metric
-  return(object)
+  else if(metric_type == "CV_Species"){
+    CV_Species<-CV_Species(map_species,map_tissues)
+    object@CV<-CV_Species
+  }
+  else if(metric_type == "DS_Gene"){
+    DS_Gene<-DS_Gene(map_species,map_tissues)
+    object@DS<-DS_Gene
+  }
+    
+return(object)
 }) 
     
     
