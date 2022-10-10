@@ -153,7 +153,7 @@ d_melanogaster<-function(input_id,input_dataset,output_ids,output_species, tool,
                            r_norvegicus ={
                              output_data<-CoSIA::annotationDBI(input_id,input_dataset,output_ids,input_species="d_melanogaster",output_species,10116, org.Dm.eg.db::org.Dm.eg.db , org.Rn.eg.db::org.Rn.eg.db, ortholog_database)
                            },
-                           danio_rerio = {
+                           d_rerio = {
                              output_data<-CoSIA::annotationDBI(input_id,input_dataset,output_ids,input_species="d_melanogaster",output_species,7955, org.Dm.eg.db::org.Dm.eg.db , org.Dr.eg.db::org.Dr.eg.db, ortholog_database)
                            },
                            c_elegans = {
@@ -325,7 +325,7 @@ m_musculus<-function(input_id,input_dataset,output_ids,output_species, tool, ort
                            d_melanogaster = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 7227, org.Mm.eg.db::org.Mm.eg.db,
                                                                org.Dm.eg.db::org.Dm.eg.db, ortholog_database)                           },
-                           danio_rerio = {
+                           d_rerio = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "m_musculus", output_species, 7955, org.Mm.eg.db::org.Mm.eg.db,
                                                                org.Dr.eg.db::org.Dr.eg.db, ortholog_database)                           },
                            c_elegans = {
