@@ -77,6 +77,18 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     return(CV_Species)
   }
   
+  #Diversity - Entropy
+  Diversity_Tissue<-function(map_species, map_tissues){
+    #DS Gene : output genes restricted by mapped tissues and gene set 
+      # subset for these restriction and then run entropy
+    #DS_Gene_All: outputs genes only restricted to selected genes across all tissues
+    #DS_Tissues: output is tissues restricted to mapped tissues and gene set
+    #DS_Tissues_All: output is tissues restricted to mapped tissues across all genes
+    #make a column for species and then put the species below in indivual rows
+    #make complex heat maps for each species (diversity)
+    
+  }
+  
   Metric<- data.frame(matrix(ncol = 1, nrow = 0))
   colnames(Metric) <- 'Ensembl_ID'
   Metric$Ensembl_ID<-as.character(Metric$Ensembl_ID)
