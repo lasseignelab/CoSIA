@@ -84,6 +84,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
     filter_gex<-tidyr::separate_rows(filter_gene, TPM)
     filter_gex$TPM <- as.numeric(filter_gex$TPM)
+    filter_gex<- 
     return(filter_gex)
   }
   
@@ -122,15 +123,15 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   
   if(metric_type == "CV_Tissue"){
     CV_Tissue<-CV_Tissue(map_species,map_tissues)
-    object@CV<-CV_Tissue
+    object@cv<-CV_Tissue
   }
   else if(metric_type == "CV_Species"){
     CV_Species<-CV_Species(map_species,map_tissues)
-    object@CV<-CV_Species
+    object@cv<-CV_Species
   }
   else if(metric_type == "DS_Gene"){
     DS_Gene<-DS_Gene(map_species,map_tissues)
-    object@DS<-DS_Gene
+    object@ds<-DS_Gene
   }
     
 return(object)
