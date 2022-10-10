@@ -97,7 +97,7 @@ c_elegans<-function(input_id,input_dataset,output_ids,output_species, tool, orth
                            r_norvegicus ={
                              output_data<-CoSIA::annotationDBI(input_id,input_dataset,output_ids,input_species="c_elegans",output_species,10116, org.Ce.eg.db::org.Ce.eg.db , org.Rn.eg.db::org.Rn.eg.db,ortholog_database)
                            },
-                           danio_rerio = {
+                           d_rerio = {
                              output_data<-CoSIA::annotationDBI(input_id,input_dataset,output_ids,input_species="c_elegans",output_species,7955, org.Ce.eg.db::org.Ce.eg.db , org.Dr.eg.db::org.Dr.eg.db, ortholog_database)
                            },
                            c_elegans = {
@@ -171,7 +171,7 @@ d_melanogaster<-function(input_id,input_dataset,output_ids,output_species, tool,
   }
 }
 
-# Danio_Rerio - Zebrafish
+# d_rerio - Zebrafish
 
 d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, ortholog_database) { #input data funneling in from the cross species conversion function
   if (tool=="biomaRt"){ # if the user has choose the tool biomart this it the path the codes follows
@@ -215,7 +215,7 @@ d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, orthol
                            d_melanogaster = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 7227, org.Dr.eg.db::org.Dr.eg.db,
                                                                org.Dm.eg.db::org.Dm.eg.db, ortholog_database)                           },
-                           danio_rerio = {
+                           d_rerio = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 7955, org.Dr.eg.db::org.Dr.eg.db,
                                                                org.Dr.eg.db::org.Dr.eg.db, ortholog_database)                           },
                            c_elegans = {
@@ -270,7 +270,7 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
                            d_melanogaster = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7227, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Dm.eg.db::org.Dm.eg.db, ortholog_database)                           },
-                           danio_rerio = {
+                           d_rerio = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7955, org.Hs.eg.db::org.Hs.eg.db,
                                                                org.Dr.eg.db::org.Dr.eg.db, ortholog_database)                           },
                            c_elegans = {
@@ -381,7 +381,7 @@ r_norvegicus<-function(input_id,input_dataset,output_ids,output_species, tool, o
                            d_melanogaster = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "r_norvegicus", output_species, 7227, org.Rn.eg.db::org.Rn.eg.db,
                                                                org.Dm.eg.db::org.Dm.eg.db, ortholog_database)                           },
-                           danio_rerio = {
+                           d_rerio = {
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "r_norvegicus", output_species, 7955, org.Rn.eg.db::org.Rn.eg.db,
                                                                org.Dr.eg.db::org.Dr.eg.db, ortholog_database)                           },
                            c_elegans = {
