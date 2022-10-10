@@ -15,8 +15,8 @@ setClass("CoSIA", representation("VIRTUAL"))  # virtual class
 #' @slot map_species character. A list of species being investigated. 
 #' @slot gex data frame. Output of gene expression data.
 #' @slot metric_type character. A list of possible metric the user wants to calculate.
-#' @slot CV data frame. Output of coefficient of variation of gene expression data.
-#' @slot DS data frame. Output of diversity and specificity of gene expression data.
+#' @slot cv data frame. Output of coefficient of variation of gene expression data.
+#' @slot ds data frame. Output of diversity and specificity of gene expression data.
 #' @exportClass CoSIAn
 setClass("CoSIAn",contains = "CoSIA",
          slots = c(
@@ -32,9 +32,8 @@ setClass("CoSIAn",contains = "CoSIA",
            map_species = "character",
            gex = "data.frame",
            metric_type = "character",
-           metric = "data.frame",
-           CV <- "data.frame",
-           DS <- "data.frame",
+           cv = "data.frame",
+           ds = "data.frame"
          ),
          prototype = list(
            gene_set = NA_character_,
@@ -49,9 +48,8 @@ setClass("CoSIAn",contains = "CoSIA",
            map_species = NA_character_,
            gex = data.frame(0),
            metric_type = NA_character_,
-           metric = data.frame(0),
-           CV <- data.frame(0),
-           DS <- data.frame(0)
+           cv = data.frame(0),
+           ds = data.frame(0)
          )
 )
 
@@ -85,10 +83,10 @@ CoSIAn <- function(gene_set, i_species, input_id, o_species, o_ids, mapping_tool
   metric_type<- as.character(metric_type)
   converted_id<- data.frame(0)
   gex<- data.frame(0)
-  CV <- data.frame(0)
-  DS <- data.frame(0)
+  cv <- data.frame(0)
+  ds <- data.frame(0)
   new("CoSIAn", gene_set=gene_set, i_species=i_species, input_id=input_id, o_species=o_species, o_ids=o_ids, mapping_tool=mapping_tool, 
-      ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
+      ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,cv = cv, ds = ds)
 }
 
 
