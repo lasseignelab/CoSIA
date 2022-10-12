@@ -76,21 +76,67 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     CV_Species<-filter_gex %>% group_by(Ensembl_ID,Species) %>% summarise(CV_Species = CV_function(TPM, na.rm=FALSE))
     return(CV_Species)
   }
-  
+  #DS_Gene : output genes restricted by mapped tissues and gene set 
   DS_Gene<- function(map_species, map_tissues){
     filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
     filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
     id<-as.vector(t(id_dataframe))
     filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
-    filter_gex<-tidyr::separate_rows(filter_gene, TPM)
-    filter_gex$TPM <- as.numeric(filter_gex$TPM)
-    filter_gex<- 
-    return(filter_gex)
+    filter_gene$TPM <- as.numeric(filter_gene$Median_TPM)
+    filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_TPM, Ensembl_ID)
+    filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Median_TPM)
+    filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
+    filter_gex_D<- data.matrix(filter_gex_D, )
+    ENTROPY_DIVERSITY_G<-data.frame(entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
+    colnames(ENTROPY_DIVERSITY_G)[which(names(ENTROPY_DIVERSITY_G) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
+    
+    filter_gex<- data.frame(filter_gex)
+    filter_gex_S<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_TPM)
+    filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Ensembl_ID")
+    filter_gex_S<- data.matrix(filter_gex_S, )
+    ENTROPY_SPECIFITY_G<-data.frame(entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
+    colnames(ENTROPY_SPECIFITY_G)[which(names(ENTROPY_SPECIFITY_G) == "entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
+    
+    DS <- merge(ENTROPY_SPECIFITY_G, ENTROPY_DIVERSITY_G, by = 'row.names')
+    colnames(DS)[which(names(DS) == "Row.names")] <- "Ensembl_ID"
+    DS$Ensembl_ID <- as.character(DS$Ensembl_ID)
+    Species<-dplyr::select(filter_gene, Species, Ensembl_ID)
+    DS <- merge(DS, Species, by = 'Ensembl_ID')
+    DS<-data.frame(unique(DS))
+    return(DS)
+  }
+  #DS_Tissues: output is tissues restricted to mapped tissues and gene set
+  DS_Tissue<- function(map_species, map_tissues){
+    filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
+    filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
+    id<-as.vector(t(id_dataframe))
+    filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
+    filter_gene$TPM <- as.numeric(filter_gene$Median_TPM)
+    filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_TPM, Ensembl_ID)
+    filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Anatomical_entity_name, values_from = Median_TPM)
+    filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
+    filter_gex_D<- data.matrix(filter_gex_D, )
+    ENTROPY_DIVERSITY_T<-data.frame(entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
+    colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
+    
+    filter_gex<- data.frame(filter_gex)
+    filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_TPM)
+    filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Anatomical_entity_name")
+    filter_gex_S<- data.matrix(filter_gex_S, )
+    ENTROPY_SPECIFITY_T<-data.frame(entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
+    colnames(ENTROPY_SPECIFITY_T)[which(names(ENTROPY_SPECIFITY_T) == "entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
+    
+    DS <- merge(ENTROPY_SPECIFITY_T, ENTROPY_DIVERSITY_T, by = 'row.names')
+    colnames(DS)[which(names(DS) == "Row.names")] <- "Ensembl_ID"
+    DS$Ensembl_ID <- as.character(DS$Ensembl_ID)
+    Species<-dplyr::select(filter_gene, Species, Ensembl_ID)
+    DS <- merge(DS, Species, by = 'Ensembl_ID')
+    DS<-data.frame(unique(DS))
+    return(DS)
   }
   
   #Diversity and Specificity
-    #DS_Gene : output genes restricted by mapped tissues and gene set 
-    # subset for these restriction and then run entropy
+    
     #DS_Gene_All: outputs genes only restricted to selected genes across all tissues
     #DS_Tissues: output is tissues restricted to mapped tissues and gene set
     #DS_Tissues_All: output is tissues restricted to mapped tissues across all genes
