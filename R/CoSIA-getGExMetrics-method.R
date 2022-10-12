@@ -63,7 +63,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
     filter_gex<-tidyr::separate_rows(filter_gene, TPM)
     filter_gex$TPM <- as.numeric(filter_gex$TPM)
-    CV_Tissue<-filter_gex %>% group_by(Ensembl_ID,Anatomical_entity_name,Species,Sample_size, Experiment_ID, Anatomical_entity_ID) %>% summarise(CV_Tissue = CV_function(TPM, na.rm=FALSE))
+    CV_Tissue<-filter_gex %>% group_by(Ensembl_ID,Anatomical_entity_name,Species) %>% summarise(CV_Tissue = CV_function(TPM, na.rm=FALSE))
     return(CV_Tissue)
   }
   
@@ -76,13 +76,18 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     CV_Species<-filter_gex %>% group_by(Ensembl_ID,Species) %>% summarise(CV_Species = CV_function(TPM, na.rm=FALSE))
     return(CV_Species)
   }
+  
+  #DS_Gene_all: outputs genes only restricted to selected genes across all tissues
+  DS_Gene_all<- function(map_species, map_tissues){
+    
+  }
   #DS_Gene : output genes restricted by mapped tissues and gene set 
   DS_Gene<- function(map_species, map_tissues){
     filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
     filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
     id<-as.vector(t(id_dataframe))
     filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
-    filter_gene$TPM <- as.numeric(filter_gene$Median_TPM)
+    filter_gene$Median_TPM <- as.numeric(filter_gene$Median_TPM)
     filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_TPM, Ensembl_ID)
     filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Median_TPM)
     filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
@@ -103,43 +108,48 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     Species<-dplyr::select(filter_gene, Species, Ensembl_ID)
     DS <- merge(DS, Species, by = 'Ensembl_ID')
     DS<-data.frame(unique(DS))
+    rownames(DS) <- NULL
     return(DS)
+  }
+  #DS_Tissues_All: output is tissues restricted to mapped tissues across all genes
+  DS_Tissue_all<- function(map_species, map_tissues){
+    
   }
   #DS_Tissues: output is tissues restricted to mapped tissues and gene set
   DS_Tissue<- function(map_species, map_tissues){
     filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
     filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
+    filter_tissue$Species_Anatomical_entity_name <- paste(filter_tissue$Species, filter_tissue$Anatomical_entity_name, sep = "_")
     id<-as.vector(t(id_dataframe))
     filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
-    filter_gene$TPM <- as.numeric(filter_gene$Median_TPM)
-    filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_TPM, Ensembl_ID)
-    filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Anatomical_entity_name, values_from = Median_TPM)
+    filter_gene$Median_TPM <- as.numeric(filter_gene$Median_TPM)
+    
+    filter_gex<- dplyr::select(filter_gene, Species_Anatomical_entity_name, Median_TPM, Ensembl_ID)
+    filter_gex_D<- filter_gex%>% pivot_wider(names_from = Species_Anatomical_entity_name, values_from = Median_TPM)
     filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
-    filter_gex_D<- data.matrix(filter_gex_D, )
+    filter_gex_D<-data.frame(filter_gex_D)
+    #filter_gex_D<- data.matrix(filter_gex_D, )
+    
     ENTROPY_DIVERSITY_T<-data.frame(entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
     colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
     
     filter_gex<- data.frame(filter_gex)
     filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_TPM)
-    filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Anatomical_entity_name")
+    filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Species_Anatomical_entity_name")
     filter_gex_S<- data.matrix(filter_gex_S, )
     ENTROPY_SPECIFITY_T<-data.frame(entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
     colnames(ENTROPY_SPECIFITY_T)[which(names(ENTROPY_SPECIFITY_T) == "entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
     
     DS <- merge(ENTROPY_SPECIFITY_T, ENTROPY_DIVERSITY_T, by = 'row.names')
-    colnames(DS)[which(names(DS) == "Row.names")] <- "Ensembl_ID"
-    DS$Ensembl_ID <- as.character(DS$Ensembl_ID)
-    Species<-dplyr::select(filter_gene, Species, Ensembl_ID)
-    DS <- merge(DS, Species, by = 'Ensembl_ID')
+    colnames(DS)[which(names(DS) == "Row.names")] <- "Species_Anatomical_entity_name"
+    DS$Species_Anatomical_entity_name <- as.character(DS$Species_Anatomical_entity_name)
     DS<-data.frame(unique(DS))
-    return(DS)
+    rownames(DS) <- NULL
+    return(filter_gex_D)
   }
+
   
   #Diversity and Specificity
-    
-    #DS_Gene_All: outputs genes only restricted to selected genes across all tissues
-    #DS_Tissues: output is tissues restricted to mapped tissues and gene set
-    #DS_Tissues_All: output is tissues restricted to mapped tissues across all genes
     #make a column for species and then put the species below in indivual rows
     #make complex heat maps for each species (diversity)
   
@@ -169,17 +179,29 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   
   if(metric_type == "CV_Tissue"){
     CV_Tissue<-CV_Tissue(map_species,map_tissues)
-    object@cv<-CV_Tissue
+    object@metric<-CV_Tissue
   }
   else if(metric_type == "CV_Species"){
     CV_Species<-CV_Species(map_species,map_tissues)
-    object@cv<-CV_Species
+    object@metric<-CV_Species
   }
   else if(metric_type == "DS_Gene"){
     DS_Gene<-DS_Gene(map_species,map_tissues)
-    object@ds<-DS_Gene
+    object@metric<-DS_Gene
   }
-    
+  else if(metric_type == "DS_Tissue"){
+    DS_Tissue<-DS_Tissue(map_species,map_tissues)
+    object@metric<-DS_Tissue
+  }
+  else if(metric_type == "DS_Gene_all"){
+    DS_Gene_all<-DS_Gene_all(map_species,map_tissues)
+    #object@metric<-DS_Gene_all
+  }
+  else if(metric_type == "DS_Tissue_all"){
+    DS_Tissue_all<-DS_Tissue_all(map_species,map_tissues)
+    #object@metric<-DS_Tissue_all
+  } 
+  
 return(object)
 }) 
     
