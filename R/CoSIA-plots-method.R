@@ -148,7 +148,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
   fig <- fig %>%
     plotly::layout(xaxis = list(title = "Anatomical Entity Name", size = 2), 
                    yaxis = list(title = "TPM (transcript per million)",zeroline = F),
-                   title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_species , "across species" , sep = " ")),
+                   title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_species , "across tissues" , sep = " ")),
                    showlegend = FALSE)
   
   return(fig)
