@@ -151,7 +151,37 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   }
   #DS_Tissues_All: output is tissues restricted to mapped tissues across all genes
   DS_Tissue_all<- function(map_species, map_tissues){
-    
+    DS<-data.frame(matrix(ncol = 4, nrow = 0))
+    colnames(DS)[which(names(DS) == "map_tissues")] <- "Anatomical_entity_name"
+    for (x in 1:length(map_species)){
+      filter_species <- dplyr::filter(Experimental_Hub_File,Species == map_species[x])
+      filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
+      filter_tissue$Median_TPM <- as.numeric(filter_tissue$Median_TPM)
+      filter_gex<- dplyr::select(filter_tissue, Anatomical_entity_name, Median_TPM, Ensembl_ID)
+      
+      filter_gex_D<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_TPM)
+      filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
+      filter_gex_D<- data.frame(filter_gex_D, )
+      ENTROPY_DIVERSITY_T<-data.frame(entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
+      colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
+      
+      filter_gex<- data.frame(filter_gex)
+      filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_TPM)
+      filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Anatomical_entity_name")
+      filter_gex_S<- data.matrix(filter_gex_S, )
+      ENTROPY_SPECIFITY_T<-data.frame(entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
+      colnames(ENTROPY_SPECIFITY_T)[which(names(ENTROPY_SPECIFITY_T) == "entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
+      
+      SDS <- merge(ENTROPY_SPECIFITY_T, ENTROPY_DIVERSITY_T, by = 'row.names')
+      colnames(SDS)[which(names(SDS) == "Row.names")] <- "Anatomical_entity_name"
+      SDS$Anatomical_entity_name <- as.character(SDS$Anatomical_entity_name)
+      Species<-dplyr::select(filter_tissue, Species, Anatomical_entity_name)
+      SDS <- merge(SDS, Species, by = 'Anatomical_entity_name')
+      DS <- rbind(DS,SDS)
+    }
+    DS<-data.frame(unique(DS))
+    rownames(DS) <- NULL
+    return(DS)
   }
   #Diversity and Specificity
     #make a column for species and then put the species below in indivual rows
