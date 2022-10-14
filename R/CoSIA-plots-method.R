@@ -154,5 +154,98 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
   return(fig)
 })
 
+
+#' plotDSGEx Generic
+#'
+#' @param object
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+setGeneric("plotDSGEx", function(object) standardGeneric("plotDSGEx"))
+
+
+#' plotDSGEx Method
+#'
+#' @param object CoSIAn. 
+#'
+#' @return 
+#' @export
+#'
+#' @examples
+
+setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
+  metric_type<- object@metric_type
+  df_metric<-object@metric
+  if (metric_type == "DS_Gene"){
+    cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#882255", "#661100", "#117733", "#6699CC", "#888888") #make these colors color blind friendly
+    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Species))
+    DS_plot<-DS_plot+
+      geom_point(size =3, aes(shape=Ensembl_ID))+
+      scale_color_manual(values = cols)+
+      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Ensembl_Ids")+
+      theme_classic()
+  }
+  else if (metric_type == "DS_Tissue"){
+    cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#117733","#882255", "#661100", "#6699CC", "#888888") #make these colors color blind friendly
+    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Anatomical_entity_name))
+    DS_plot<-DS_plot+
+      geom_point(size =3, aes(shape=Species))+
+      scale_color_manual(values = cols)+
+      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Anatomical Entity Names")+
+      theme_classic()
+  }
+  else{
+    stop("Error: Invalid metric type for plotDS make sure you have a DS argument as the metric type and the values are saved in the metric slot before proceeding. ")
+  }
+
+  return(DS_plot)
   
-    
+})
+
+#' plotCVGEx Generic
+#'
+#' @param object
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
+
+
+#' plotCVGEx Method
+#'
+#' @param object CoSIAn. 
+#'
+#' @return 
+#' @export
+#'
+#' @examples
+
+setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
+  metric_type<- object@metric_type
+  df_metric<-object@metric
+  if (metric_type == "CV_Species"){
+    cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#882255", "#661100", "#117733", "#6699CC", "#888888") #make these colors color blind friendly
+    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Species))
+    DS_plot<-DS_plot+
+      geom_point(size =3, aes(shape=Ensembl_ID))+
+      scale_color_manual(values = cols)+
+      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Ensembl_Ids")+
+      theme_classic()
+  }
+  else if (metric_type == "CV_Tissue"){
+    cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#117733","#882255", "#661100", "#6699CC", "#888888") #make these colors color blind friendly
+    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Anatomical_entity_name))
+    DS_plot<-DS_plot+
+      geom_point(size =3, aes(shape=Species))+
+      scale_color_manual(values = cols)+
+      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Anatomical Entity Names")+
+      theme_classic()
+  }
+  
+})
