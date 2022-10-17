@@ -200,7 +200,7 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
   else{
     stop("Error: Invalid metric type for plotDS make sure you have a DS argument as the metric type and the values are saved in the metric slot before proceeding. ")
   }
-
+  ggplotly(DS_plot)
   return(DS_plot)
   
 })
@@ -226,26 +226,38 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 #'
 #' @examples
 
-setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
+setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make multiple heat maps per species and then put them together
   metric_type<- object@metric_type
   df_metric<-object@metric
   if (metric_type == "CV_Species"){
-    cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#882255", "#661100", "#117733", "#6699CC", "#888888") #make these colors color blind friendly
-    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Species))
-    DS_plot<-DS_plot+
-      geom_point(size =3, aes(shape=Ensembl_ID))+
-      scale_color_manual(values = cols)+
-      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Ensembl_Ids")+
-      theme_classic()
+    df_metric.wide <- tidyr::pivot_wider(df_metric, names_from = Ensembl_ID, values_from = 'CV_Species')
+    df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Species")
+        heatmaply::heatmaply(df_metric.wide,
+                         na.value = "white",
+                         dendrogram = "none",
+                         xlab = "Ensembl ID",
+                         ylab = "Species",
+                         main = "The Coeffecient of Variation of Gene Expression of a set of Genes across Species",
+                         fontsize_row = 1,
+                         fontsize_col = 5,
+        )
   }
   else if (metric_type == "CV_Tissue"){
-    cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#117733","#882255", "#661100", "#6699CC", "#888888") #make these colors color blind friendly
-    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Anatomical_entity_name))
-    DS_plot<-DS_plot+
-      geom_point(size =3, aes(shape=Species))+
-      scale_color_manual(values = cols)+
-      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Anatomical Entity Names")+
-      theme_classic()
+    df_metric.wide <- tidyr::pivot_wider(df_metric, names_from = Ensembl_ID, values_from = 'CV_Species')
+    df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Species")
+    heatmaply::heatmaply(df_metric.wide,
+                         na.value = "white",
+                         dendrogram = "none",
+                         xlab = "Ensembl ID",
+                         ylab = "Species",
+                         main = "The Coeffecient of Variation of Gene Expression of a set of Genes across Species",
+                         fontsize_row = 1,
+                         fontsize_col = 5,
+    )
+    
+  }
+  else{
+    stop("Error: Invalid metric type for plotCV make sure you have a CV argument as the metric type and the values are saved in the metric slot before proceeding. ")
   }
   
 })
