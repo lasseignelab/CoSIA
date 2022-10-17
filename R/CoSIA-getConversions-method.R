@@ -27,29 +27,34 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
     output_species<-object@o_species
     tool<-object@mapping_tool
     ortholog_database<-object@ortholog_database
-    Filter_I_Species <- switch(input_species,
+    species_data<-data.frame(input)
+    c_name<-tolower(paste(input_species,input_id , sep = "_"))
+    colnames(species_data)[which(names(species_data) == "input")] <- c_name  #changes name to more formal names
+    for(index in seq(length(output_species))){
+        Filter_I_Species <- switch(input_species,
                                h_sapiens = {
-                                 species_data<-h_sapiens(input_id,input,output_ids,output_species, tool, ortholog_database)
+                                 species_data<-dplyr::full_join(species_data,h_sapiens(input_id,input,output_ids,output_species[index], tool, ortholog_database))
                                },
                                m_musculus = {
-                                 species_data<-m_musculus(input_id,input,output_ids,output_species, tool, ortholog_database)
+                                 species_data<-dplyr::full_join(species_data,m_musculus(input_id,input,output_ids,output_species[index], tool, ortholog_database))
                                },
                                r_norvegicus = {
-                                 species_data<-r_norvegicus(input_id,input,output_ids,output_species, tool, ortholog_database)
+                                 species_data<-dplyr::full_join(species_data,r_norvegicus(input_id,input,output_ids,output_species[index], tool, ortholog_database))
                                },
                                d_rerio = {
-                                 species_data<-d_rerio(input_id,input,output_ids,output_species, tool, ortholog_database)
+                                 species_data<-dplyr::full_join(species_data,d_rerio(input_id,input,output_ids,output_species[index], tool, ortholog_database))
                                },
                                c_elegans = {
-                                 species_data<-c_elegans(input_id,input,output_ids,output_species, tool, ortholog_database)
+                                 species_data<-dplyr::full_join(species_data,c_elegans(input_id,input,output_ids,output_species[index], tool, ortholog_database))
                                },
                                d_melanogaster = {
-                                 species_data<-d_melanogaster(input_id,input,output_ids,output_species, tool, ortholog_database)
+                                 species_data<-dplyr::full_join(species_data,d_melanogaster(input_id,input,output_ids,output_species[index], tool, ortholog_database))
                                },
                                stop("Error: Invalid i_species in CoSIAn Object. Make sure the species in the i_species slot is an avalible model 
                                     organism and is in the correct format.")
                                
-    )
+        )
+      }
     object@converted_id <- data.frame(species_data)
     #converted_id<-slot(object, converted_id)
     return(object)
