@@ -52,7 +52,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
     }
     else if (any(map_species == "d_rerio_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Danio_rerio")
-      dr_ensembl_id<- id_dataframe$id_dataframe$d_rerio
+      dr_ensembl_id<- id_dataframe$d_rerio
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% dr_ensembl_id)
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
@@ -87,6 +87,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   GEx_data<-lapply(map_species,return_filtered_Gex_data)
   GEx_data<-as.data.frame(do.call(rbind, GEx_data))
   GEx_data <- dplyr::filter(GEx_data, Anatomical_entity_name %in% map_tissues)
+  rownames(GEx_data) <- NULL
   object@gex <- data.frame(GEx_data)
   return(object)
 })
