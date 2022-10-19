@@ -56,6 +56,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     sd(x, na.rm = FALSE)/median(x)
   }
   
+  
   CV_Tissue <- function(map_species, map_tissues){
     filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
     filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
