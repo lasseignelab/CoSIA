@@ -28,9 +28,9 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
   ids<- as.character(ids)
   filter_gex<-gex_dataframe[gex_dataframe$Ensembl_ID %in% ids, ]
   filter_gex<-filter_gex[filter_gex$Anatomical_entity_name %in% single_tissue, ]
-  filter_gex<-tidyr::separate_rows(filter_gex, TPM)
-  filter_gex$TPM <- as.numeric(filter_gex$TPM)
-  median <- filter_gex %>% group_by(Anatomical_entity_name,Ensembl_ID,Species) %>% summarise(Median = median(TPM))
+  filter_gex<-tidyr::separate_rows(filter_gex, VST)
+  filter_gex$VST <- as.numeric(filter_gex$VST)
+  median <- filter_gex %>% group_by(Anatomical_entity_name,Ensembl_ID,Species) %>% summarise(Median = median(VST))
   filter_gex<- filter_gex%>% full_join(median)
   #add some validation methods here : check and make sure that the tissue is in gex the species in mapped species are in gex and that the single gene has been converted
   #color palette for plot (we can make this more modifiable)
@@ -40,7 +40,7 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
   fig <- filter_gex %>%
     plotly::plot_ly(
       x = ~Species,
-      y = ~TPM,
+      y = ~VST,
       type = 'scatter',
       mode = "markers", 
       color = ~Species,
@@ -62,7 +62,7 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
                       showlegend = F)
   fig <- fig %>%
     plotly::layout(xaxis = list(title = "Anatomical Entity Name", size = 2), 
-                   yaxis = list(title = "TPM (transcript per million)",zeroline = F),
+                   yaxis = list(title = "VST (transcript per million)",zeroline = F),
                    title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_tissue , "across species" , sep = " ")),
                    showlegend = FALSE)
 
@@ -113,9 +113,9 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
   ids<- as.character(ids)
   filter_gex<-gex_dataframe[gex_dataframe$Ensembl_ID %in% ids, ]
   filter_gex<-filter_gex[filter_gex$Species %in% single_species, ]
-  filter_gex<-tidyr::separate_rows(filter_gex, TPM)
-  filter_gex$TPM <- as.numeric(filter_gex$TPM)
-  median <- filter_gex %>% group_by(Anatomical_entity_name,Ensembl_ID,Species) %>% summarise(Median = median(TPM))
+  filter_gex<-tidyr::separate_rows(filter_gex, VST)
+  filter_gex$VST <- as.numeric(filter_gex$VST)
+  median <- filter_gex %>% group_by(Anatomical_entity_name,Ensembl_ID,Species) %>% summarise(Median = median(VST))
   filter_gex<- filter_gex%>% full_join(median)
   #add some validation methods here : check and make sure that the tissue is in gex the species in mapped species are in gex and that the single gene has been converted
   #color palette for plot (we can make this more modifiable)
@@ -125,7 +125,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
   fig <- filter_gex %>%
     plotly::plot_ly(
       x = ~Anatomical_entity_name,
-      y = ~TPM,
+      y = ~VST,
       type = 'scatter',
       mode = "markers", 
       color = ~Anatomical_entity_name,
@@ -147,7 +147,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
                       showlegend = F)
   fig <- fig %>%
     plotly::layout(xaxis = list(title = "Anatomical Entity Name", size = 2), 
-                   yaxis = list(title = "TPM (transcript per million)",zeroline = F),
+                   yaxis = list(title = "VST (transcript per million)",zeroline = F),
                    title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_species , "across tissues" , sep = " ")),
                    showlegend = FALSE)
   

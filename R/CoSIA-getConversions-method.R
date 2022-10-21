@@ -228,19 +228,13 @@ d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, orthol
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 7227, "drerio_gene_ensembl","dmelanogaster_gene_ensembl", ortholog_database)                           
                              },
                            m_musculus = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 10090, "drerio_gene_ensembl",
-                                                        "mmusculus_gene_ensembl", ortholog_database)                           
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 10090, "drerio_gene_ensembl","mmusculus_gene_ensembl", ortholog_database)                           
                              },
                            d_rerio = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 7955, "drerio_gene_ensembl","drerio_gene_ensembl", ortholog_database)                           
                              },
-                           h_sapiens = {
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 9606, "drerio_gene_ensembl",
-                                                        "hsapiens_gene_ensembl", ortholog_database)                           
-                             },
                            r_norvegicus ={
-                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 10116, "drerio_gene_ensembl",
-                                                        "rnorvegicus_gene_ensembl", ortholog_database)                           
+                             output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 10116, "drerio_gene_ensembl","rnorvegicus_gene_ensembl", ortholog_database)                           
                              },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
                                     organism and is in the correct format.")
@@ -281,7 +275,7 @@ h_sapiens<-function(input_id,input_dataset,output_ids,output_species, tool, orth
     Filter_BO_HS <- switch(output_species,
                            c_elegans = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 6239, "hsapiens_gene_ensembl",
-                                                        "drerio_gene_ensembl", ortholog_database)},
+                                                        "celegans_gene_ensembl", ortholog_database)},
                            d_melanogaster = {
                              output_data <- CoSIA::biomaRt(input_id, input_dataset, output_ids, input_species = "h_sapiens", output_species, 7227, "hsapiens_gene_ensembl",
                                                         "dmelanogaster_gene_ensembl", ortholog_database)},

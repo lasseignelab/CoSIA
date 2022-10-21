@@ -33,13 +33,12 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   #load EH_Data here (get it off of cheaha soon the EH method will be used to pull the data here)
   return_filtered_Gex_data<- function(map_species){
     GEx_data<- data.frame(matrix(ncol = 7, nrow = 0))
-    colnames(GEx_data) <- c('Anatomical_entity_name', 'Ensembl_ID', 'Sample_size','TPM','Experiment_ID','Anatomical_entity_ID','Species')
+    colnames(GEx_data) <- c('Anatomical_entity_name', 'Ensembl_ID', 'Sample_size','VST','Experiment_ID','Anatomical_entity_ID','Species')
     
     if (any(map_species == "m_musculus_ensembl_id")) {
       bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus")
       m_ensembl_id<- id_dataframe$m_musculus
       gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% m_ensembl_id)
-      #gene_specific_data<-gene_specific_data %>% summarise(Sample_size = n(), Minimum_TPM = min(TPM), First_Quartile_TPM = quantile(TPM,0.25), Median_TPM = median(TPM), Third_Quartile_TPM = quantile(TPM,0.75),Maximum_TPM = max(TPM), Standard_Deviation = sd(TPM), TPM = paste(unique(TPM), collapse = ', '), Experiment_ID = paste(unique(Experiment.ID), collapse = ', '))
       GEx_data <- rbind(GEx_data, gene_specific_data)
       GEx_data<-as.data.frame(GEx_data)
     }
