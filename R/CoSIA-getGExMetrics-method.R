@@ -62,9 +62,9 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
     id<-as.vector(t(id_dataframe))
     filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
-    filter_gex<-tidyr::separate_rows(filter_gene, TPM)
-    filter_gex$TPM <- as.numeric(filter_gex$TPM)
-    CV_Tissue<-filter_gex %>% group_by(Ensembl_ID,Anatomical_entity_name,Species) %>% summarise(CV_Tissue = CV_function(TPM, na.rm=FALSE))
+    filter_gex<-tidyr::separate_rows(filter_gene, VST)
+    filter_gex$VST <- as.numeric(filter_gex$VST)
+    CV_Tissue<-filter_gex %>% group_by(Ensembl_ID,Anatomical_entity_name,Species) %>% summarise(CV_Tissue = CV_function(VST, na.rm=FALSE))
     return(CV_Tissue)
   }
   
@@ -72,9 +72,9 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
     id<-as.vector(t(id_dataframe))
     filter_gene <- dplyr::filter(filter_species,Ensembl_ID %in% id)
-    filter_gex<-tidyr::separate_rows(filter_gene, TPM)
-    filter_gex$TPM <- as.numeric(filter_gex$TPM)
-    CV_Species<-filter_gex %>% group_by(Ensembl_ID,Species) %>% summarise(CV_Species = CV_function(TPM, na.rm=FALSE))
+    filter_gex<-tidyr::separate_rows(filter_gene, VST)
+    filter_gex$VST <- as.numeric(filter_gex$VST)
+    CV_Species<-filter_gex %>% group_by(Ensembl_ID,Species) %>% summarise(CV_Species = CV_function(VST, na.rm=FALSE))
     return(CV_Species)
   }
   
@@ -84,16 +84,16 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
     id<-as.vector(t(id_dataframe))
     filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
-    filter_gene$Median_TPM <- as.numeric(filter_gene$Median_TPM)
-    filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_TPM, Ensembl_ID)
-    filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Median_TPM)
+    filter_gene$Median_VST <- as.numeric(filter_gene$Median_VST)
+    filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_VST, Ensembl_ID)
+    filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
     filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
     filter_gex_D<- data.matrix(filter_gex_D, )
     ENTROPY_DIVERSITY_G<-data.frame(entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
     colnames(ENTROPY_DIVERSITY_G)[which(names(ENTROPY_DIVERSITY_G) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
     
     filter_gex<- data.frame(filter_gex)
-    filter_gex_S<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_TPM)
+    filter_gex_S<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
     filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Ensembl_ID")
     filter_gex_S<- data.matrix(filter_gex_S, )
     ENTROPY_SPECIFITY_G<-data.frame(entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
@@ -118,17 +118,17 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
       filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
       id<-as.vector(t(id_dataframe))
       filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
-      filter_gene$Median_TPM <- as.numeric(filter_gene$Median_TPM)
-      filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_TPM, Ensembl_ID)
+      filter_gene$Median_VST <- as.numeric(filter_gene$Median_VST)
+      filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_VST, Ensembl_ID)
       
-      filter_gex_D<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_TPM)
+      filter_gex_D<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
       filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
       filter_gex_D<- data.matrix(filter_gex_D, )
       ENTROPY_DIVERSITY_T<-data.frame(entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
       colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
       
       filter_gex<- data.frame(filter_gex)
-      filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_TPM)
+      filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
       filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Anatomical_entity_name")
       filter_gex_S<- data.matrix(filter_gex_S, )
       ENTROPY_SPECIFITY_T<-data.frame(entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
@@ -157,17 +157,17 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     for (x in 1:length(map_species)){
       filter_species <- dplyr::filter(Experimental_Hub_File,Species == map_species[x])
       filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
-      filter_tissue$Median_TPM <- as.numeric(filter_tissue$Median_TPM)
-      filter_gex<- dplyr::select(filter_tissue, Anatomical_entity_name, Median_TPM, Ensembl_ID)
+      filter_tissue$Median_VST <- as.numeric(filter_tissue$Median_VST)
+      filter_gex<- dplyr::select(filter_tissue, Anatomical_entity_name, Median_VST, Ensembl_ID)
       
-      filter_gex_D<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_TPM)
+      filter_gex_D<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
       filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
       filter_gex_D<- data.frame(filter_gex_D, )
       ENTROPY_DIVERSITY_T<-data.frame(entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
       colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
       
       filter_gex<- data.frame(filter_gex)
-      filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_TPM)
+      filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
       filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Anatomical_entity_name")
       filter_gex_S<- data.matrix(filter_gex_S, )
       ENTROPY_SPECIFITY_T<-data.frame(entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
@@ -184,33 +184,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     rownames(DS) <- NULL
     return(DS)
   }
-  #Diversity and Specificity
-    #make a column for species and then put the species below in indivual rows
-    #make complex heat maps for each species (diversity)
   
-  
-  # Metric<- data.frame(matrix(ncol = 1, nrow = 0))
-  # colnames(Metric) <- 'Ensembl_ID'
-  # Metric$Ensembl_ID<-as.character(Metric$Ensembl_ID)
-  # 
-  # Metric_SWITCH <- Vectorize(vectorize.args = "metric_type", USE.NAMES = FALSE,FUN = function(metric_type) {
-  #   if (metric_type %in% "CV_Tissue"){
-  #     CV_Tissue<-CV_Tissue(map_species,map_tissues)
-  #     Metric<- Metric %>% full_join(CV_Tissue)
-  #   }
-  #   else if (metric_type %in% "CV_Species"){
-  #     CV_Species<-CV_Species(map_species,map_tissues)
-  #     Metric<- Metric %>% full_join(CV_Species)
-  #   }
-  #   else {
-  #     stop("Error: Invalid metric_type in CoSIAn Object. Make sure the value given in the metric_type slot are avalible and in the correct format.")
-  #   }
-  # })
-  # Metric<- Metric_SWITCH(metric_type)
-  # Metric<- as.data.frame(Metric)
-  # columns_to_remove <- grep("*.1", colnames(Metric))
-  # Metric %>% select(-all_of((columns_to_remove)))
-  #object@metric<-Metric
   
   if(metric_type == "CV_Tissue"){
     CV_Tissue<-CV_Tissue(map_species,map_tissues)
