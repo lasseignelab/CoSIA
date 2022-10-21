@@ -454,7 +454,9 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
   output_ids <- as.character(output_ids)
   input_id <- ID_SWITCH(ids = input_id)
   output_ids <- ID_SWITCH(ids = output_ids)
-  
+  if(output_ids %in% "ENSEMBLIDVERSION"){
+    stop("Error. AnnotationDBI does not have Ensembl_id_version output functionality.")
+  }
   if (output_species == input_species) {
     # code follows this path if the user chooses the same input species as their output species code follows this path if the user
     # chooses ENSEMBLIDVERSION as their input id
@@ -596,6 +598,7 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
     colnames(output_data)[which(names(output_data) == "mgi_symbol")] <- paste(input_species,"mgi_symbol",sep = "_")
     colnames(output_data)[which(names(output_data) == "hgnc_symbol")] <- paste(input_species,"hgnc_symbol",sep = "_")
+    output_data <- output_data %>% dplyr::select(-all_of('.'))      
     return(output_data)  # return the biomaRt output
   } 
   else
