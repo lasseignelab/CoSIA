@@ -242,21 +242,23 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
         )
   }
   else if (metric_type == "CV_Tissue"){
-    df_metric.wide <- tidyr::pivot_wider(df_metric, names_from = Ensembl_ID, values_from = 'CV_Species')
-    df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Species")
-    heatmaply::heatmaply(df_metric.wide,
+    df_metric<-subset(df_metric, select = -c(Species) )
+    df_metric.wide <- tidyr::pivot_wider(df_metric, names_from = Ensembl_ID, values_from = 'CV_Tissue')
+    df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
+    CV_plot<-heatmaply::heatmaply(df_metric.wide,
                          na.value = "white",
                          dendrogram = "none",
                          xlab = "Ensembl ID",
-                         ylab = "Species",
-                         main = "The Coeffecient of Variation of Gene Expression of a set of Genes across Species",
-                         fontsize_row = 1,
-                         fontsize_col = 5,
+                         ylab = "Anatomical_entity_name",
+                         main = "The Coeffecient of Variation of Gene Expression of a set of Genes across Tissues",
+                         fontsize_row = 8,
+                         fontsize_col = 7,
     )
     
   }
   else{
     stop("Error: Invalid metric type for plotCV make sure you have a CV argument as the metric type and the values are saved in the metric slot before proceeding. ")
   }
+  return(CV_plot)
   
 })
