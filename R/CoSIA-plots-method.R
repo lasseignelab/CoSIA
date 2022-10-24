@@ -200,7 +200,6 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
   else{
     stop("Error: Invalid metric type for plotDS make sure you have a DS argument as the metric type and the values are saved in the metric slot before proceeding. ")
   }
-  ggplotly(DS_plot)
   return(DS_plot)
   
 })

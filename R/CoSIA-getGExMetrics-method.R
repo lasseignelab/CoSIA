@@ -90,14 +90,14 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
     filter_gex_D<- data.matrix(filter_gex_D, )
     ENTROPY_DIVERSITY_G<-data.frame(BioQC::entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
-    colnames(ENTROPY_DIVERSITY_G)[which(names(ENTROPY_DIVERSITY_G) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
+    colnames(ENTROPY_DIVERSITY_G)[which(names(ENTROPY_DIVERSITY_G) == "BioQC..entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
     
     filter_gex<- data.frame(filter_gex)
     filter_gex_S<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
     filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Ensembl_ID")
     filter_gex_S<- data.matrix(filter_gex_S, )
     ENTROPY_SPECIFITY_G<-data.frame(BioQC::entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
-    colnames(ENTROPY_SPECIFITY_G)[which(names(ENTROPY_SPECIFITY_G) == "entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
+    colnames(ENTROPY_SPECIFITY_G)[which(names(ENTROPY_SPECIFITY_G) == "BioQC..entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
     
     DS <- merge(ENTROPY_SPECIFITY_G, ENTROPY_DIVERSITY_G, by = 'row.names')
     colnames(DS)[which(names(DS) == "Row.names")] <- "Ensembl_ID"
@@ -125,14 +125,14 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
       filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
       filter_gex_D<- data.matrix(filter_gex_D, )
       ENTROPY_DIVERSITY_T<-data.frame(BioQC::entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
-      colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
+      colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "BioQC..entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
       
       filter_gex<- data.frame(filter_gex)
       filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
       filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Anatomical_entity_name")
       filter_gex_S<- data.matrix(filter_gex_S, )
-      ENTROPY_SPECIFITY_T<-data.frame(entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
-      colnames(ENTROPY_SPECIFITY_T)[which(names(ENTROPY_SPECIFITY_T) == "entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
+      ENTROPY_SPECIFITY_T<-data.frame(BioQC::entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
+      colnames(ENTROPY_SPECIFITY_T)[which(names(ENTROPY_SPECIFITY_T) == "BioQC..entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
       
       SDS <- merge(ENTROPY_SPECIFITY_T, ENTROPY_DIVERSITY_T, by = 'row.names')
       colnames(SDS)[which(names(SDS) == "Row.names")] <- "Anatomical_entity_name"
@@ -163,15 +163,15 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
       filter_gex_D<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
       filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
       filter_gex_D<- data.frame(filter_gex_D, )
-      ENTROPY_DIVERSITY_T<-data.frame(entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
-      colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
+      ENTROPY_DIVERSITY_T<-data.frame(BioQC::entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
+      colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "BioQC..entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
       
       filter_gex<- data.frame(filter_gex)
       filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
       filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Anatomical_entity_name")
       filter_gex_S<- data.matrix(filter_gex_S, )
-      ENTROPY_SPECIFITY_T<-data.frame(entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
-      colnames(ENTROPY_SPECIFITY_T)[which(names(ENTROPY_SPECIFITY_T) == "entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
+      ENTROPY_SPECIFITY_T<-data.frame(BioQC::entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
+      colnames(ENTROPY_SPECIFITY_T)[which(names(ENTROPY_SPECIFITY_T) == "BioQC..entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
       
       SDS <- merge(ENTROPY_SPECIFITY_T, ENTROPY_DIVERSITY_T, by = 'row.names')
       colnames(SDS)[which(names(SDS) == "Row.names")] <- "Anatomical_entity_name"
