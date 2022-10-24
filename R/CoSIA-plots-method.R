@@ -183,9 +183,8 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
     cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#882255", "#661100", "#117733", "#6699CC", "#888888") #make these colors color blind friendly
     DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Species))
     DS_plot<-DS_plot+
-      geom_point(size =3, aes(shape=Ensembl_ID))+
       scale_color_manual(values = cols)+
-      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Ensembl_Ids")+
+      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Species")+
       theme_classic()
   }
   else if (metric_type == "DS_Tissue"){
