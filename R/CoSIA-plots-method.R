@@ -231,7 +231,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
   if (metric_type == "CV_Species"){
     df_metric.wide <- tidyr::pivot_wider(df_metric, names_from = Ensembl_ID, values_from = 'CV_Species')
     df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Species")
-        heatmaply::heatmaply(df_metric.wide,
+    CV_plot<-heatmaply::heatmaply(df_metric.wide,
                          na.value = "white",
                          dendrogram = "none",
                          xlab = "Ensembl ID",
@@ -239,11 +239,12 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
                          main = "The Coeffecient of Variation of Gene Expression of a set of Genes across Species",
                          fontsize_row = 1,
                          fontsize_col = 5,
+                        
         )
   }
   else if (metric_type == "CV_Tissue"){
-    df_metric<-subset(df_metric, select = -c(Species) )
-    df_metric.wide <- tidyr::pivot_wider(df_metric, names_from = Ensembl_ID, values_from = 'CV_Tissue')
+    df_metric_remove_s<-subset(df_metric, select = -c(Species) )
+    df_metric.wide <- tidyr::pivot_wider(df_metric_remove_s, names_from = Ensembl_ID, values_from = 'CV_Tissue')
     df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
     CV_plot<-heatmaply::heatmaply(df_metric.wide,
                          na.value = "white",
