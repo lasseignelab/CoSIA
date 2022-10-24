@@ -596,7 +596,7 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
     colnames(output_data)[which(names(output_data) == "mgi_symbol")] <- paste(input_species,"mgi_symbol",sep = "_")
     colnames(output_data)[which(names(output_data) == "hgnc_symbol")] <- paste(input_species,"hgnc_symbol",sep = "_")
-    output_data <- output_data %>% dplyr::select(-all_of('.'))      
+    output_data <- output_data %>% dplyr::select(-contains('.'))      
     return(output_data)  # return the biomaRt output
   } 
   else
