@@ -454,9 +454,7 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
   output_ids <- as.character(output_ids)
   input_id <- ID_SWITCH(ids = input_id)
   output_ids <- ID_SWITCH(ids = output_ids)
-  if(output_ids %in% "ENSEMBLIDVERSION"){
-    stop("Error. AnnotationDBI does not have Ensembl_id_version output functionality.")
-  }
+  ifelse(output_ids == "ENSEMBLIDVERSION", stop("Error. AnnotationDBI does not have Ensembl_id_version output functionality."), output_ids)
   if (output_species == input_species) {
     # code follows this path if the user chooses the same input species as their output species code follows this path if the user
     # chooses ENSEMBLIDVERSION as their input id
