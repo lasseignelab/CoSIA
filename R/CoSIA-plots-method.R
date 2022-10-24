@@ -237,8 +237,8 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
                          xlab = "Ensembl ID",
                          ylab = "Species",
                          main = "The Coeffecient of Variation of Gene Expression of a set of Genes across Species",
-                         fontsize_row = 1,
-                         fontsize_col = 5,
+                         fontsize_row = 8,
+                         fontsize_col = 7,
                         
         )
   }
