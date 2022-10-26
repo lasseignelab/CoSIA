@@ -146,10 +146,40 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     return(DS)
     
   }
-  
   #DS_Gene_all: outputs genes only restricted to selected genes across all tissues
   DS_Gene_all<- function(map_species, map_tissues){
-    
+    DS<-data.frame(matrix(ncol = 4, nrow = 0))
+    colnames(DS)[1] <- "Ensembl_ID"
+    for (x in 1:length(map_species)){
+      filter_species <- dplyr::filter(Experimental_Hub_File,Species == map_species[x])
+      id<-as.vector(t(id_dataframe))
+      filter_gene <- dplyr::filter(filter_species,Ensembl_ID %in% id)
+      filter_gene$Median_VST <- as.numeric(filter_gene$Median_VST)
+      filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_VST, Ensembl_ID)
+      
+      filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
+      filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
+      filter_gex_D<- data.matrix(filter_gex_D, )
+      ENTROPY_DIVERSITY_G<-data.frame(BioQC::entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
+      colnames(ENTROPY_DIVERSITY_G)[which(names(ENTROPY_DIVERSITY_G) == "BioQC..entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
+      
+      filter_gex<- data.frame(filter_gex)
+      filter_gex_S<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
+      filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Ensembl_ID")
+      filter_gex_S<- data.matrix(filter_gex_S, )
+      ENTROPY_SPECIFITY_G<-data.frame(BioQC::entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
+      colnames(ENTROPY_SPECIFITY_G)[which(names(ENTROPY_SPECIFITY_G) == "BioQC..entropySpecificity.filter_gex_S..norm...TRUE.")] <- "Specificity"
+      
+      SDS <- merge(ENTROPY_SPECIFITY_G, ENTROPY_DIVERSITY_G, by = 'row.names')
+      colnames(SDS)[which(names(SDS) == "Row.names")] <- "Ensembl_ID"
+      SDS$Ensembl_ID <- as.character(SDS$Ensembl_ID)
+      Species<-dplyr::select(filter_gene, Species, Ensembl_ID)
+      SDS <- merge(SDS, Species, by = 'Ensembl_ID')
+      DS <- rbind(DS,SDS)
+    }
+    DS<-data.frame(unique(DS))
+    rownames(DS) <- NULL
+    return(DS)
   }
   
   #DS_Tissues_All: output is tissues restricted to mapped tissues across all genes
@@ -206,7 +236,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   }
   else if(metric_type == "DS_Gene_all"){
     DS_Gene_all<-DS_Gene_all(map_species,map_tissues)
-    #object@metric<-DS_Gene_all
+    object@metric<-DS_Gene_all
   }
   else if(metric_type == "DS_Tissue_all"){
     DS_Tissue_all<-DS_Tissue_all(map_species,map_tissues)
