@@ -183,7 +183,7 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
     DS_plot<-DS_plot+
       geom_point(size =3, aes())+
       scale_color_manual(values = cols)+
-      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Species")+
+      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Mapped Tissues in a Species")+
       theme_classic()
   }
   else if (metric_type == "DS_Tissue"){
@@ -202,6 +202,15 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
       geom_point(size =3, aes(shape=Species))+
       scale_color_manual(values = cols)+
       ggtitle("Diversity versus Specificity of All Genes \nAcross Anatomical Entity Names")+
+      theme_classic()
+  }
+  else if (metric_type == "DS_Gene_all"){
+    cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#882255", "#661100", "#117733", "#6699CC", "#888888") #make these colors color blind friendly
+    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Species))
+    DS_plot<-DS_plot+
+      geom_point(size =3, aes())+
+      scale_color_manual(values = cols)+
+      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross all Tissues in a Species")+
       theme_classic()
   }
   else{
