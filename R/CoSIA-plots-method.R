@@ -30,8 +30,7 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
   filter_gex<-filter_gex[filter_gex$Anatomical_entity_name %in% single_tissue, ]
   filter_gex<-tidyr::separate_rows(filter_gex, VST)
   filter_gex$VST <- as.numeric(filter_gex$VST)
-  median <- filter_gex %>% group_by(Anatomical_entity_name,Ensembl_ID,Species) %>% summarise(Median = median(VST))
-  filter_gex<- filter_gex%>% full_join(median)
+  filter_gex<-as.data.frame(filter_gex)
   #add some validation methods here : check and make sure that the tissue is in gex the species in mapped species are in gex and that the single gene has been converted
   #color palette for plot (we can make this more modifiable)
   brewer.pal.info <- RColorBrewer::brewer.pal.info
@@ -47,7 +46,7 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
       colors = color
     ) %>%
     plotly::add_markers(x = ~Species, 
-                        y = ~Median, 
+                        y = ~Median_VST, 
                         marker = list(symbol = "line-ew", 
                                       size = 20, 
                                       line = list(color = "grey"
@@ -61,8 +60,8 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
     plotly::add_trace(type = "violin", spanmode = "hard",
                       showlegend = F)
   fig <- fig %>%
-    plotly::layout(xaxis = list(title = "Anatomical Entity Name", size = 2), 
-                   yaxis = list(title = "VST (transcript per million)",zeroline = F),
+    plotly::layout(xaxis = list(title = "Species", size = 2), 
+                   yaxis = list(title = "VST (Variance Stabilized Transformation of Read Counts)",zeroline = F),
                    title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_tissue , "across species" , sep = " ")),
                    showlegend = FALSE)
 
@@ -115,8 +114,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
   filter_gex<-filter_gex[filter_gex$Species %in% single_species, ]
   filter_gex<-tidyr::separate_rows(filter_gex, VST)
   filter_gex$VST <- as.numeric(filter_gex$VST)
-  median <- filter_gex %>% group_by(Anatomical_entity_name,Ensembl_ID,Species) %>% summarise(Median = median(VST))
-  filter_gex<- filter_gex%>% full_join(median)
+
   #add some validation methods here : check and make sure that the tissue is in gex the species in mapped species are in gex and that the single gene has been converted
   #color palette for plot (we can make this more modifiable)
   brewer.pal.info <- RColorBrewer::brewer.pal.info
@@ -132,7 +130,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
       colors = color
     ) %>%
     plotly::add_markers(x = ~Anatomical_entity_name, 
-                        y = ~Median, 
+                        y = ~Median_VST, 
                         marker = list(symbol = "line-ew", 
                                       size = 20, 
                                       line = list(color = "grey"
@@ -147,7 +145,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
                       showlegend = F)
   fig <- fig %>%
     plotly::layout(xaxis = list(title = "Anatomical Entity Name", size = 2), 
-                   yaxis = list(title = "VST (transcript per million)",zeroline = F),
+                   yaxis = list(title = "VST (Variance Stabilized Transformation of Read Counts)",zeroline = F),
                    title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_species , "across tissues" , sep = " ")),
                    showlegend = FALSE)
   
@@ -195,6 +193,15 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
       geom_point(size =3, aes(shape=Species))+
       scale_color_manual(values = cols)+
       ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Anatomical Entity Names")+
+      theme_classic()
+  }
+  else if (metric_type == "DS_Tissue_all"){
+    cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#117733","#882255", "#661100", "#6699CC", "#888888") #make these colors color blind friendly
+    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Anatomical_entity_name))
+    DS_plot<-DS_plot+
+      geom_point(size =3, aes(shape=Species))+
+      scale_color_manual(values = cols)+
+      ggtitle("Diversity versus Specificity of All Genes \nAcross Anatomical Entity Names")+
       theme_classic()
   }
   else{

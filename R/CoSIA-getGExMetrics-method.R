@@ -146,10 +146,12 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     return(DS)
     
   }
+  
   #DS_Gene_all: outputs genes only restricted to selected genes across all tissues
   DS_Gene_all<- function(map_species, map_tissues){
     
   }
+  
   #DS_Tissues_All: output is tissues restricted to mapped tissues across all genes
   DS_Tissue_all<- function(map_species, map_tissues){
     DS<-data.frame(matrix(ncol = 4, nrow = 0))
@@ -162,7 +164,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
       
       filter_gex_D<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
       filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
-      filter_gex_D<- data.frame(filter_gex_D, )
+      filter_gex_D<- data.matrix(filter_gex_D, )
       ENTROPY_DIVERSITY_T<-data.frame(BioQC::entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
       colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "BioQC..entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
       
@@ -208,8 +210,11 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   }
   else if(metric_type == "DS_Tissue_all"){
     DS_Tissue_all<-DS_Tissue_all(map_species,map_tissues)
-    #object@metric<-DS_Tissue_all
-  } 
+    object@metric<-DS_Tissue_all
+  }
+  else(
+    stop("Error: invalid metric type")
+  )
   
 return(object)
 }) 
