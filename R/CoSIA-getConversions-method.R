@@ -36,7 +36,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  hs_data<-h_sapiens(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  result <- try({dplyr::full_join(species_data,hs_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
-                                   warning("No orthologs were found for all genes in one of the species.")                                 }
+                                   warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,hs_data)
                                  }
@@ -45,7 +45,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  mm_data<-m_musculus(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  result <- try({ dplyr::full_join(species_data,mm_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
-                                   warning("No orthologs were found for all genes in one of the species.")                                 }
+                                   warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,mm_data)
                                  }
@@ -54,7 +54,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  rn_data<-r_norvegicus(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  result <- try({ dplyr::full_join(species_data,rn_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
-                                   warning("No orthologs were found for all genes in one of the species.")                                 }
+                                   warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,rn_data)
                                  }
@@ -63,7 +63,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  dr_data<-d_rerio(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  result <- try({dplyr::full_join(species_data,dr_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
-                                   warning("No orthologs were found for all genes in one of the species.")                                 }
+                                   warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,dr_data)
                                  }
@@ -72,7 +72,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  ce_data<-c_elegans(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  result <- try({dplyr::full_join(species_data,ce_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
-                                   warning("No orthologs were found for all genes in one of the species.")                                 }
+                                   warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,ce_data)
                                  }
@@ -81,8 +81,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  dm_data<-d_melanogaster(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  result <- try({dplyr::full_join(species_data,dm_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
-                                   warning("No orthologs were found for all genes in one of the species.")
-                                 }
+                                   warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,dm_data)
                                  }
