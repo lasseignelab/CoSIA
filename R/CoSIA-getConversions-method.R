@@ -453,7 +453,8 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
            Ensembl_id = "ENSEMBL", 
            Ensembl_id_version = "ENSEMBLIDVERSION", 
            Gene_name = "GENENAME",
-           Symbol = "SYMBOL")
+           Symbol = "SYMBOL",
+           stop("Error: Invalid input_id or o_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
   })
   input_id <- as.character(input_id)
   output_ids <- as.character(output_ids)
@@ -581,9 +582,8 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
            Entrez_id = "entrezgene_id", 
            Ensembl_id = "ensembl_gene_id", 
            Ensembl_id_version = "ensembl_gene_id_version",
-           Gene_name = "external_gene_name", 
-           MGI_Symbol = "mgi_symbol", 
-           HGNC_Symbol = "hgnc_symbol")
+           Gene_name = "external_gene_name",
+           stop("Error: Invalid input_id or o_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
   }
   )
   #set the id names to their new formats
@@ -602,8 +602,6 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     colnames(output_data)[which(names(output_data) == "entrezgene_id")] <- paste(input_species,"entrez_id",sep = "_")
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id_version")] <- paste(input_species,"ensembl_id_version",sep = "_")
     colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
-    colnames(output_data)[which(names(output_data) == "mgi_symbol")] <- paste(input_species,"mgi_symbol",sep = "_")
-    colnames(output_data)[which(names(output_data) == "hgnc_symbol")] <- paste(input_species,"hgnc_symbol",sep = "_")
     output_data <- output_data %>% dplyr::select(-contains('.'))      
     return(output_data)  # return the biomaRt output
   } 
@@ -621,8 +619,6 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id")] <- paste(input_species,"ensembl_id",sep = "_")
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id_version")] <- paste(input_species,"ensembl_id_version",sep = "_")
     colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
-    colnames(output_data)[which(names(output_data) == "mgi_symbol")] <- paste(input_species,"mgi_symbol",sep = "_")
-    colnames(output_data)[which(names(output_data) == "hgnc_symbol")] <- paste(input_species,"hgnc_symbol",sep = "_")
     merged_data <- merge.data.frame(data.frame(output_data), data.frame(id), by = "species_one")  #merge the two dataframes
     colnames(merged_data)[which(names(merged_data) == "species_one")] <- paste(input_species, "entrez_id", sep = "_")  #rename to a more formal name
     marts <- biomaRt::useMart("ensembl", dataset = output_species_dataset)  #set the biomart species to the new species
@@ -639,8 +635,6 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     names(merged_species_data)[names(merged_species_data) == "species_two"] <- paste(output_species, "entrez_id", sep = "_")  # clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "entrezgene_id")] <- paste(output_species, "entrez_id", sep = "_")  #clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id")] <- paste(output_species, "ensembl_id", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "hgnc_symbol")] <- paste(output_species, "hgnc_symbol", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "mgi_symbol")] <- paste(output_species, "mgi_symbol", sep = "_")  #clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "external_gene_name")] <- paste(output_species, "gene_name", sep = "_")  #clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id_version")] <- paste(output_species, "ensembl_id_version",sep = "_")  #clean up names
     merged_species_data <- merged_species_data[!duplicated(as.list(merged_species_data))]  #remove duplicates
