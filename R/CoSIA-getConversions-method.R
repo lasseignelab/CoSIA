@@ -507,10 +507,10 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
       names(ortho)[names(ortho) == "ENTREZID"] <- "species_two"  # set the entrezID into a dataframe
       merged_data_orthologs <- merge.data.frame(data.frame(ortho), data.frame(ortholog_data), by = "species_two")  #merge the ortholog conversion dataframe with the merge dataframe
       colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "species_two")] <- paste(output_species,"entrez_id",sep = "_")
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENTREZID")] <- paste(output_species, "entrez_ID", sep = "_")  #changes name to more formal names
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBL")] <- paste(output_species, "ensembl_ID", sep = "_")  #changes name to more formal names
+      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENTREZID")] <- paste(output_species, "entrez_id", sep = "_")  #changes name to more formal names
+      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBL")] <- paste(output_species, "ensembl_id", sep = "_")  #changes name to more formal names
       colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "SYMBOL")] <- paste(output_species, "symbol", sep = "_")  #changes name to more formal names
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBLIDVERSION")] <- paste(output_species, "ensembl_ID_with_Version_ID", sep = "_")  #changes name to more formal names
+      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBLIDVERSION")] <- paste(output_species, "ensembl_id_with_Version_id", sep = "_")  #changes name to more formal names
       colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "GENENAME")] <- paste(output_species, "gene_name", sep = "_")  #changes name to more formal names
       merged_data_orthologs <- merged_data_orthologs[!duplicated(as.list(merged_data_orthologs))]  # removes duplicates from the data
       #merged_data_orthologs = subset(merged_data_orthologs, select = -c(species_two, species_one))  # removes the species two and species one parts of the data
