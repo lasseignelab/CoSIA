@@ -34,6 +34,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
         Filter_I_Species <- switch(input_species,
                                h_sapiens = {
                                  hs_data<-h_sapiens(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 hs_data<-data.frame(lapply(hs_data,as.character))
                                  result <- try({dplyr::full_join(species_data,hs_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -43,6 +44,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                 },
                                m_musculus = {
                                  mm_data<-m_musculus(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 mm_data<-data.frame(lapply(mm_data,as.character))
                                  result <- try({ dplyr::full_join(species_data,mm_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -52,6 +54,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  },
                                r_norvegicus = {
                                  rn_data<-r_norvegicus(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 rn_data<-data.frame(lapply(rn_data,as.character))
                                  result <- try({ dplyr::full_join(species_data,rn_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -61,6 +64,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  },
                                d_rerio = {
                                  dr_data<-d_rerio(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 dr_data<-data.frame(lapply(dr_data,as.character))
                                  result <- try({dplyr::full_join(species_data,dr_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -70,6 +74,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  },
                                c_elegans = {
                                  ce_data<-c_elegans(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 ce_data<-data.frame(lapply(ce_data,as.character))
                                  result <- try({dplyr::full_join(species_data,ce_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -79,6 +84,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  },
                                d_melanogaster = {
                                  dm_data<-d_melanogaster(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 dm_data<-data.frame(lapply(dm_data,as.character))
                                  result <- try({dplyr::full_join(species_data,dm_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -587,7 +593,10 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     # goes through this path if the input and output species are the same
     mart <- biomaRt::useMart("ensembl", dataset = species_dataset)  # pulls the biomaRt object for the species species that has been choosen
     attributes <- c(output_ids, input_id)  # sets the attributes that the user wants makes sure to set both the input and output values
-    filters = input_id  # sets the filters as the input vales
+    attributes <- as.character(attributes)
+    filters<- input_id  # sets the filters as the input vales
+    filters <- as.character(filters)
+    input_dataset <- as.character(input_dataset)
     output_data <- biomaRt::getBM(attributes = attributes, filters = filters, values = input_dataset, mart = mart, uniqueRows = TRUE, bmHeader = FALSE)  # run conversion through biomaRt
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id")] <- paste(input_species,"ensembl_id",sep = "_")
     colnames(output_data)[which(names(output_data) == "entrezgene_id")] <- paste(input_species,"entrez_id",sep = "_")
