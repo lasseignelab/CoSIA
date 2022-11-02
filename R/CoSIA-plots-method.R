@@ -242,8 +242,8 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 #' @examples
 
 setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make multiple heat maps per species and then put them together
-  metric_type<- Kidney_gene_metric@metric_type
-  df_metric<-Kidney_gene_metric@metric
+  metric_type<- object@metric_type
+  df_metric<-object@metric
   if (metric_type == "CV_Species"){
     df_metric.wide <- tidyr::pivot_wider(df_metric, names_from = Ensembl_ID, values_from = 'CV_Species')
     df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Species")
