@@ -257,7 +257,7 @@ d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, orthol
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 6239, org.Dr.eg.db::org.Dr.eg.db,
                                                                org.Ce.eg.db::org.Ce.eg.db, ortholog_database)                           },
                            r_norvegicus ={
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 6239, org.Dr.eg.db::org.Dr.eg.db,
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 10116, org.Dr.eg.db::org.Dr.eg.db,
                                                                org.Ce.eg.db::org.Ce.eg.db, ortholog_database)                           },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
                                     organism and is in the correct format.")
