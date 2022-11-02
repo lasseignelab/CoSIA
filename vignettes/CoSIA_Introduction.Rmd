@@ -1,0 +1,55 @@
+```{r}
+CoSIA_Object<-CoSIAn(
+  gene_set = "FBgn0003975",
+  i_species = "d_melanogaster",
+  o_species = "r_norvegicus",
+  input_id = "Ensembl_id",
+  o_ids = c("Ensembl_id","Entrez_id"),
+  mapping_tool = "biomaRt",
+  ortholog_database = "HomoloGene",
+  map_tissues = "",
+  map_species = "",
+  metric_type = ""
+)
+CoSIA_Object<-CoSIAn(
+  gene_set = g_set,
+  i_species = "m_musculus",
+  o_species = "h_sapiens",
+  input_id = "Ensembl_id",
+  o_ids = "Entrez_id",
+  mapping_tool = "biomaRt",
+  ortholog_database = "HomoloGene",
+  map_tissues = "",
+  map_species = "",
+  metric_type = ""
+)
+
+gene_Set<-OMneuro@gene_set
+
+mm<-getConversions(oSIA_Object)
+OMneuro<-getConversions(OMneuro_CoSIAn_biomart)
+g_set<-df$m_musculus_ensembl_id
+
+
+ input_species<-OMneuro_CoSIAn_biomart@i_species
+    input_id<-OMneuro_CoSIAn_biomart@input_id
+    input<-OMneuro_CoSIAn_biomart@gene_set
+    output_ids<-OMneuro_CoSIAn_biomart@o_ids
+    output_species<-OMneuro_CoSIAn_biomart@o_species
+    tool<-OMneuro_CoSIAn_biomart@mapping_tool
+    ortholog_database<-OMneuro_CoSIAn_biomart@ortholog_database
+    species_data_test<-data.frame(input)
+    c_name<-tolower(paste(input_species,input_id , sep = "_"))
+    colnames(species_data_test)[which(names(species_data_test) == "input")] <- c_name  #changes name to more formal names
+
+summary(hs_data)
+library(biomaRt)
+mart <- biomaRt::useMart("ensembl", dataset = "hsapiens_gene_ensembl")  # pulls the biomaRt object for the species species that has been choosen
+
+filters<-listFilters(mart)
+
+
+output_data <- biomaRt::getBM(attributes = c( "ensembl_gene_id", "entrezgene_id") , filters = "entrezgene_id", values = gene_Set, mart = mart, uniqueRows = TRUE, bmHeader = FALSE)  # run conversion through biomaRt
+
+```
+
