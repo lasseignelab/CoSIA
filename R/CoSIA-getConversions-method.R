@@ -23,6 +23,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
     input_species<-object@i_species
     input_id<-object@input_id
     input<-object@gene_set
+    input<-unique(input)
     output_ids<-object@output_ids
     output_species<-object@o_species
     tool<-object@mapping_tool
