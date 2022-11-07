@@ -18,7 +18,7 @@ getTissues<- function(species) {
   #load the EH data here
   LOT<-filter(List_of_Tissues, Species %in% species)
   LOT<-subset(LOT, select = -c(Species))
-  L<-LOT %>% summarise(Frequency = table(Anatomical_entity_name))
+  L<-LOT %>% dplyr::summarise(Frequency = table(Anatomical_entity_name))
   frequency_value<-length(species)
   common_tissue<-filter(L, Frequency == frequency_value)
   common_tissue<-subset(common_tissue, select = -c(Frequency))
