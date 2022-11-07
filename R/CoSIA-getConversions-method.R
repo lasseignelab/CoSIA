@@ -23,7 +23,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
     input_species<-object@i_species
     input_id<-object@input_id
     input<-object@gene_set
-    output_ids<-object@o_ids
+    output_ids<-object@output_ids
     output_species<-object@o_species
     tool<-object@mapping_tool
     ortholog_database<-object@ortholog_database
@@ -454,7 +454,7 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
            Ensembl_id_version = "ENSEMBLIDVERSION", 
            Gene_name = "GENENAME",
            Symbol = "SYMBOL",
-           stop("Error: Invalid input_id or o_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
+           stop("Error: Invalid input_id or output_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
   })
   input_id <- as.character(input_id)
   output_ids <- as.character(output_ids)
@@ -583,7 +583,7 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
            Ensembl_id = "ensembl_gene_id", 
            Ensembl_id_version = "ensembl_gene_id_version",
            Gene_name = "external_gene_name",
-           stop("Error: Invalid input_id or o_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
+           stop("Error: Invalid input_id or output_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
   }
   )
   #set the id names to their new formats

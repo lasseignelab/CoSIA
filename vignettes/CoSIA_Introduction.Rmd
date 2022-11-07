@@ -4,14 +4,14 @@ gene_set = c("PKD1","PKD2","SETBP1"),
 i_species="h_sapiens",
 o_species=c("m_musculus", "h_sapiens"),
 input_id="Symbol",
-o_ids= "Ensembl_id",
+output_ids= "Ensembl_id",
 mapping_tool="annotationDBI",
 ortholog_database = "HomoloGene",
 map_tissues = "",
 map_species = "",
 metric_type=""
 )
-kidney_ensembl<-getConversions(kidney)@converted_id
+kidney_ensembl<-getConversions(kidney)
 mouse_ensembl<-kidney_ensembl$m_musculus_ensembl_id
 ```
 
