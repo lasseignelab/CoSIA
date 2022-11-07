@@ -3,7 +3,7 @@
 #Find the Available/Common Tissues in CoSIA for a given combination of species
 
 getTissues<- function(species) {
-  List_of_Tissues<-Experimental_Hub_File %>% group_by(Anatomical_entity_name) %>% summarise(Anatomical_entity_ID = unique(Anatomical_entity_ID), Species=unique(Species))
+  List_of_Tissues<-Experimental_Hub_File %>% dplyr::group_by(Anatomical_entity_name) %>% dplyr::summarise(Anatomical_entity_ID = unique(Anatomical_entity_ID), Species=unique(Species))
   Species_SWITCH <- Vectorize(vectorize.args = "species", FUN = function(species) {
     switch(as.character(species),
            h_sapiens ="Homo_sapiens",
