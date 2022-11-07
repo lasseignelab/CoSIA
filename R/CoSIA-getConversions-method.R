@@ -506,11 +506,11 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
       entrez_id_col_name<- paste(input_species,"entrez_id",sep = "_")
       ortholog_data <- ortholog_data %>% dplyr::select(-all_of(entrez_id_col_name))      
       ortho <- AnnotationDbi::select(output_org, keys = as.character(as.matrix(ortholog_data$species_two)), columns = c(output_ids, "ENTREZID"),keytype = "ENTREZID") # next we are going to take the entrezids of the orthologs and return the output values of the gene
-      #non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # determine the indices for the non-NA genes
-      #ortho <- ortho[non_na, ]  #return only the genes with annotations using indices
-      #non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  #determine the indices for the non-duplicated genes
-      #ortho <- ortho[non_dups, ]  #return only the non-duplicated genes using indices
-      #ortho <- data.frame(ortho)  #make this into a data frame
+      non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # determine the indices for the non-NA genes
+      ortho <- ortho[non_na, ]  #return only the genes with annotations using indices
+      non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  #determine the indices for the non-duplicated genes
+      ortho <- ortho[non_dups, ]  #return only the non-duplicated genes using indices
+      ortho <- data.frame(ortho)  #make this into a data frame
       names(ortho)[names(ortho) == "ENTREZID"] <- "species_two"  # set the entrezID into a dataframe
       merged_data_orthologs <- merge.data.frame(data.frame(ortho), data.frame(ortholog_data), by = "species_two")  #merge the ortholog conversion dataframe with the merge dataframe
       colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "species_two")] <- paste(output_species,"entrez_id",sep = "_")
@@ -546,11 +546,11 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
       colnames(merged_data)[which(names(merged_data) == "GENENAME")] <- paste(input_species, "gene_name", sep = "_")  #changes name to more formal names
       ortho <- AnnotationDbi::select(output_org, keys = as.character(as.matrix(merged_data$species_two)), columns = output_ids,
                                      keytype = "ENTREZID")  # now that you have the entrezids of the converted species we can convert to different gene identifiers
-      #non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-NA genes
-      #ortho <- ortho[non_na, ]  # Return only the genes with annotations using indices
-      #non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-duplicated genes
-      #ortho <- ortho[non_dups, ]  # Return only the non-duplicated genes using indices
-      #ortho <- data.frame(ortho)  # make the ortholog conversion into a dataframe
+      non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-NA genes
+      ortho <- ortho[non_na, ]  # Return only the genes with annotations using indices
+      non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-duplicated genes
+      ortho <- ortho[non_dups, ]  # Return only the non-duplicated genes using indices
+      ortho <- data.frame(ortho)  # make the ortholog conversion into a dataframe
       names(ortho)[names(ortho) == "ENTREZID"] <- "species_two"  #rename the species into species two in order to merge the orthologs and the original data
       merged_data_ortholog <- merge.data.frame(data.frame(ortho), data.frame(merged_data), by = "species_two")  # merge
       colnames(merged_data_ortholog)[names(merged_data_ortholog) == "species_two"] <- paste(output_species, "entrez_id", sep = "_")  #changes name to more formal names
