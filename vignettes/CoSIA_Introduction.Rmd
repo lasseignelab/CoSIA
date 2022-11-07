@@ -37,10 +37,10 @@ gene_set = c("PKD1","PKD2","SETBP1"),
 i_species="h_sapiens",
 o_species=c("m_musculus", "h_sapiens"),
 input_id="Symbol",
-o_ids= "Ensembl_id",
+output_ids= "Ensembl_id",
 mapping_tool="annotationDBI",
 ortholog_database = "HomoloGene",
-map_tissues = t$Common_Anatomical_Entity_Name,
+map_tissues = "kidney",
 map_species = "m_musculus",
 metric_type="DS_Gene"
 )

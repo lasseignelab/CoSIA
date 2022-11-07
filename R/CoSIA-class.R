@@ -53,19 +53,20 @@ setClass("CoSIAn",contains = "CoSIA",
 ## Constructor (COPY OVER THE DESCRIPTION AFTER APPROVAL FROM CLASS)
 #' @description The \code{CoSIAn} constructor creates a \code{CoSIAn} object from character vector(s).
 #' @rdname CoSIA-class
-#' @param gene_set 
-#' @param i_species 
-#' @param input_id 
-#' @param o_species 
-#' @param output_ids 
-#' @param mapping_tool 
-#' @param ortholog_database 
-#' @param map_tissues 
-#' @param map_species
-#' @param metric_type 
+#' @param gene_set A singular gene or a list of genes.
+#' @param i_species The species corresponding to gene_set.
+#' @param input_id The type of id corresponding to gene_set.
+#' @param o_species The singular or list of species that the gene set is being converted to.
+#' @param output_ids The singular or list of id types that the gene set is being converted to.
+#' @param mapping_tool The mapping tool, BiomaRt or annotationDBI, being used to map the conversion between IDs.
+#' @param ortholog_database The ortholog database, HomoloGene or NCBIOrtho, being used to map the conversion between species.
+#' @param map_tissues A list of tissues being investigated
+#' @param map_species A list of species being investigated
+#' @param metric_type A list of possible metric the user wants to calculate.
 #' @return An S4 \code{CoSIAn} object with character vector(s) as slots.
 #' @export
 #' @examples
+#' PKD1 <- CoSIA::CoSIAn(gene_set = "PKD1",i_species="h_sapiens",o_species="m_musculus",input_id="Symbol",output_ids= "Ensembl_id",mapping_tool="annotationDBI",ortholog_database = "HomoloGene",map_tissues = "adult mammalian kidney",map_species = "m_musculus",metric_type="DS_Gene")
 
 
 #constructor for user who is using all of the functions
