@@ -67,3 +67,19 @@ cosia_object <- CoSIAn(
 getConversions(cosia_object)@converted_id
 ```
 
+```{r}
+CoSIAn_Obj <- CoSIA::CoSIAn(gene_set = FullHumanMDLKD$Human_Symbol,
+                            i_species = "h_sapiens",
+                            o_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
+                            input_id = "Symbol",
+                            output_ids = "Ensembl_id",
+                            map_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
+                            map_tissues = c("adult mammalian kidney", "heart"),
+                            mapping_tool = "annotationDBI",
+                            ortholog_database = "HomoloGene",
+                            metric_type = "CV_Species"
+                            )
+
+CoSIAn_Obj_convert <- CoSIA::getConversions(CoSIAn_Obj)
+```
+
