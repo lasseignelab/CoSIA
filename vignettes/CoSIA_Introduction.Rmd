@@ -1,16 +1,69 @@
 ```{r}
-cosia_object <- CoSIAn(
-gene_set = "ENSRNOG00000060666",
-i_species="r_norvegicus",
-o_species=c("d_melanogaster", "h_sapiens"),
-input_id="Ensembl_id",
+kidney <- CoSIAn(
+gene_set = c("PKD1","PKD2","SETBP1"),
+i_species="h_sapiens",
+o_species=c("m_musculus", "h_sapiens"),
+input_id="Symbol",
 o_ids= "Ensembl_id",
-mapping_tool="biomaRt",
+mapping_tool="annotationDBI",
 ortholog_database = "HomoloGene",
 map_tissues = "",
 map_species = "",
 metric_type=""
 )
+kidney_ensembl<-getConversions(kidney)@converted_id
+mouse_ensembl<-kidney_ensembl$m_musculus_ensembl_id
+```
+
+Entropy and Specificity READ Counts
+```{r}
+filter_species <- dplyr::filter(mouse_specific,Gene.ID %in% mouse_ensembl)
+filter_gex<- dplyr::select(filter_species, Anatomical.entity.name, Read.count, Gene.ID)
+Species<-filter_gex %>% group_by(Gene.ID,Anatomical.entity.name) %>% summarise(Sample_size = n(), Median_Read_count = median(Read.count), Read_count = paste(unique(Read.count), collapse = ', '))
+Species<- dplyr::select(Species, Anatomical.entity.name, Median_Read_count, Gene.ID)
+filter_gex<- Species%>% tidyr::pivot_wider(names_from = Gene.ID, values_from = Median_Read_count )
+filter_gex <- filter_gex %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical.entity.name")
+ENTROPY_DIVERSITY_G<-data.frame(BioQC::entropyDiversity(filter_gex,norm = TRUE)) # across genes
+ENTROPY_DIVERSITY_T<-data.frame(BioQC::entropyDiversity(t(filter_gex),norm = TRUE)) # across tissue
+ENTROPY_SPECIFICITY_G<-data.frame(BioQC::entropySpecificity(t(filter_gex),norm = TRUE)) # across genes
+ENTROPY_SPECIFICITY_T<-data.frame(BioQC::entropySpecificity(filter_gex,norm = TRUE)) # across tissue
+```
+
+Entropy and Specificity VST
+```{r}
+t<-CoSIA::getTissues("m_musculus")
+kidney <- CoSIA::CoSIAn(
+gene_set = c("PKD1","PKD2","SETBP1"),
+i_species="h_sapiens",
+o_species=c("m_musculus", "h_sapiens"),
+input_id="Symbol",
+o_ids= "Ensembl_id",
+mapping_tool="annotationDBI",
+ortholog_database = "HomoloGene",
+map_tissues = t$Common_Anatomical_Entity_Name,
+map_species = "m_musculus",
+metric_type="DS_Gene"
+)
+kidney_ensembl<-CoSIA::getConversions(kidney)
+kidney_gex<-CoSIA::getGEx(kidney_ensembl)
+kidney_gex_metric<-CoSIA::getGExMetrics(kidney_gex)
+
+mouse_ensembl<-kidney_ensembl$m_musculus_ensembl_id
+```
+
+```{r}
+cosia_object <- CoSIAn(
+    gene_set = "8452",
+    i_species="h_sapiens",
+    o_species="h_sapiens",
+    input_id="Entrez_id",
+    o_ids=c("Ensembl_id","Gene_name","Entrez_id"),
+    mapping_tool="biomaRt",
+    ortholog_database = "HomoloGene",
+    map_tissues = "",
+    map_species = "",
+    metric_type=""
+  )
 getConversions(cosia_object)@converted_id
 ```
 
