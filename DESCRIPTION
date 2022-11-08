@@ -40,10 +40,10 @@ Imports:
   BioQC (>= 1.22.0),
   ggplot2 (>= 3.3.6),
   tibble (>= 3.1.8)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 Suggest:
   KEGGREST (>= 1.30.1)
-biocViews: Software, AnnotationData
+biocViews: Software
 BugReports:
 URL:
 Suggests: 
