@@ -46,3 +46,7 @@ Suggest:
 biocViews: Software, AnnotationData
 BugReports:
 URL:
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
