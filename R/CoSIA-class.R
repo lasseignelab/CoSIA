@@ -62,7 +62,7 @@ setClass("CoSIAn",contains = "CoSIA",
 #' @param ortholog_database 
 #' @param map_tissues 
 #' @param map_species
-#' @param metric_type 
+#' @param metric_type
 #' @return An S4 \code{CoSIAn} object with character vector(s) as slots.
 #' @export
 #' @examples
