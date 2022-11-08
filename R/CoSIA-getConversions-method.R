@@ -23,7 +23,8 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
     input_species<-object@i_species
     input_id<-object@input_id
     input<-object@gene_set
-    output_ids<-object@o_ids
+    input<-unique(input)
+    output_ids<-object@output_ids
     output_species<-object@o_species
     tool<-object@mapping_tool
     ortholog_database<-object@ortholog_database
@@ -34,6 +35,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
         Filter_I_Species <- switch(input_species,
                                h_sapiens = {
                                  hs_data<-h_sapiens(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 hs_data<-data.frame(lapply(hs_data,as.character))
                                  result <- try({dplyr::full_join(species_data,hs_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -43,6 +45,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                 },
                                m_musculus = {
                                  mm_data<-m_musculus(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 mm_data<-data.frame(lapply(mm_data,as.character))
                                  result <- try({ dplyr::full_join(species_data,mm_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -52,6 +55,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  },
                                r_norvegicus = {
                                  rn_data<-r_norvegicus(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 rn_data<-data.frame(lapply(rn_data,as.character))
                                  result <- try({ dplyr::full_join(species_data,rn_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -61,6 +65,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  },
                                d_rerio = {
                                  dr_data<-d_rerio(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 dr_data<-data.frame(lapply(dr_data,as.character))
                                  result <- try({dplyr::full_join(species_data,dr_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -70,6 +75,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  },
                                c_elegans = {
                                  ce_data<-c_elegans(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 ce_data<-data.frame(lapply(ce_data,as.character))
                                  result <- try({dplyr::full_join(species_data,ce_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -79,6 +85,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
                                  },
                                d_melanogaster = {
                                  dm_data<-d_melanogaster(input_id,input,output_ids,output_species[index], tool, ortholog_database)
+                                 dm_data<-data.frame(lapply(dm_data,as.character))
                                  result <- try({dplyr::full_join(species_data,dm_data)}, silent = TRUE)
                                  if (class(result) == "try-error") {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
@@ -257,8 +264,8 @@ d_rerio<-function(input_id,input_dataset,output_ids,output_species, tool, orthol
                              output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 6239, org.Dr.eg.db::org.Dr.eg.db,
                                                                org.Ce.eg.db::org.Ce.eg.db, ortholog_database)                           },
                            r_norvegicus ={
-                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 6239, org.Dr.eg.db::org.Dr.eg.db,
-                                                               org.Ce.eg.db::org.Ce.eg.db, ortholog_database)                           },
+                             output_data <- CoSIA::annotationDBI(input_id, input_dataset, output_ids, input_species = "d_rerio", output_species, 10116, org.Dr.eg.db::org.Dr.eg.db,
+                                                               org.Rn.eg.db::org.Rn.eg.db, ortholog_database)                           },
                            stop("Error: Invalid o_species in CoSIAn Object. Make sure the species in the o_species slot is an avalible model 
                                     organism and is in the correct format.")
     )
@@ -447,7 +454,8 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
            Ensembl_id = "ENSEMBL", 
            Ensembl_id_version = "ENSEMBLIDVERSION", 
            Gene_name = "GENENAME",
-           Symbol = "SYMBOL")
+           Symbol = "SYMBOL",
+           stop("Error: Invalid input_id or output_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
   })
   input_id <- as.character(input_id)
   output_ids <- as.character(output_ids)
@@ -499,18 +507,18 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
       entrez_id_col_name<- paste(input_species,"entrez_id",sep = "_")
       ortholog_data <- ortholog_data %>% dplyr::select(-all_of(entrez_id_col_name))      
       ortho <- AnnotationDbi::select(output_org, keys = as.character(as.matrix(ortholog_data$species_two)), columns = c(output_ids, "ENTREZID"),keytype = "ENTREZID") # next we are going to take the entrezids of the orthologs and return the output values of the gene
-      #non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # determine the indices for the non-NA genes
-      #ortho <- ortho[non_na, ]  #return only the genes with annotations using indices
-      #non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  #determine the indices for the non-duplicated genes
-      #ortho <- ortho[non_dups, ]  #return only the non-duplicated genes using indices
-      #ortho <- data.frame(ortho)  #make this into a data frame
+      non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # determine the indices for the non-NA genes
+      ortho <- ortho[non_na, ]  #return only the genes with annotations using indices
+      non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  #determine the indices for the non-duplicated genes
+      ortho <- ortho[non_dups, ]  #return only the non-duplicated genes using indices
+      ortho <- data.frame(ortho)  #make this into a data frame
       names(ortho)[names(ortho) == "ENTREZID"] <- "species_two"  # set the entrezID into a dataframe
       merged_data_orthologs <- merge.data.frame(data.frame(ortho), data.frame(ortholog_data), by = "species_two")  #merge the ortholog conversion dataframe with the merge dataframe
       colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "species_two")] <- paste(output_species,"entrez_id",sep = "_")
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENTREZID")] <- paste(output_species, "entrez_ID", sep = "_")  #changes name to more formal names
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBL")] <- paste(output_species, "ensembl_ID", sep = "_")  #changes name to more formal names
+      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENTREZID")] <- paste(output_species, "entrez_id", sep = "_")  #changes name to more formal names
+      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBL")] <- paste(output_species, "ensembl_id", sep = "_")  #changes name to more formal names
       colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "SYMBOL")] <- paste(output_species, "symbol", sep = "_")  #changes name to more formal names
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBLIDVERSION")] <- paste(output_species, "ensembl_ID_with_Version_ID", sep = "_")  #changes name to more formal names
+      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBLIDVERSION")] <- paste(output_species, "ensembl_id_with_Version_id", sep = "_")  #changes name to more formal names
       colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "GENENAME")] <- paste(output_species, "gene_name", sep = "_")  #changes name to more formal names
       merged_data_orthologs <- merged_data_orthologs[!duplicated(as.list(merged_data_orthologs))]  # removes duplicates from the data
       #merged_data_orthologs = subset(merged_data_orthologs, select = -c(species_two, species_one))  # removes the species two and species one parts of the data
@@ -539,11 +547,11 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
       colnames(merged_data)[which(names(merged_data) == "GENENAME")] <- paste(input_species, "gene_name", sep = "_")  #changes name to more formal names
       ortho <- AnnotationDbi::select(output_org, keys = as.character(as.matrix(merged_data$species_two)), columns = output_ids,
                                      keytype = "ENTREZID")  # now that you have the entrezids of the converted species we can convert to different gene identifiers
-      #non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-NA genes
-      #ortho <- ortho[non_na, ]  # Return only the genes with annotations using indices
-      #non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-duplicated genes
-      #ortho <- ortho[non_dups, ]  # Return only the non-duplicated genes using indices
-      #ortho <- data.frame(ortho)  # make the ortholog conversion into a dataframe
+      non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-NA genes
+      ortho <- ortho[non_na, ]  # Return only the genes with annotations using indices
+      non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  # Determine the indices for the non-duplicated genes
+      ortho <- ortho[non_dups, ]  # Return only the non-duplicated genes using indices
+      ortho <- data.frame(ortho)  # make the ortholog conversion into a dataframe
       names(ortho)[names(ortho) == "ENTREZID"] <- "species_two"  #rename the species into species two in order to merge the orthologs and the original data
       merged_data_ortholog <- merge.data.frame(data.frame(ortho), data.frame(merged_data), by = "species_two")  # merge
       colnames(merged_data_ortholog)[names(merged_data_ortholog) == "species_two"] <- paste(output_species, "entrez_id", sep = "_")  #changes name to more formal names
@@ -575,9 +583,8 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
            Entrez_id = "entrezgene_id", 
            Ensembl_id = "ensembl_gene_id", 
            Ensembl_id_version = "ensembl_gene_id_version",
-           Gene_name = "external_gene_name", 
-           MGI_Symbol = "mgi_symbol", 
-           HGNC_Symbol = "hgnc_symbol")
+           Gene_name = "external_gene_name",
+           stop("Error: Invalid input_id or output_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
   }
   )
   #set the id names to their new formats
@@ -587,14 +594,15 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     # goes through this path if the input and output species are the same
     mart <- biomaRt::useMart("ensembl", dataset = species_dataset)  # pulls the biomaRt object for the species species that has been choosen
     attributes <- c(output_ids, input_id)  # sets the attributes that the user wants makes sure to set both the input and output values
-    filters = input_id  # sets the filters as the input vales
+    attributes <- as.character(attributes)
+    filters<- input_id  # sets the filters as the input vales
+    filters <- as.character(filters)
+    input_dataset <- as.character(input_dataset)
     output_data <- biomaRt::getBM(attributes = attributes, filters = filters, values = input_dataset, mart = mart, uniqueRows = TRUE, bmHeader = FALSE)  # run conversion through biomaRt
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id")] <- paste(input_species,"ensembl_id",sep = "_")
     colnames(output_data)[which(names(output_data) == "entrezgene_id")] <- paste(input_species,"entrez_id",sep = "_")
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id_version")] <- paste(input_species,"ensembl_id_version",sep = "_")
     colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
-    colnames(output_data)[which(names(output_data) == "mgi_symbol")] <- paste(input_species,"mgi_symbol",sep = "_")
-    colnames(output_data)[which(names(output_data) == "hgnc_symbol")] <- paste(input_species,"hgnc_symbol",sep = "_")
     output_data <- output_data %>% dplyr::select(-contains('.'))      
     return(output_data)  # return the biomaRt output
   } 
@@ -612,8 +620,6 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id")] <- paste(input_species,"ensembl_id",sep = "_")
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id_version")] <- paste(input_species,"ensembl_id_version",sep = "_")
     colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
-    colnames(output_data)[which(names(output_data) == "mgi_symbol")] <- paste(input_species,"mgi_symbol",sep = "_")
-    colnames(output_data)[which(names(output_data) == "hgnc_symbol")] <- paste(input_species,"hgnc_symbol",sep = "_")
     merged_data <- merge.data.frame(data.frame(output_data), data.frame(id), by = "species_one")  #merge the two dataframes
     colnames(merged_data)[which(names(merged_data) == "species_one")] <- paste(input_species, "entrez_id", sep = "_")  #rename to a more formal name
     marts <- biomaRt::useMart("ensembl", dataset = output_species_dataset)  #set the biomart species to the new species
@@ -630,8 +636,6 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     names(merged_species_data)[names(merged_species_data) == "species_two"] <- paste(output_species, "entrez_id", sep = "_")  # clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "entrezgene_id")] <- paste(output_species, "entrez_id", sep = "_")  #clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id")] <- paste(output_species, "ensembl_id", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "hgnc_symbol")] <- paste(output_species, "hgnc_symbol", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "mgi_symbol")] <- paste(output_species, "mgi_symbol", sep = "_")  #clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "external_gene_name")] <- paste(output_species, "gene_name", sep = "_")  #clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id_version")] <- paste(output_species, "ensembl_id_version",sep = "_")  #clean up names
     merged_species_data <- merged_species_data[!duplicated(as.list(merged_species_data))]  #remove duplicates
