@@ -15,8 +15,8 @@ date: 2022-11-08
 ---
 
 ```{css, echo=FALSE}
-.main-container {
-  max-width: 100%;
+.row {
+  margin-left: -200px;
 }
 ```
 
@@ -38,8 +38,6 @@ knitr::opts_chunk$set(
 
 CoSIA is split into 5 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
-#comment **this isn't how CoSIA is currently organized (based on image as well). Will rewrite text based on it's current shape, keep what you'd like.** 
-The first module and second module have a shared method, `getConversion`, that is used to conduct conversion between different gene identifiers in the same species as well as in different species. The third module has a method, `getTissueExpression`, that is used to visualize the raw gene expression values of a gene across multiple tissues in one model organism. The fourth module has a method, `getSpeciesExpression`, that is used to visualize the raw gene expression values of a gene in one tissues across multiple model organisms.The fifth module has a method, `getTranscriptomeDiversity`, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and model organisms.
 
 #comment **suggested rewrite/arrangement if maintaing the modules as they are**
 The first module and second modules have a shared method, `getConversions`, that is used to conduct conversion between different gene identifiers in the same species as well as in different species. The third and fourth modules have a shared method, `getGEx`, used to obtain raw [VST transformed] gene expression values of a single gene *across multiple tissues in single model organism* or *across multiple model organisms in a single tissue*. Plotting methods, `plotTissueGEx` & `plotSpeciesGEx`, are used to visualize gene expression values for modules three and four, respectively. The fifth module uses the method `getGExMetrics` to calculate median-based Coefficient of Variation and Shannon Entropy. There are two accompanying plotting methods, `plotCVGEx` & `plotDSGEx` that are used to visualize the variation and diversity of gene expression across tissues and model organisms.
@@ -74,7 +72,7 @@ library(CoSIA)
 library(tidyverse)
 
 load("../../Learning/useCoSIA/data/EH_Data.RData")
-monogenic_kidney_genes <- readRDS("../data/monogenic_kidney_genes_toy.RDS")
+monogenic_kidney_genes <- readRDS("../data/monogenic_kidney_genes.rds")
 
 ```
 
