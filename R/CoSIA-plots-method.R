@@ -36,35 +36,40 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
   brewer.pal.info <- RColorBrewer::brewer.pal.info
   palette5 <- RColorBrewer::brewer.pal.info[brewer.pal.info$category == "qual", ]
   color <- unlist(mapply(RColorBrewer::brewer.pal, palette5$maxcolors, rownames(palette5)))
-  fig <- filter_gex %>%
-    plotly::plot_ly(
-      x = ~Species,
-      y = ~VST,
-      type = 'scatter',
-      mode = "markers", 
-      color = ~Species,
-      colors = color
-    ) %>%
-    plotly::add_markers(x = ~Species, 
-                        y = ~Median_VST, 
-                        marker = list(symbol = "line-ew", 
-                                      size = 20, 
-                                      line = list(color = "grey"
-                                                  , width = 2)))
-
-  fig <- fig %>%
-    plotly::add_trace(marker = list(size = 8, line = list(color = "black", width = 0.75)), 
-                      showlegend = F)
+  plotList <- list() #plot list
+  speciesList <- unique(filter_gex$Species) #species list
   
-  fig <- fig %>%
-    plotly::add_trace(type = "violin", spanmode = "hard",
-                      showlegend = F)
-  fig <- fig %>%
-    plotly::layout(xaxis = list(title = "Species", size = 2), 
-                   yaxis = list(title = "VST (Variance Stabilized Transformation of Read Counts)",zeroline = F),
-                   title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_tissue , "across species" , sep = " ")),
+  for(i in 1:length(speciesList)){ 
+    tmpdat <- filter_gex %>% filter(Species == speciesList[[i]])
+    plotList[[i]] <- plotly_build(plotly::plot_ly(data = tmpdat,
+                                                  x = 0,
+                                                  y = ~VST,
+                                                  type = 'scatter',
+                                                  mode = "markers", 
+                                                  colors = color)%>%
+                                    plotly::add_markers(x = 0, 
+                                                        y = ~Median_VST, 
+                                                        marker = list(symbol = "line-ew", 
+                                                                      size = 20, 
+                                                                      line = list(color = "grey"
+                                                                                  , width = 2)))%>%
+                                    plotly::layout(annotations = list(list(x = 0, xanchor = "center", yanchor = "bottom", text = speciesList[[i]], showarrow = F)),
+                                                   xaxis = list(title = "Species", size = 2)) %>% 
+                                    plotly::add_trace(marker = list(size = 8, line = list(color = "black", width = 0.75)), 
+                                                      showlegend = F)%>%
+                                    plotly::add_trace(type = "violin", spanmode = "hard",
+                                                      showlegend = F)%>%
+                                    plotly::layout(xaxis = list(showticklabels=FALSE), 
+                                                   yaxis = list(title = "VST (Variance Stabilized Transformation of Read Counts)",zeroline = F),
+                                                   showlegend = FALSE))
+    
+    
+  }
+  fig <- subplot(plotList, shareY = T)
+  fig <- fig %>% 
+    plotly::layout(title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_tissue , "across species" , sep = " ")),
                    showlegend = FALSE)
-
+  
   return(fig)
 })
 
