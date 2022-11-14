@@ -1,3 +1,36 @@
+Dummy Data
+```{r}
+dummy_data_cosia <- readr::read_csv("~/Downloads/dummy_data_cosia.csv")
+library(tidyverse)
+dummy_data_cosia<-dummy_data_cosia %>% remove_rownames %>% column_to_rownames(var="...1")
+dummy_data_cosia<-data.frame(t(dummy_data_cosia))
+dummy_data_cosia<- dummy_data_cosia%>% mutate(gene1 = (gene1)^2 ,
+                                              gene2 = (gene2)^2,
+                                              gene3 = (gene3)^2,
+                                              gene4 = (gene4)^2,
+                                              gene5 = (gene5)^2
+                                              )
+library(BioQC)
+DENTROPY_DIVERSITY_G<-data.frame(entropyDiversity(dummy_data_cosia,norm = TRUE)) # across genes
+DENTROPY_DIVERSITY_T<-data.frame(entropyDiversity(t(dummy_data_cosia),norm = TRUE)) # across tissue
+DENTROPY_SPECIFICITY_G<-data.frame(entropySpecificity(t(dummy_data_cosia),norm = TRUE)) # across genes
+DENTROPY_SPECIFICITY_T<-data.frame(entropySpecificity(dummy_data_cosia,norm = TRUE)) # across tissue
+
+
+
+```
+
+```{r}
+filter_mouse<- dplyr::select(mouse_specific, Anatomical.entity.name, VST, Gene.ID)
+Mouse<-filter_mouse %>% group_by(Gene.ID,Anatomical.entity.name) %>% summarise(Sample_size = n(), Median_VST = median(VST), VST = paste(unique(VST), collapse = ', '))
+Mouse<- dplyr::select(Mouse, Anatomical.entity.name, Median_VST, Gene.ID)
+filter<- Mouse%>% tidyr::pivot_wider(names_from = Gene.ID, values_from = Median_VST )
+filter <- filter %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical.entity.name")
+
+```
+
+
+
 ```{r}
 kidney <- CoSIAn(
 gene_set = c("PKD1","PKD2","SETBP1"),
@@ -17,15 +50,23 @@ k<-kidney_ensembl@converted_id
 mouse_ensembl<-k$m_musculus_ensembl_id
 ```
 
+
 Entropy and Specificity READ Counts
 ```{r}
 filter_species <- dplyr::filter(mouse_specific,Gene.ID %in% mouse_ensembl)
 filter_gex<- dplyr::select(filter_species, Anatomical.entity.name, VST, Gene.ID)
-Species<-filter_gex %>% group_by(Gene.ID,Anatomical.entity.name) %>% summarise(Sample_size = n(), Median_VST = median(VST), VST = paste(unique(VST), collapse = ', '))
+filter_gex$VST_Scaled_Exp<- 1 / (1 + exp(-filter_gex$VST))
+
+library(dplyr)
+library(magrittr)
+library(tibble)
+
+
+Species<-filter_gex %>% group_by(Gene.ID,Anatomical.entity.name) %>% summarise(Sample_size = n(), Median_VST = median(VST_Scaled_Exp), VST = paste(unique(VST_Scaled_Exp), collapse = ', '))
 Species<- dplyr::select(Species, Anatomical.entity.name, Median_VST, Gene.ID)
 
-filter_gex<- Species%>% tidyr::pivot_wider(names_from = Gene.ID, values_from = Median_VST )
-filter_gex <- filter_gex %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical.entity.name")
+filter_gene<- Species%>% tidyr::pivot_wider(names_from = Gene.ID, values_from = Median_VST )
+filter_gene <- filter_gene %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical.entity.name")
 
 
 filter_gex$ENSMUSG00000034462_L10<-log10(filter_gex$ENSMUSG00000034462)
@@ -154,17 +195,18 @@ sampleSpecialization <- function(mat, norm=TRUE) {
   rel <- apply(mat, 2L, function(x) x/sum(x, na.rm=TRUE))
   res <- apply(rel, 2L, function(x) sum(x*speci, na.rm=TRUE))
   if(norm)
-    res <- res/log2(ncol(mat))
+    res <- res/log2(ncol(mat))  
   res
 }
 ```
 
 
 ```{r}
-ENTROPY_DIVERSITY_G<-data.frame(EntropyDiversity(filter_gex,norm = TRUE)) # across genes
-ENTROPY_DIVERSITY_T<-data.frame(EntropyDiversity(t(filter_gex),norm = TRUE)) # across tissue
-ENTROPY_SPECIFICITY_G<-data.frame(EntropySpecificity(t(filter_gex),norm = TRUE)) # across genes
-ENTROPY_SPECIFICITY_T<-data.frame(EntropySpecificity(filter_gex,norm = TRUE)) # across tissue
+library(BioQC)
+ENTROPY_DIVERSITY_G<-data.frame(entropyDiversity(filter_gene,norm = TRUE)) # across genes
+ENTROPY_DIVERSITY_T<-data.frame(entropyDiversity(t(filter_gene),norm = TRUE)) # across tissue
+ENTROPY_SPECIFICITY_G<-data.frame(entropySpecificity(t(filter_gene),norm = TRUE)) # across genes
+ENTROPY_SPECIFICITY_T<-data.frame(entropySpecificity(filter_gene,norm = TRUE)) # across tissue
 ```
 
 Entropy and Specificity VST
