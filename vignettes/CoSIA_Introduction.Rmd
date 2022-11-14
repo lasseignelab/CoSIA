@@ -263,3 +263,25 @@ CoSIAn_Obj <- CoSIA::CoSIAn(gene_set = FullHumanMDLKD$Human_Symbol,
 CoSIAn_Obj_convert <- CoSIA::getConversions(CoSIAn_Obj)
 ```
 
+```{r}
+filter_mouse<-dplyr::filter(Experimental_Hub_File,Species == "Mus_musculus")
+filter_mouse<-dplyr::select(filter_mouse, Ensembl_ID, Median_VST, Anatomical_entity_name)
+filter_mouse<-unique(filter_mouse)
+filter_mouse$VST_Scaled <-((filter_mouse$Median_VST)-min(filter_mouse$Median_VST))/ (max(filter_mouse$Median_VST)-min(filter_mouse$Median_VST))
+filter_mouse<-dplyr::select(filter_mouse, Ensembl_ID, VST_Scaled, Anatomical_entity_name)
+
+filter_gex<- filter_mouse%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = VST_Scaled )
+filter_gex <- filter_gex %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
+
+hist(filter_mouse$VST_Scaled)
+
+library(BioQC)
+ENTROPY_DIVERSITY_G<-data.frame(entropyDiversity(filter_gex,norm = TRUE)) # across genes
+ENTROPY_DIVERSITY_T<-data.frame(entropyDiversity(t(filter_gex),norm = TRUE)) # across tissue
+ENTROPY_SPECIFICITY_G<-data.frame(entropySpecificity(t(filter_gex),norm = TRUE)) # across genes
+ENTROPY_SPECIFICITY_T<-data.frame(entropySpecificity(filter_gex,norm = TRUE)) # across tissue
+
+hist(ENTROPY_SPECIFICITY_T$entropySpecificity.filter_gex..norm...TRUE.)
+
+```
+
