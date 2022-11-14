@@ -268,12 +268,12 @@ filter_mouse<-dplyr::filter(Experimental_Hub_File,Species == "Mus_musculus")
 filter_mouse<-dplyr::select(filter_mouse, Ensembl_ID, Median_VST, Anatomical_entity_name)
 filter_mouse<-unique(filter_mouse)
 filter_mouse$VST_Scaled <-((filter_mouse$Median_VST)-min(filter_mouse$Median_VST))/ (max(filter_mouse$Median_VST)-min(filter_mouse$Median_VST))
-filter_mouse<-dplyr::select(filter_mouse, Ensembl_ID, VST_Scaled, Anatomical_entity_name)
+filter_mouse<-dplyr::select(filter_mouse, Ensembl_ID, Median_VST, Anatomical_entity_name)
 
-filter_gex<- filter_mouse%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = VST_Scaled )
+filter_gex<- filter_mouse%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Median_VST )
 filter_gex <- filter_gex %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
 
-hist(filter_mouse$VST_Scaled)
+hist(filter_mouse$Median_VST)
 
 library(BioQC)
 ENTROPY_DIVERSITY_G<-data.frame(entropyDiversity(filter_gex,norm = TRUE)) # across genes
@@ -283,5 +283,32 @@ ENTROPY_SPECIFICITY_T<-data.frame(entropySpecificity(filter_gex,norm = TRUE)) # 
 
 hist(ENTROPY_SPECIFICITY_T$entropySpecificity.filter_gex..norm...TRUE.)
 
+```
+
+```{r}
+map_species<- c("Homo_sapiens", "Mus_musculus", "Rattus_norvegicus")
+filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
+id<-as.vector(t(id))
+filter_gene <- dplyr::filter(filter_species,Ensembl_ID %in% id)
+filter_gex<-tidyr::separate_rows(filter_gene, VST)
+filter_gex$VST <- as.numeric(filter_gex$VST)
+CV_Species<-filter_gex %>% dplyr::group_by(Ensembl_ID, Species) %>% dplyr::summarise(CV_Species = CV_function(VST, na.rm=FALSE))
+
+
+Species_user<-unique(CV_Species$Species)
+for (x in 1:length(Species)){
+  species_specific<-dplyr::filter(CV_Species,Species == Species_user[1])
+  df_metric.wide <- tidyr::pivot_wider(species_specific, names_from = Ensembl_ID, values_from = 'CV_Species')
+  df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Species")
+      CV_plot<-heatmaply::heatmaply(df_metric.wide,
+                         na.value = "white",
+                         dendrogram = "none",
+                         xlab = "Ensembl ID",
+                         ylab = "Species",
+                         main = "The Coeffecient of Variation of Gene Expression of a set of Genes across Species",
+                         fontsize_row = 8,
+                         fontsize_col = 7)
+
+}
 ```
 
