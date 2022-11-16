@@ -84,16 +84,16 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
     id<-as.vector(t(id_dataframe))
     filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
-    filter_gene$Median_VST <- as.numeric(filter_gene$Median_VST)
-    filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_VST, Ensembl_ID)
-    filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
+    filter_gene$Scaled_Median_VST <- as.numeric(filter_gene$Scaled_Median_VST)
+    filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Scaled_Median_VST, Ensembl_ID)
+    filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Scaled_Median_VST)
     filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
     filter_gex_D<- data.matrix(filter_gex_D, )
     ENTROPY_DIVERSITY_G<-data.frame(BioQC::entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
     colnames(ENTROPY_DIVERSITY_G)[which(names(ENTROPY_DIVERSITY_G) == "BioQC..entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
     
     filter_gex<- data.frame(filter_gex)
-    filter_gex_S<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
+    filter_gex_S<- filter_gex%>% tidyr::pivot_wider(names_from = Anatomical_entity_name, values_from = Scaled_Median_VST)
     filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Ensembl_ID")
     filter_gex_S<- data.matrix(filter_gex_S, )
     ENTROPY_SPECIFITY_G<-data.frame(BioQC::entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
@@ -118,17 +118,17 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
       filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
       id<-as.vector(t(id_dataframe))
       filter_gene <- dplyr::filter(filter_tissue,Ensembl_ID %in% id)
-      filter_gene$Median_VST <- as.numeric(filter_gene$Median_VST)
-      filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_VST, Ensembl_ID)
+      filter_gene$Scaled_Median_VST <- as.numeric(filter_gene$Scaled_Median_VST)
+      filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Scaled_Median_VST, Ensembl_ID)
       
-      filter_gex_D<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
+      filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Anatomical_entity_name, values_from = Scaled_Median_VST)
       filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
       filter_gex_D<- data.matrix(filter_gex_D, )
       ENTROPY_DIVERSITY_T<-data.frame(BioQC::entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
       colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "BioQC..entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
       
       filter_gex<- data.frame(filter_gex)
-      filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
+      filter_gex_S<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Scaled_Median_VST)
       filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Anatomical_entity_name")
       filter_gex_S<- data.matrix(filter_gex_S, )
       ENTROPY_SPECIFITY_T<-data.frame(BioQC::entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
@@ -154,17 +154,17 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
       filter_species <- dplyr::filter(Experimental_Hub_File,Species == map_species[x])
       id<-as.vector(t(id_dataframe))
       filter_gene <- dplyr::filter(filter_species,Ensembl_ID %in% id)
-      filter_gene$Median_VST <- as.numeric(filter_gene$Median_VST)
-      filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Median_VST, Ensembl_ID)
+      filter_gene$Scaled_Median_VST <- as.numeric(filter_gene$Scaled_Median_VST)
+      filter_gex<- dplyr::select(filter_gene, Anatomical_entity_name, Scaled_Median_VST, Ensembl_ID)
       
-      filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
+      filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Scaled_Median_VST)
       filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
       filter_gex_D<- data.matrix(filter_gex_D, )
       ENTROPY_DIVERSITY_G<-data.frame(BioQC::entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
       colnames(ENTROPY_DIVERSITY_G)[which(names(ENTROPY_DIVERSITY_G) == "BioQC..entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
       
       filter_gex<- data.frame(filter_gex)
-      filter_gex_S<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
+      filter_gex_S<- filter_gex%>% tidyr::pivot_wider(names_from = Anatomical_entity_name, values_from = Scaled_Median_VST)
       filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Ensembl_ID")
       filter_gex_S<- data.matrix(filter_gex_S, )
       ENTROPY_SPECIFITY_G<-data.frame(BioQC::entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
@@ -189,17 +189,17 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     for (x in 1:length(map_species)){
       filter_species <- dplyr::filter(Experimental_Hub_File,Species == map_species[x])
       filter_tissue <- dplyr::filter(filter_species,Anatomical_entity_name %in% map_tissues)
-      filter_tissue$Median_VST <- as.numeric(filter_tissue$Median_VST)
-      filter_gex<- dplyr::select(filter_tissue, Anatomical_entity_name, Median_VST, Ensembl_ID)
+      filter_tissue$Scaled_Median_VST <- as.numeric(filter_tissue$Scaled_Median_VST)
+      filter_gex<- dplyr::select(filter_tissue, Anatomical_entity_name, Scaled_Median_VST, Ensembl_ID)
       
-      filter_gex_D<- filter_gex%>% pivot_wider(names_from = Anatomical_entity_name, values_from = Median_VST)
+      filter_gex_D<- filter_gex%>% tidyr::pivot_wider(names_from = Anatomical_entity_name, values_from = Scaled_Median_VST)
       filter_gex_D <- filter_gex_D %>% remove_rownames %>% tibble::column_to_rownames(var="Ensembl_ID")
       filter_gex_D<- data.matrix(filter_gex_D, )
       ENTROPY_DIVERSITY_T<-data.frame(BioQC::entropyDiversity(filter_gex_D,norm = TRUE)) # across genes
       colnames(ENTROPY_DIVERSITY_T)[which(names(ENTROPY_DIVERSITY_T) == "BioQC..entropyDiversity.filter_gex_D..norm...TRUE.")] <- "Diversity"
       
       filter_gex<- data.frame(filter_gex)
-      filter_gex_S<- filter_gex%>% pivot_wider(names_from = Ensembl_ID, values_from = Median_VST)
+      filter_gex_S<- filter_gex%>% tidyr::pivot_wider(names_from = Ensembl_ID, values_from = Scaled_Median_VST)
       filter_gex_S <- filter_gex_S %>% remove_rownames %>% column_to_rownames(var="Anatomical_entity_name")
       filter_gex_S<- data.matrix(filter_gex_S, )
       ENTROPY_SPECIFITY_T<-data.frame(BioQC::entropySpecificity(filter_gex_S,norm = TRUE)) # across tissues
