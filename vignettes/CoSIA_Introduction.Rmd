@@ -33,15 +33,15 @@ filter <- filter %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomi
 
 ```{r}
 kidney <- CoSIAn(
-gene_set = c("PKD1","PKD2","SETBP1"),
+gene_set = c("PKD1"),
 i_species="h_sapiens",
-o_species=c("m_musculus", "h_sapiens","r_norvegicus"),
+o_species=c("m_musculus", "h_sapiens"),
 input_id="Symbol",
 output_ids= "Ensembl_id",
 mapping_tool="annotationDBI",
 ortholog_database = "HomoloGene",
-map_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
-map_tissues = c("adult mammalian kidney", "heart"),
+map_species = c("h_sapiens", "m_musculus"),
+map_tissues = c("adult mammalian kidney", "heart", "brain"),
 metric_type="DS_Gene"
 )
 kidney_ensembl<-getConversions(kidney)
@@ -49,8 +49,13 @@ k<-kidney_ensembl@converted_id
 kidney_gex<-getGEx(kidney_ensembl)
 plotSpeciesGEx(object = kidney_gex, single_tissue = "adult mammalian kidney", single_gene = "ENSG00000152217")
 plotTissueGEx(object = kidney_gex, single_species = "m_musculus", single_gene = "ENSG00000152217")
+kidney_gex<-getGExMetrics(kidney_ensembl)
+CoSIA::plotDSGEx(kidney_gex)
+
 
 library(magrittr)
+library(tibble)
+
 
 mouse_ensembl<-k$m_musculus_ensembl_id
 ```
