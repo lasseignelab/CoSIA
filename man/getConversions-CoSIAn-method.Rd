@@ -9,6 +9,12 @@
 \arguments{
 \item{object}{CoSIAn.}
 }
+\value{
+CoSIAn object with converted_id slot filled
+}
 \description{
 getConversions Method
+}
+\examples{
+Kidney_gene_conversion<-CoSIA::getConversions(Kidney_Genes)
 }

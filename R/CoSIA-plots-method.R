@@ -2,10 +2,8 @@
 #'
 #' @param object
 #'
-#' @return
 #' @export
 #'
-#' @examples
 
 setGeneric("plotSpeciesGEx", function(object, single_tissue, single_gene) standardGeneric("plotSpeciesGEx"))
 
@@ -13,10 +11,12 @@ setGeneric("plotSpeciesGEx", function(object, single_tissue, single_gene) standa
 #'
 #' @param object CoSIAn. 
 #'
-#' @return 
+#' @return plot object
 #' @export
 #'
 #' @examples
+#' plotSpeciesGEx(Kidney_gene_gex,"liver","ENSG00000008710")
+#' plotSpeciesGEx(Kidney_gene_gex,"brain","ENSG00000118762")
 
 setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, single_tissue, single_gene) {
   gex_dataframe<-object@gex
@@ -70,10 +70,7 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
 #'
 #' @param object
 #'
-#' @return
 #' @export
-#'
-#' @examples
 
 setGeneric("plotTissueGEx", function(object, single_species, single_gene) standardGeneric("plotTissueGEx"))
 
@@ -81,10 +78,13 @@ setGeneric("plotTissueGEx", function(object, single_species, single_gene) standa
 #'
 #' @param object CoSIAn. 
 #'
-#' @return 
+#' @return plot object
 #' @export
 #'
 #' @examples
+#' plotTissueGEx(Kidney_gene_gex,"h_sapiens","ENSG00000008710")
+#' plotTissueGEx(Kidney_gene_gex,"m_musculus","ENSG00000008710")
+
 
 setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single_species, single_gene) {
   gex_dataframe<-object@gex
@@ -155,11 +155,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
 #'
 #' @param object
 #'
-#' @return
 #' @export
-#'
-#' @examples
-
 setGeneric("plotDSGEx", function(object) standardGeneric("plotDSGEx"))
 
 
@@ -167,10 +163,12 @@ setGeneric("plotDSGEx", function(object) standardGeneric("plotDSGEx"))
 #'
 #' @param object CoSIAn. 
 #'
-#' @return 
+#' @return plot object
 #' @export
 #'
 #' @examples
+#' plotDSGEx(Kidney_gene_metric)
+
 
 setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
   metric_type<- object@metric_type
@@ -222,11 +220,7 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
 #'
 #' @param object
 #'
-#' @return
 #' @export
-#'
-#' @examples
-
 setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 
 
@@ -234,10 +228,12 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 #'
 #' @param object CoSIAn. 
 #'
-#' @return 
+#' @return plot object
 #' @export
 #'
 #' @examples
+#' plotCVGEx(Kidney_gene_metric)
+
 
 setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make multiple heat maps per species and then put them together
   metric_type<- object@metric_type
