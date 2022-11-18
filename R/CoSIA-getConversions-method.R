@@ -2,10 +2,7 @@
 #'
 #' @param object
 #'
-#' @return
 #' @export
-#'
-#' @examples
 
 setGeneric("getConversions", function(object) standardGeneric("getConversions"))
 
@@ -13,10 +10,12 @@ setGeneric("getConversions", function(object) standardGeneric("getConversions"))
 #'
 #' @param object CoSIAn. 
 #'
-#' @return 
+#' @return CoSIAn object with converted_id slot filled
 #' @export
 #'
 #' @examples
+#' Kidney_gene_conversion<-CoSIA::getConversions(Kidney_Genes)
+
 
 setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # user's input of the function
   #Set each part of the object that this method uses into their own variable that will be used inside the code

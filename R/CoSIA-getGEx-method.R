@@ -2,13 +2,23 @@
 #'
 #' @param object
 #'
-#' @return
 #' @export
-#'
-#' @examples
 
 setGeneric("getGEx", function(object) standardGeneric("getGEx"))
 #CoSIAn getGEx
+
+
+#' getGEx Method
+#'
+#' @param object CoSIAn. 
+#'
+#' @return CoSIAn Object with gex slot filled
+#' @export
+#'
+#' @examples
+#' Kidney_gene_gex<- getGEx(Kidney_gene_conversion)
+
+
 setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
   #add validity that converted_id is filled in
   id_dataframe<-object@converted_id

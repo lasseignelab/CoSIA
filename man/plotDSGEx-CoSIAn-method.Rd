@@ -9,6 +9,12 @@
 \arguments{
 \item{object}{CoSIAn.}
 }
+\value{
+plot object
+}
 \description{
 plotDSGEx Method
+}
+\examples{
+plotDSGEx(Kidney_gene_metric)
 }

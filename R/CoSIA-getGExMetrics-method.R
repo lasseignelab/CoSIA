@@ -1,15 +1,22 @@
-#CoSIA getGExMetrics Function
 #' getGExMetrics Generic
 #'
 #' @param object
 #'
-#' @return
+#' @export
+setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
+#CoSIAn getGEx
+
+
+#' getGExMetrics Method
+#'
+#' @param object CoSIAn. 
+#'
+#' @return CoSIAn Object with metric slot filled
 #' @export
 #'
 #' @examples
+#' Kidney_gene_metric<-getGExMetrics(Kidney_gene_gex)
 
-setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
-#CoSIAn getGEx
 setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   id_dataframe<-object@converted_id
   id_dataframe<- as.data.frame(id_dataframe)
