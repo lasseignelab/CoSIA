@@ -175,21 +175,21 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
   df_metric<-object@metric
   if (metric_type == "DS_Gene"){
     cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#882255", "#661100", "#117733", "#6699CC", "#888888") #make these colors color blind friendly
-    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Species))
+    DS_plot<-ggplot2::ggplot(df_metric, ggplot2::aes(x = Specificity, y = Diversity, color = Species))
     DS_plot<-DS_plot+
-      geom_point(size =3, aes())+
-      scale_color_manual(values = cols)+
-      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Mapped Tissues in a Species")+
-      theme_classic()
+      ggplot2::geom_point(size =3, ggplot2::aes())+
+      ggplot2::scale_color_manual(values = cols)+
+      ggplot2::ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Mapped Tissues in a Species")+
+      ggplot2::theme_classic()
   }
   else if (metric_type == "DS_Tissue"){
     cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#117733","#882255", "#661100", "#6699CC", "#888888") #make these colors color blind friendly
-    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Anatomical_entity_name))
+    DS_plot<-ggplot2::ggplot(df_metric, ggplot2::aes(x = Specificity, y = Diversity, color = Anatomical_entity_name))
     DS_plot<-DS_plot+
-      geom_point(size =3, aes(shape=Species))+
-      scale_color_manual(values = cols)+
-      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Anatomical Entity Names")+
-      theme_classic()
+      ggplot2::geom_point(size =3, ggplot2::aes(shape=Species))+
+      ggplot2::scale_color_manual(values = cols)+
+      ggplot2::ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross Anatomical Entity Names")+
+      ggplot2::theme_classic()
   }
   else if (metric_type == "DS_Tissue_all"){
     cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#117733","#882255", "#661100", "#6699CC", "#888888") #make these colors color blind friendly
@@ -202,12 +202,12 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
   }
   else if (metric_type == "DS_Gene_all"){
     cols <- c("#88CCEE", "#CC6677", "#DDCC77",  "#332288", "#AA4499","#44AA99", "#999933", "#882255", "#661100", "#117733", "#6699CC", "#888888") #make these colors color blind friendly
-    DS_plot<-ggplot2::ggplot(df_metric, aes(x = Specificity, y = Diversity, color = Species))
+    DS_plot<-ggplot2::ggplot(df_metric, ggplot2::aes(x = Specificity, y = Diversity, color = Species))
     DS_plot<-DS_plot+
-      geom_point(size =3, aes())+
-      scale_color_manual(values = cols)+
-      ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross all Tissues in a Species")+
-      theme_classic()
+      ggplot2::geom_point(size =3, ggplot2::aes())+
+      ggplot2::scale_color_manual(values = cols)+
+      ggplot2::ggtitle("Diversity versus Specificity of Genes in Geneset \nAcross all Tissues in a Species")+
+      ggplot2::theme_classic()
   }
   else{
     stop("Error: Invalid metric type for plotDS make sure you have a DS argument as the metric type and the values are saved in the metric slot before proceeding. ")
