@@ -9,6 +9,13 @@
 \arguments{
 \item{object}{CoSIAn.}
 }
+\value{
+plot object
+}
 \description{
 plotSpeciesGEx Method
+}
+\examples{
+plotSpeciesGEx(Kidney_gene_gex,"liver","ENSG00000008710")
+plotSpeciesGEx(Kidney_gene_gex,"brain","ENSG00000118762")
 }
