@@ -44,13 +44,7 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
       mode = "markers", 
       color = ~Species,
       colors = color
-    ) %>%
-    plotly::add_markers(x = ~Species, 
-                        y = ~Median_VST, 
-                        marker = list(symbol = "line-ew", 
-                                      size = 20, 
-                                      line = list(color = "grey"
-                                                  , width = 2)))
+    )
   fig <- fig %>%
     plotly::add_trace(marker = list(size = 8, line = list(color = "black", width = 0.75)), 
                       showlegend = F)
@@ -126,13 +120,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
       mode = "markers", 
       color = ~Anatomical_entity_name,
       colors = color
-    ) %>%
-    plotly::add_markers(x = ~Anatomical_entity_name, 
-                        y = ~Median_VST, 
-                        marker = list(symbol = "line-ew", 
-                                      size = 20, 
-                                      line = list(color = "grey"
-                                                  , width = 2)))
+    )
   
   fig <- fig %>%
     plotly::add_trace(marker = list(size = 8, line = list(color = "black", width = 0.75)), 
