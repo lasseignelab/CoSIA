@@ -40,8 +40,8 @@ Monogenic_Kidney_Genes <- data.frame (
 
 -   Anisha Haldar
 -   Vishal H. Oza
--   Elizabeth Wilk
--   Jordan Whitlock
+-   Nathaniel DeVoss
+-   Amanda Clark
 -   Brittany N. Lasseigne
 
 ## License
