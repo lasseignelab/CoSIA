@@ -84,6 +84,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_gex<-tidyr::separate_rows(filter_gene, VST)
     filter_gex$VST <- as.numeric(filter_gex$VST)
     CV_Species<-filter_gex %>% group_by(Ensembl_ID,Species) %>% summarise(CV_Species = CV_function(VST, na.rm=FALSE))
+    CV_Tissue<-CV_Tissue %>% tidyr::spread(Species)
     return(CV_Species)
   }
   
