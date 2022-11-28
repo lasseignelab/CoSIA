@@ -2,6 +2,16 @@
 
 #Find the Available/Common Tissues in CoSIA for a given combination of species
 
+#' getTissues
+#'
+#' @param species name of a species or multiple species that you want to get available tissue list for
+#'
+#' @return list of tissues that are common/available among the species or multiple species inputted
+#' @export
+#'
+#' @examples
+#' tissue<-getTissues(c("m_musculus"))
+
 getTissues<- function(species) {
   List_of_Tissues<-Experimental_Hub_File %>% dplyr::group_by(Anatomical_entity_name) %>% dplyr::summarise(Anatomical_entity_ID = unique(Anatomical_entity_ID), Species=unique(Species))
   Species_SWITCH <- Vectorize(vectorize.args = "species", FUN = function(species) {
