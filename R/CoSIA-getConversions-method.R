@@ -14,6 +14,7 @@ setGeneric("getConversions", function(object) standardGeneric("getConversions"))
 #' @export
 #' @importFrom magrittr %>%
 #' @importFrom stats na.omit
+#' @importFrom tidyselect contains
 #' 
 #' @examples
 #' Kidney_gene_conversion<-CoSIA::getConversions(Kidney_Genes)
@@ -604,7 +605,7 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     colnames(output_data)[which(names(output_data) == "entrezgene_id")] <- paste(input_species,"entrez_id",sep = "_")
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id_version")] <- paste(input_species,"ensembl_id_version",sep = "_")
     colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
-    output_data <- output_data %>% dplyr::select(-purrr::contains('.'))      
+    output_data <- output_data %>% dplyr::select(-contains('.'))      
     return(output_data)  # return the biomaRt output
   } 
   else
