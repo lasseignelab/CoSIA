@@ -66,17 +66,10 @@ setClass("CoSIAn",contains = "CoSIA",
 #' @return An S4 \code{CoSIAn} object with character vector(s) as slots.
 #' @export
 #' @examples
-#' CoSIAn(gene_set = "PKD1",
-#' i_species = "h_sapiens",
-#' input_id = "Symbol", 
-#' o_species = c("h_sapiens","m_musculus"), 
-#' output_ids = "Ensembl_id", 
-#' mapping_tool="annotationDBI", 
-#' ortholog_database= "HomoloGene", 
-#' map_tissues = "heart", 
-#' map_species = "m_musculus", 
-#' metric_type = "DS_Gene"
-#' )
+#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762","ENSG00000152217"),i_species = "h_sapiens",
+#' input_id = "Ensembl_id",o_species = c("d_melanogaster","m_musculus","h_sapiens", "d_rerio","c_elegans","r_norvegicus"),
+#' output_ids = c("Ensembl_id","Symbol"), mapping_tool = "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
+#' map_species = c("m_musculus"),metric_type = "DS_Gene")
 
 
 
