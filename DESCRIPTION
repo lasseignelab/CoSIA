@@ -4,8 +4,8 @@ Title: An Investigation Across Different Species and Tissues
 Version: 0.1.0
 Author: Anisha Haldar
 Maintainer: Anisha Haldar <anishah@uab.edu>
-Description: An investigation across different species allows for conversion between common gene IDs and their orthologs, as well as compare across gene expression. 
-License: file("LICENSE")
+Description: CoSIA provides researchers with the ability to compare across species and tissues using gene expression by providing multiple gene-expression based metrics for calculating and visualizing transcriptome diversity and variation.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
   R (>= 4.0)
@@ -13,11 +13,11 @@ Imports:
   dplyr (>= 1.0.7),
   magrittr (>= 2.0.1),
   RColorBrewer (>= 1.1-2),
-  tidyr (>= 1.2.1),
+  tidyr (>= 1.2.0),
   plotly (>= 4.10.0),
   stringr (>= 1.4.0),
   ggplot2 (>= 3.3.5),
-  tibble (>= 3.1.8),
+  tibble (>= 3.1.7),
   heatmaply (>= 1.4.0),
   BioQC (>= 1.22.0),
   org.Hs.eg.db (>= 3.12.0),
@@ -30,11 +30,14 @@ Imports:
   biomaRt (>= 2.46.3),
   homologene (>= 1.4.68.19),
   annotationTools (>= 1.64.0),
-  readr (>= 2.1.2),
-  tidyverse (>= 1.3.2)
-RoxygenNote: 7.2.1
+  readr (>= 2.1.1),
+  methods (>= 4.1.2),
+  tidyselect (>= 1.1.2),
+  grr (>= 0.9.5),
+  purrr (>= 0.3.4),
+  stats(>= 4.1.2)
+RoxygenNote: 7.2.2
 Suggest:
-  KEGGREST (>= 1.30.1)
 biocViews: Software
-BugReports:
+BugReports: https://github.com/lasseignelab/CoSIA/issues
 URL:
