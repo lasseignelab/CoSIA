@@ -47,8 +47,8 @@ metric_type="DS_Gene"
 kidney_ensembl<-getConversions(kidney)
 k<-kidney_ensembl@converted_id
 kidney_gex<-getGEx(kidney_ensembl)
-plotSpeciesGEx(object = kidney_gex, single_tissue = "adult mammalian kidney", single_gene = "ENSG00000152217")
-plotTissueGEx(object = kidney_gex, single_species = "m_musculus", single_gene = "ENSG00000152217")
+plotSpeciesGEx(object = kidney_gex, single_tissue = "adult mammalian kidney", single_gene = "ENSG00000008710")
+plotTissueGEx(object = kidney_gex, single_species = "m_musculus", single_gene = "ENSG00000008710")
 kidney_gex<-getGExMetrics(kidney_ensembl)
 CoSIA::plotDSGEx(kidney_gex)
 
