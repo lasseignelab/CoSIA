@@ -8,6 +8,10 @@
 }
 \arguments{
 \item{object}{CoSIAn.}
+
+\item{single_tissue}{one tissue that the user wants to investigate across the mapped species}
+
+\item{single_gene}{one ensembl id that the user wants to investigate across the mapped species}
 }
 \value{
 plot object

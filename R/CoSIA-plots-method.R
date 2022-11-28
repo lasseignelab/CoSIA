@@ -10,6 +10,8 @@ setGeneric("plotSpeciesGEx", function(object, single_tissue, single_gene) standa
 #' plotSpeciesGEx Method
 #'
 #' @param object CoSIAn. 
+#' @param single_tissue one tissue that the user wants to investigate across the mapped species
+#' @param single_gene one ensembl id that the user wants to investigate across the mapped species
 #'
 #' @return plot object
 #' @export
