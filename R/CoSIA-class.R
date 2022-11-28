@@ -66,7 +66,18 @@ setClass("CoSIAn",contains = "CoSIA",
 #' @return An S4 \code{CoSIAn} object with character vector(s) as slots.
 #' @export
 #' @examples
-#' PKD1 <- CoSIA::CoSIAn(gene_set = "PKD1",i_species="h_sapiens",o_species="m_musculus",input_id="Symbol",output_ids= "Ensembl_id",mapping_tool="annotationDBI",ortholog_database = "HomoloGene",map_tissues = "adult mammalian kidney",map_species = "m_musculus",metric_type="DS_Gene")
+#' CoSIAn(gene_set = "PKD1",
+#' i_species = "h_sapiens",
+#' input_id = "Symbol", 
+#' o_species = c("h_sapiens","m_musculus"), 
+#' output_ids = "Ensembl_id", 
+#' mapping_tool="annotationDBI", 
+#' ortholog_database= "HomoloGene", 
+#' map_tissues = "heart", 
+#' map_species = "m_musculus", 
+#' metric_type = "DS_Gene"
+#' )
+
 
 
 #constructor for user who is using all of the functions
@@ -82,7 +93,7 @@ CoSIAn <- function(gene_set, i_species, input_id, o_species, output_ids, mapping
   converted_id<- data.frame(0)
   gex<- data.frame(0)
   metric <- data.frame(0)
-  new("CoSIAn", gene_set=gene_set, i_species=i_species, input_id=input_id, o_species=o_species, output_ids=output_ids, mapping_tool=mapping_tool, 
+  methods::new("CoSIAn", gene_set=gene_set, i_species=i_species, input_id=input_id, o_species=o_species, output_ids=output_ids, mapping_tool=mapping_tool, 
       ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
 }
 

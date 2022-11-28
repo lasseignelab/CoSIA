@@ -13,6 +13,7 @@ setGeneric("plotSpeciesGEx", function(object, single_tissue, single_gene) standa
 #'
 #' @return plot object
 #' @export
+#' @importFrom tidyselect ends_with
 #'
 #' @examples
 #' plotSpeciesGEx(Kidney_gene_gex,"liver","ENSG00000008710")
@@ -74,6 +75,8 @@ setGeneric("plotTissueGEx", function(object, single_species, single_gene) standa
 #'
 #' @return plot object
 #' @export
+#' @importFrom tidyselect ends_with
+
 #'
 #' @examples
 #' plotTissueGEx(Kidney_gene_gex,"h_sapiens","ENSG00000008710")
@@ -218,6 +221,7 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 #'
 #' @return plot object
 #' @export
+#' @importFrom tibble remove_rownames
 #'
 #' @examples
 #' plotCVGEx(Kidney_gene_metric)

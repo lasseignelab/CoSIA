@@ -13,6 +13,8 @@ setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
 #'
 #' @return CoSIAn Object with metric slot filled
 #' @export
+#' @importFrom dplyr group_by summarise
+#' @importFrom tibble remove_rownames column_to_rownames
 #'
 #' @examples
 #' Kidney_gene_metric<-getGExMetrics(Kidney_gene_gex)
@@ -35,7 +37,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     )
   })
   map_species <- Converted_Species_SWITCH(map_species)
-  id_dataframe<- dplyr::select(id_dataframe,matches(map_species))
+  id_dataframe<- dplyr::select(id_dataframe,grr::matches(map_species))
 
   map_tissues<- object@map_tissues
   map_tissues<- as.character(map_tissues)
@@ -60,7 +62,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     if(na.rm) x <- x[!is.na(x)]
     if(any(x < 0)) #changed this from <= to < 
       stop("Your data must be greater than zero!")
-    sd(x, na.rm = FALSE)/median(x)
+    stats::sd(x, na.rm = FALSE)/stats::median(x)
   }
   
   

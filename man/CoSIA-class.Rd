@@ -75,6 +75,3 @@ The \code{CoSIAn} constructor creates a \code{CoSIAn} object from character vect
 \item{\code{metric}}{data frame. Output of coefficient of variation of gene expression data.}
 }}
 
-\examples{
-PKD1 <- CoSIA::CoSIAn(gene_set = "PKD1",i_species="h_sapiens",o_species="m_musculus",input_id="Symbol",output_ids= "Ensembl_id",mapping_tool="annotationDBI",ortholog_database = "HomoloGene",map_tissues = "adult mammalian kidney",map_species = "m_musculus",metric_type="DS_Gene")
-}
