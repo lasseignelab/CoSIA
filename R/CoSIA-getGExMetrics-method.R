@@ -37,7 +37,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     )
   })
   map_species <- Converted_Species_SWITCH(map_species)
-  id_dataframe<- dplyr::select(id_dataframe,grr::matches(map_species))
+  id_dataframe<- dplyr::select(id_dataframe,tidyselect::matches(map_species))
 
   map_tissues<- object@map_tissues
   map_tissues<- as.character(map_tissues)
