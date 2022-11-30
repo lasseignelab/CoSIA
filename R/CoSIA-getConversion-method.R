@@ -1,12 +1,12 @@
-#' getConversions Generic
+#' getConversion Generic
 #'
 #' @param object
 #'
 #' @export
 
-setGeneric("getConversions", function(object) standardGeneric("getConversions"))
+setGeneric("getConversion", function(object) standardGeneric("getConversion"))
 
-#' getConversions Method
+#' getConversion Method
 #'
 #' @param object CoSIAn. 
 #'
@@ -17,15 +17,19 @@ setGeneric("getConversions", function(object) standardGeneric("getConversions"))
 #' @importFrom tidyselect contains
 #' 
 #' @examples
-#' Kidney_gene_conversion<-CoSIA::getConversions(Kidney_Genes)
+#' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
 
 
-setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # user's input of the function
+setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # user's input of the function
   #Set each part of the object that this method uses into their own variable that will be used inside the code
     input_species<-object@i_species
     input_id<-object@input_id
     input<-object@gene_set
     input<-unique(input)
+    if (input_id=="Ensembl_id"){
+      input <- remove_version_numbers(input, input_species)  #puts the genes through the remove version number function to remove the version number (everything after the dot)
+    }
+    input<-as.character(input)
     output_ids<-object@output_ids
     output_species<-object@o_species
     tool<-object@mapping_tool
@@ -105,7 +109,7 @@ setMethod("getConversions", signature(object = "CoSIAn"), function(object) { # u
     return(object)
 })
 
-### getConversions Functions
+### getConversion Functions
 
 ## Species Functions
 
@@ -454,84 +458,23 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
     switch(as.character(ids), 
            Entrez_id = "ENTREZID", 
            Ensembl_id = "ENSEMBL", 
-           Ensembl_id_version = "ENSEMBLIDVERSION", 
-           Gene_name = "GENENAME",
            Symbol = "SYMBOL",
            stop("Error: Invalid input_id or output_ids. The acceptable ids for annotationDBI are Entrez_id, Ensembl_id, Ensembl_id_version, Symbol, and Gene_name."))
   })
-  input_id <- as.character(input_id)
-  output_ids <- as.character(output_ids)
   input_id <- ID_SWITCH(ids = input_id)
   output_ids <- ID_SWITCH(ids = output_ids)
-  ifelse(output_ids == "ENSEMBLIDVERSION", stop("Error. AnnotationDBI does not have Ensembl_id_version output functionality."), output_ids)
+  input_id <- as.character(input_id)
+  output_ids <- as.character(output_ids)
   if (output_species == input_species) {
-    # code follows this path if the user chooses the same input species as their output species code follows this path if the user
-    # chooses ENSEMBLIDVERSION as their input id
-    if (input_id == "ENSEMBLIDVERSION") {
-      input_dataset_new <- remove_version_numbers(input_dataset, input_species)  #puts the genes through the remove version number function to remove the version number (everything after the dot)
-      annotationDbi_data <- AnnotationDbi::select(input_org, keys = as.character(as.matrix(input_dataset_new$ENSEMBL)), columns = output_ids,
-                                                  keytype = "ENSEMBL")  # after the version number has been removed run the gene through the annotationDBI package using ensembl id as the gene identifer
-      merge <- merge.data.frame(data.frame(annotationDbi_data), data.frame(input_dataset_new), by = "ENSEMBL")  # merge the input and output data together
-      colnames(merge)[which(names(merge) == "ENSEMBL")] <- paste(output_species,"ensembl_id",sep = "_")
-      colnames(merge)[which(names(merge) == "ENTREZID")] <- paste(output_species,"entrez_id",sep = "_")
-      colnames(merge)[which(names(merge) == "ENSEMBLIDVERSION")] <- paste(output_species,"ensembl_id_version",sep = "_")
-      colnames(merge)[which(names(merge) == "GENENAME")] <- paste(output_species,"gene_name",sep = "_")
-      colnames(merge)[which(names(merge) == "SYMBOL")] <- paste(output_species,"symbol",sep = "_")
-      return(merge)  #works
-    } 
-    else {
-      # code follows this path if the user chooses an ID other than ENSEMBLIDVERSION as their input id
       annotationDbi_data <- AnnotationDbi::select(input_org, keys = input_dataset, columns = output_ids, keytype = input_id)  #run the code through annotationDBI
       colnames(annotationDbi_data)[which(names(annotationDbi_data) == "ENSEMBL")] <- paste(output_species,"ensembl_id",sep = "_")
       colnames(annotationDbi_data)[which(names(annotationDbi_data) == "ENTREZID")] <- paste(output_species,"entrez_id",sep = "_")
       colnames(annotationDbi_data)[which(names(annotationDbi_data) == "ENSEMBLIDVERSION")] <- paste(output_species,"ensembl_id_version",sep = "_")
       colnames(annotationDbi_data)[which(names(annotationDbi_data) == "GENENAME")] <- paste(output_species,"gene_name",sep = "_")
       colnames(annotationDbi_data)[which(names(annotationDbi_data) == "SYMBOL")] <- paste(output_species,"symbol",sep = "_")
-      return(annotationDbi_data)  #works
+      return(annotationDbi_data)
     }
-  } 
   else {
-    # this code follows this path if the input gene is different than the output gene code follows this path if the user chooses
-    # ENSEMBLIDVERSION as their input id
-    if (input_id == "ENSEMBLIDVERSION") {
-      input_dataset_new <- remove_version_numbers(input_dataset, input_species)  #puts the genes through the remove version number function to remove the version number (everything after the dot)
-      output_data <- AnnotationDbi::select(input_org, keys = as.character(as.matrix(input_dataset_new$ENSEMBL)), columns = "ENTREZID", "ENSEMBL",
-                                           keytype = "ENSEMBL")  #runs the gene through annotationdbi to get EntrezID conversion in order to conduct ortholog mapping
-      merged_data <- merge.data.frame(data.frame(output_data), data.frame(input_dataset_new), by = "ENSEMBL")  #merges the original df with the entrezid mapped data set
-      colnames(merged_data)[which(names(merged_data) == "ENSEMBLIDVERSION")] <- paste(input_species,"ensembl_id_version",sep = "_")#change column name so that they are representative of the input species
-      colnames(merged_data)[which(names(merged_data) == "ENSEMBL")] <- paste(input_species,"ensembl_id",sep = "_")#change column name so that they are representative of the input species
-      ensembl_id_col_name<- paste(input_species,"ensembl_id",sep = "_")
-      merged_data <- merged_data %>% dplyr::select(-tidyselect::all_of(ensembl_id_col_name))
-      colnames(merged_data)[which(names(merged_data) == "ENTREZID")] <- paste(input_species,"entrez_id",sep = "_")#change column name so that they are representative of the input species
-      id <- homolog(output_data$ENTREZID, species_number, ortholog_database)  # run the EntrezID found in the new dataset through the homolog function
-      names(id)[names(id) == "species_one"] <- paste(input_species,"entrez_id",sep = "_")  #changes the name of the species one to match the format for merdge data
-      ortholog_data <- merge.data.frame(data.frame(merged_data), data.frame(id), by = paste(input_species,"entrez_id",sep = "_"))  # merges the merged data and the homolog values that were found
-      entrez_id_col_name<- paste(input_species,"entrez_id",sep = "_")
-      ortholog_data <- ortholog_data %>% dplyr::select(-tidyselect::all_of(entrez_id_col_name))      
-      ortho <- AnnotationDbi::select(output_org, keys = as.character(as.matrix(ortholog_data$species_two)), columns = c(output_ids, "ENTREZID"),keytype = "ENTREZID") # next we are going to take the entrezids of the orthologs and return the output values of the gene
-      non_na <- which(is.na(ortho$ENTREZID) == FALSE)  # determine the indices for the non-NA genes
-      ortho <- ortho[non_na, ]  #return only the genes with annotations using indices
-      non_dups <- which(duplicated(ortho$ENTREZID) == FALSE)  #determine the indices for the non-duplicated genes
-      ortho <- ortho[non_dups, ]  #return only the non-duplicated genes using indices
-      ortho <- data.frame(ortho)  #make this into a data frame
-      names(ortho)[names(ortho) == "ENTREZID"] <- "species_two"  # set the entrezID into a dataframe
-      merged_data_orthologs <- merge.data.frame(data.frame(ortho), data.frame(ortholog_data), by = "species_two")  #merge the ortholog conversion dataframe with the merge dataframe
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "species_two")] <- paste(output_species,"entrez_id",sep = "_")
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENTREZID")] <- paste(output_species, "entrez_id", sep = "_")  #changes name to more formal names
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBL")] <- paste(output_species, "ensembl_id", sep = "_")  #changes name to more formal names
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "SYMBOL")] <- paste(output_species, "symbol", sep = "_")  #changes name to more formal names
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "ENSEMBLIDVERSION")] <- paste(output_species, "ensembl_id_with_Version_id", sep = "_")  #changes name to more formal names
-      colnames(merged_data_orthologs)[which(names(merged_data_orthologs) == "GENENAME")] <- paste(output_species, "gene_name", sep = "_")  #changes name to more formal names
-      merged_data_orthologs <- merged_data_orthologs[!duplicated(as.list(merged_data_orthologs))]  # removes duplicates from the data
-      #merged_data_orthologs = subset(merged_data_orthologs, select = -c(species_two, species_one))  # removes the species two and species one parts of the data
-      if("ENTREZID" %in% output_ids == FALSE){
-        entrez_id_col_name_output<- paste(output_species,"entrez_id",sep = "_")
-        merged_data_orthologs <- merged_data_orthologs %>% dplyr::select(-tidyselect::all_of(entrez_id_col_name_output))      
-      }
-      return(merged_data_orthologs)  #works
-    } 
-    else { 
-      # code follows this path if the user chooses an ID other than ENSEMBLIDVERSION as their input id
       output_data <- AnnotationDbi::select(input_org, keys = input_dataset, columns = c("ENTREZID"), keytype = input_id)  #runs the gene through annotationdbi to get EntrezID conversion in order to conduct ortholog mapping
       output_data <- na.omit(output_data)  # omits the NA values
       id <- homolog(output_data$ENTREZID, species_number, ortholog_database)  #send the entrezid ids through the homolog conversion
@@ -570,7 +513,6 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
       return(merged_data_ortholog)  #works
     }
   }
-}
 
 # biomaRt
 
@@ -584,9 +526,8 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     switch(as.character(ids), 
            Entrez_id = "entrezgene_id", 
            Ensembl_id = "ensembl_gene_id", 
-           Ensembl_id_version = "ensembl_gene_id_version",
-           Gene_name = "external_gene_name",
-           stop("Error: Invalid input_id or output_ids. The acceptable ids for biomaRt is Entrez_id, Ensembl_id, Ensembl_id_version, and Gene_name."))
+           Symbol = "external_gene_name",
+           stop("Error: Invalid input_id or output_ids. The acceptable ids for biomaRt is Entrez_id, Ensembl_id, and Symbol"))
   }
   )
   #set the id names to their new formats
@@ -594,6 +535,7 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
   output_ids <- ID_SWITCH(ids = output_ids)
   if (input_species == output_species) {
     # goes through this path if the input and output species are the same
+    species_dataset<-as.character(species_dataset)
     mart <- biomaRt::useMart("ensembl", dataset = species_dataset)  # pulls the biomaRt object for the species species that has been choosen
     attributes <- c(output_ids, input_id)  # sets the attributes that the user wants makes sure to set both the input and output values
     attributes <- as.character(attributes)
@@ -603,13 +545,13 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     output_data <- biomaRt::getBM(attributes = attributes, filters = filters, values = input_dataset, mart = mart, uniqueRows = TRUE, bmHeader = FALSE)  # run conversion through biomaRt
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id")] <- paste(input_species,"ensembl_id",sep = "_")
     colnames(output_data)[which(names(output_data) == "entrezgene_id")] <- paste(input_species,"entrez_id",sep = "_")
-    colnames(output_data)[which(names(output_data) == "ensembl_gene_id_version")] <- paste(input_species,"ensembl_id_version",sep = "_")
-    colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
+    colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"symbol",sep = "_")
     output_data <- output_data %>% dplyr::select(-contains('.'))      
     return(output_data)  # return the biomaRt output
   } 
   else
   { # goes through this path if the input and output species are different
+    species_dataset<-as.character(species_dataset)
     mart <- biomaRt::useMart("ensembl", dataset = species_dataset)  # sets up biomart for species input
     attributes <- c("entrezgene_id", input_id)  # sets input ids and entrezids as attributes (output values)
     filters <- input_id  # set the input ids as the filter (input values)
@@ -621,7 +563,7 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     #change the name of the input id
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id")] <- paste(input_species,"ensembl_id",sep = "_")
     colnames(output_data)[which(names(output_data) == "ensembl_gene_id_version")] <- paste(input_species,"ensembl_id_version",sep = "_")
-    colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"gene_name",sep = "_")
+    colnames(output_data)[which(names(output_data) == "external_gene_name")] <- paste(input_species,"symbol",sep = "_")
     merged_data <- merge.data.frame(data.frame(output_data), data.frame(id), by = "species_one")  #merge the two dataframes
     colnames(merged_data)[which(names(merged_data) == "species_one")] <- paste(input_species, "entrez_id", sep = "_")  #rename to a more formal name
     marts <- biomaRt::useMart("ensembl", dataset = output_species_dataset)  #set the biomart species to the new species
@@ -638,8 +580,7 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
     names(merged_species_data)[names(merged_species_data) == "species_two"] <- paste(output_species, "entrez_id", sep = "_")  # clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "entrezgene_id")] <- paste(output_species, "entrez_id", sep = "_")  #clean up names
     colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id")] <- paste(output_species, "ensembl_id", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "external_gene_name")] <- paste(output_species, "gene_name", sep = "_")  #clean up names
-    colnames(merged_species_data)[which(names(merged_species_data) == "ensembl_gene_id_version")] <- paste(output_species, "ensembl_id_version",sep = "_")  #clean up names
+    colnames(merged_species_data)[which(names(merged_species_data) == "external_gene_name")] <- paste(output_species, "symbol", sep = "_")  #clean up names
     merged_species_data <- merged_species_data[!duplicated(as.list(merged_species_data))]  #remove duplicates
     if(input_id != "entrezgene_id"){
       entrez_id_col_name_input<- paste(input_species,"entrez_id",sep = "_")
@@ -725,21 +666,16 @@ remove_version_numbers <- function(input_dataset, species) {
     colnames(input_dataset)[which(names(input_dataset) == "replicate.1..input_dataset.ENSEMBLIDVERSION.")] <- "ENSEMBLIDVERSION"
     return(input_dataset)
   }
-  if (species == "h_sapiens") { #ENSG00000008710.20 (format)
+  if (species == "h_sapiens") { #ENSG00000008710.20
     input_dataset <- data.frame(input_dataset)
-    colnames(input_dataset)[1] <- "ENSEMBLIDVERSION"
-    input_dataset = cbind(input_dataset, replicate(1, input_dataset$ENSEMBLIDVERSION))
-    ensembl_id <- input_dataset
-    ensembl_id <- data.frame(ensembl_id)
-    x <- 1:(nrow(ensembl_id))
+    colnames(input_dataset)[1] <- "ENSEMBL"
+    x <- 1:(nrow(input_dataset))
     for (i in seq_along(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 15)
       input_dataset[i, 1] <- char1
     }
-    input_dataset <- data.frame(input_dataset)
-    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBLIDVERSION")] <- "ENSEMBL"
-    colnames(input_dataset)[which(names(input_dataset) == "replicate.1..input_dataset.ENSEMBLIDVERSION.")] <- "ENSEMBLIDVERSION"
+    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBL")] <- "input"
     return(input_dataset)
   }
   
