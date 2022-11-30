@@ -454,6 +454,7 @@ r_norvegicus<-function(input_id,input_dataset,output_ids,output_species, tool, o
 annotationDBI <- function(input_id, input_dataset, output_ids, input_species, output_species, species_number, input_org, output_org, ortholog_database) {
   # This function uses annotationDBI to convert between gene identifier
   # Switch function below is used to transition the id names into the proper format for using annotationdbi
+  input_dataset<-as.character(input_dataset)
   ID_SWITCH <- Vectorize(vectorize.args = "ids", FUN = function(ids) {
     switch(as.character(ids), 
            Entrez_id = "ENTREZID", 
@@ -518,6 +519,7 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
 
 biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_species, species_number, species_dataset, output_species_dataset,
                    ortholog_database) {
+  species_dataset<-as.character(species_dataset)
   #Make sure ids are in the class character
   input_id <- as.character(input_id)
   output_ids <- as.character(output_ids)
@@ -535,7 +537,6 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
   output_ids <- ID_SWITCH(ids = output_ids)
   if (input_species == output_species) {
     # goes through this path if the input and output species are the same
-    species_dataset<-as.character(species_dataset)
     mart <- biomaRt::useMart("ensembl", dataset = species_dataset)  # pulls the biomaRt object for the species species that has been choosen
     attributes <- c(output_ids, input_id)  # sets the attributes that the user wants makes sure to set both the input and output values
     attributes <- as.character(attributes)
@@ -551,7 +552,6 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
   } 
   else
   { # goes through this path if the input and output species are different
-    species_dataset<-as.character(species_dataset)
     mart <- biomaRt::useMart("ensembl", dataset = species_dataset)  # sets up biomart for species input
     attributes <- c("entrezgene_id", input_id)  # sets input ids and entrezids as attributes (output values)
     filters <- input_id  # set the input ids as the filter (input values)
@@ -649,22 +649,16 @@ homolog <- function(entrez_data, species_number, ortholog_database) {
 
 remove_version_numbers <- function(input_dataset, species) {
   if (species == "m_musculus") { #ENSMUSG00000032855.7
-    # if the user's input species is a mouse the code follows this path
-    input_dataset <- data.frame(input_dataset)  # create a new input dataset to manipulate
-    colnames(input_dataset)[1] <- "ENSEMBLIDVERSION"  # set the column name as ensemblid
-    input_dataset = cbind(input_dataset, replicate(1, input_dataset$ENSEMBLIDVERSION))  # create a new identical column that will be used to manipulate
-    ensembl_id <- input_dataset  # set the input dataset into a new column
-    ensembl_id <- data.frame(ensembl_id)
-    x <- 1:(nrow(ensembl_id))
+    input_dataset <- data.frame(input_dataset)
+    colnames(input_dataset)[1] <- "ENSEMBL"
+    x <- 1:(nrow(input_dataset))
     for (i in seq_along(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 18)
       input_dataset[i, 1] <- char1
     }
-    input_dataset <- data.frame(input_dataset)
-    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBLIDVERSION")] <- "ENSEMBL"
-    colnames(input_dataset)[which(names(input_dataset) == "replicate.1..input_dataset.ENSEMBLIDVERSION.")] <- "ENSEMBLIDVERSION"
-    return(input_dataset)
+    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBL")] <- "input"
+    return(input_dataset$input)
   }
   if (species == "h_sapiens") { #ENSG00000008710.20
     input_dataset <- data.frame(input_dataset)
@@ -676,43 +670,33 @@ remove_version_numbers <- function(input_dataset, species) {
       input_dataset[i, 1] <- char1
     }
     colnames(input_dataset)[which(names(input_dataset) == "ENSEMBL")] <- "input"
-    return(input_dataset)
+    return(input_dataset$input)
   }
   
   if (species == "d_rerio") { #ENSDARG00000105344.2 (format)
     input_dataset <- data.frame(input_dataset)
-    colnames(input_dataset)[1] <- "ENSEMBLIDVERSION"
-    input_dataset = cbind(input_dataset, replicate(1, input_dataset$ENSEMBLIDVERSION))
-    ensembl_id <- input_dataset
-    ensembl_id <- data.frame(ensembl_id)
-    x <- 1:(nrow(ensembl_id))
+    colnames(input_dataset)[1] <- "ENSEMBL"
+    x <- 1:(nrow(input_dataset))
     for (i in seq_along(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 18)
       input_dataset[i, 1] <- char1
     }
-    input_dataset <- data.frame(input_dataset)
-    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBLIDVERSION")] <- "ENSEMBL"
-    colnames(input_dataset)[which(names(input_dataset) == "replicate.1..input_dataset.ENSEMBLIDVERSION.")] <- "ENSEMBLIDVERSION"
-    return(input_dataset)
+    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBL")] <- "input"
+    return(input_dataset$input)
   }
   
   if (species == "r_norvegicus") { #ENSRNOG00000010771.8 (format)
     input_dataset <- data.frame(input_dataset)
-    colnames(input_dataset)[1] <- "ENSEMBLIDVERSION"
-    input_dataset = cbind(input_dataset, replicate(1, input_dataset$ENSEMBLIDVERSION))
-    ensembl_id <- input_dataset
-    ensembl_id <- data.frame(ensembl_id)
-    x <- 1:(nrow(ensembl_id))
+    colnames(input_dataset)[1] <- "ENSEMBL"
+    x <- 1:(nrow(input_dataset))
     for (i in seq_along(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 18)
       input_dataset[i, 1] <- char1
     }
-    input_dataset <- data.frame(input_dataset)
-    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBLIDVERSION")] <- "ENSEMBL"
-    colnames(input_dataset)[which(names(input_dataset) == "replicate.1..input_dataset.ENSEMBLIDVERSION.")] <- "ENSEMBLIDVERSION"
-    return(input_dataset)
+    colnames(input_dataset)[which(names(input_dataset) == "ENSEMBL")] <- "input"
+    return(input_dataset$input)
   }
   
   if (species == "c_elegans") {
