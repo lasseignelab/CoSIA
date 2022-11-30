@@ -457,7 +457,7 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species, ou
            Ensembl_id_version = "ENSEMBLIDVERSION", 
            Gene_name = "GENENAME",
            Symbol = "SYMBOL",
-           stop("Error: Invalid input_id or output_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
+           stop("Error: Invalid input_id or output_ids. The acceptable ids for annotationDBI are Entrez_id, Ensembl_id, Ensembl_id_version, Symbol, and Gene_name."))
   })
   input_id <- as.character(input_id)
   output_ids <- as.character(output_ids)
@@ -586,7 +586,7 @@ biomaRt<- function(input_id, input_dataset, output_ids, input_species, output_sp
            Ensembl_id = "ensembl_gene_id", 
            Ensembl_id_version = "ensembl_gene_id_version",
            Gene_name = "external_gene_name",
-           stop("Error: Invalid input_id or output_ids. Check the format of the ids and make sure that they are avaliable ids in CoSIA."))
+           stop("Error: Invalid input_id or output_ids. The acceptable ids for biomaRt is Entrez_id, Ensembl_id, Ensembl_id_version, and Gene_name."))
   }
   )
   #set the id names to their new formats
