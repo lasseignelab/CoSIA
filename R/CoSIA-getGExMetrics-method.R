@@ -65,6 +65,32 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     stats::sd(x, na.rm = FALSE)/stats::median(x)
   }
   
+  #Code adapted from BioQC
+  DS_function <- function(type, mat){
+    Shannon_Entropy <- function(x) ifelse(x==0, 0, x*log2(x))
+    Diversity <- function(x) {
+      rel <- x/sum(x, na.rm=TRUE)
+      -sum(Shannon_Entropy(rel))
+    }
+    if (type=="Specificity"){
+        mat.rel <- apply(mat, 2L, function(x) x/sum(x, na.rm=TRUE))
+        speci <- apply(mat.rel, 1L, function(x) {
+          gm <- mean(x, na.rm=TRUE)
+          rel <- x/gm
+          mean(Shannon_Entropy(rel), na.rm=TRUE)
+        })
+          speci <- speci/log2(ncol(mat))
+        return(speci)
+      }
+    }
+    else{
+      res <- apply(mat, 2L, Shannon_Diversity)
+      res <- res/log2(nrow(mat))
+      return(res)
+    }
+  }
+  
+  
   
   CV_Tissue <- function(map_species, map_tissues){
     filter_species <- dplyr::filter(Experimental_Hub_File,Species %in% map_species)
