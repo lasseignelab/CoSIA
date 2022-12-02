@@ -700,11 +700,13 @@ remove_version_numbers <- function(input_dataset, species) {
   }
   
   if (species == "c_elegans") {
-    stop("Error. Incorrect ID evaluation. C. elegans do not have Ensembl Ids with Version.")
+    input_dataset <- data.frame(input_dataset)
+    return(input_dataset$input)
   }
   if (species == "d_melanogaster") {
-    stop("Error. Incorrect ID evaluation. D. melanogaster do not have Ensembl Ids with Version.")
-  }
+    input_dataset <- data.frame(input_dataset)
+    return(input_dataset$input)
+    }
   else {
     stop("Error. Invalid species. Make sure it matches the proper format.")
   }
