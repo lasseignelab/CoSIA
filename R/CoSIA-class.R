@@ -32,21 +32,6 @@ setClass("CoSIAn",contains = "CoSIA",
            gex = "data.frame",
            metric_type = "character",
            metric = "data.frame"
-         ),
-         prototype = list(
-           gene_set = NA_character_,
-           i_species = NA_character_,
-           input_id = NA_character_,
-           o_species = NA_character_,
-           output_ids = NA_character_,
-           mapping_tool = "annotationDBI", #AnnotationDBI is the default
-           ortholog_database = "HomoloGene", #HomoloGene is the default
-           converted_id = data.frame(0),
-           map_tissues = NA_character_,
-           map_species = NA_character_,
-           gex = data.frame(0),
-           metric_type = NA_character_,
-           metric = data.frame(0)
          )
 )
 
@@ -72,40 +57,49 @@ setClass("CoSIAn",contains = "CoSIA",
 #' map_species = c("m_musculus"),metric_type = "DS_Gene")
 
 
+## Initialization method for CoSIAn object
+setMethod("initialize", "CoSIAn",
+          function(.Object, gene_set, i_species, input_id, o_species, output_ids, 
+                   mapping_tool, ortholog_database, converted_id, map_tissues, 
+                   map_species, gex, metric_type, metric, ...) {
+            .Object <- callNextMethod(.Object, ...)
+            if (length(gene_set) < 1){stop("Please provide a valid gene set(gene_set)")}
+            if (missing(i_species)){stop("Please provide a valid input species (i_species)")}
+            if(length(i_species) > 1){stop("You can provide only one input species (i_species)")}
+            if (missing(input_id)){stop("Please provide a valid input gene identifier (input_id). Possible options are Ensembl_id, Entrez_id, Symbol. You can only provide one")}
+            if(length(input_id) > 1){stop("You can provide only one input id (input_id)")}
+            if (length(i_species) != length(input_id)) {stop("Input species (i_species) and input gene identifier (input_id) must be the same length")}
+            if (missing(o_species)){stop("Please provide a valid output species (o_species)")}
+            if (missing(output_ids)){stop("Please provide a valid output gene identifier (output_ids). Possible options are Ensembl_id, Enrez_id, Symbol. You can provide multiple ids")}
+            if (missing(mapping_tool)){.Object@mapping_tool <- "annotationDBI"}
+            if(length(mapping_tool) > 1){stop("You can provide only one database for mapping ids (mapping_tool)")}
+            if (missing(ortholog_database)){.Object@ortholog_database <- "HomoloGene"}
+            if(length(ortholog_database) > 1){stop("You can provide only one database for mapping orthologs (ortholog_database)")}
+            if (missing(map_tissues)){stop("Please provide a valid tissue list")}
+            if (missing(map_species)){stop("Please provide a valid output species (map_species)")}
+            if (missing(metric_type)){stop("Please provide a valid metric to be calculated")}
+            .Object@gene_set <- gene_set
+            .Object@i_species <- i_species
+            .Object@input_id <- input_id
+            .Object@o_species <- o_species
+            .Object@output_ids <- output_ids
+            .Object@converted_id <- data.frame(0)
+            .Object@map_tissues <- map_tissues
+            .Object@map_species <- map_species
+            .Object@gex <- data.frame(0)
+            .Object@metric_type <- metric_type
+            .Object@metric <- data.frame(0)
+            
+            validObject(.Object, test = TRUE, complete = TRUE)
+            .Object
+          }
+)
 
-#constructor for user who is using all of the functions
-CoSIAn <- function(gene_set, i_species, input_id, o_species, output_ids, mapping_tool="annotationDBI", ortholog_database= "HomoloGene", map_tissues, map_species, metric_type) {
-  gene_set<- as.character(gene_set)
-  i_species<-as.character(i_species)
-  input_id<-as.character(input_id)
-  o_species<- as.character(o_species)
-  output_ids<- as.character(output_ids)
-  map_tissues<- as.character(map_tissues)
-  map_species<- as.character(map_species)
-  metric_type<- as.character(metric_type)
-  converted_id<- data.frame(0)
-  gex<- data.frame(0)
-  metric <- data.frame(0)
-  methods::new("CoSIAn", gene_set=gene_set, i_species=i_species, input_id=input_id, o_species=o_species, output_ids=output_ids, mapping_tool=mapping_tool, 
-      ortholog_database=ortholog_database,converted_id = converted_id, map_tissues=map_tissues, map_species=map_species, gex = gex, metric_type=metric_type,metric = metric)
+
+## constructor for user who is using all of the functions
+CoSIAn <- function(.Object,gene_set, i_species, input_id, o_species, output_ids, 
+                   mapping_tool, ortholog_database, converted_id, map_tissues, 
+                   map_species, gex, metric_type, metric, ...){
+  initialize(new("CoSIAn", gene_set, i_species, input_id, o_species, output_ids, mapping_tool, 
+                 ortholog_database, converted_id, map_tissues, map_species, gex, metric_type, metric),...)
 }
-
-
-
-## Validity of the CoSIAn Class
-setValidity("CoSIAn", function(object) {
-  if(length(object@gene_set)< 1){"@gene_set needs to be filled"}
-  if(length(object@i_species) != 1){"@i_species needs to be a length of 1"}
-  if(length(object@input_id) != 1){"@input_id needs to be a length of 1"}
-  if (length(object@i_species) != length(input_id)) { "@i_species and @input_id must be the same length" }
-  if(length(object@o_species) < 1){ "@o_species needs to be filled" }
-  if(length(object@output_ids) < 1){ "@output_ids needs to be filled" }
-  #if (length(object@o_species) != length(object@output_ids)) {"@o_species and @output_ids must be the same length" }
-  if(length(object@mapping_tool) != 1){"@mapping_tool needs to be a length of 1"}
-  if(length(object@ortholog_database) != 1){ "@ortholog_database needs to be a length of 1" }
-  if(length(object@map_tissues)< 1){"@map_tissues needs to be filled"}
-  if(length(object@map_species)< 1){"@map_species needs to be filled"}
-  if(length(object@metric_type)< 1){"@metric_type needs to be filled"}
-  else {TRUE}
-})
-
