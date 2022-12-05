@@ -38,7 +38,13 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
   })
   map_species <- Converted_Species_SWITCH(map_species)
   id_dataframe<- dplyr::select(id_dataframe,tidyselect::matches(map_species))
-
+  colnames(id_dataframe)[which(names(id_dataframe) == "h_sapiens")] <- "h_sapiens_ensembl_id"
+  colnames(id_dataframe)[which(names(id_dataframe) == "m_musculus")] <- "m_musculus_ensembl_id"
+  colnames(id_dataframe)[which(names(id_dataframe) == "r_norvegicus")] <- "r_norvegicus_ensembl_id"
+  colnames(id_dataframe)[which(names(id_dataframe) == "d_rerio")] <- "d_rerio_ensembl_id"
+  colnames(id_dataframe)[which(names(id_dataframe) == "d_melanogaster")] <- "d_melanogaster_ensembl_id"
+  colnames(id_dataframe)[which(names(id_dataframe) == "c_elegans")] <- "c_elegans_ensembl_id"
+  
   map_tissues<- object@map_tissues
   map_tissues<- as.character(map_tissues)
   Species_SWITCH <- Vectorize(vectorize.args = "map_species", FUN = function(map_species) {
@@ -102,6 +108,25 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_gex<-tidyr::separate_rows(filter_gene, VST)
     filter_gex$VST <- as.numeric(filter_gex$VST)
     CV_Tissue<-filter_gex %>% group_by(Ensembl_ID,Anatomical_entity_name,Species) %>% summarise(CV_Tissue = CV_function(VST, na.rm=FALSE))
+    cv_tissue <- tidyr::pivot_wider(CV_Tissue, names_from = Species, values_from = CV_Tissue)
+    colnames(cv_tissue)[which(names(cv_tissue) == "Homo_sapiens")] <- "h_sapiens_CV_tissue"
+    colnames(cv_tissue)[which(names(cv_tissue) == "Mus_musculus")] <- "m_musculus_CV_tissue"
+    colnames(cv_tissue)[which(names(cv_tissue) == "Rattus_norvegicus")] <- "r_norvegicus_CV_tissue"
+    colnames(cv_tissue)[which(names(cv_tissue) == "Danio_rerio")] <- "d_rerio_CV_Tissue"
+    colnames(cv_tissue)[which(names(cv_tissue) == "Drosophila_melanogaster")] <- "d_melanogaster_CV_tissue"
+    colnames(cv_tissue)[which(names(cv_tissue) == "Caenorhabditis_elegans")] <- "c_elegans_CV_tissue"
+    for(i in 1:length(colnames(id_dataframe))){
+      id<- colnames(id_dataframe)[i]
+      id_dataframe<- id_dataframe %>% merge(., cv_tissue, by.x = id, by.y="Ensembl_ID")
+    }
+    id_dataframe<- id_dataframe[,colSums(is.na(id_dataframe))<nrow(id_dataframe)]
+    id_dataframe<- id_dataframe %>% select(order(colnames(id_dataframe),decreasing=TRUE))
+    id_dataframe<-id_dataframe %>%filter(if_all(starts_with('Anatomical_entity_name'), ~ Anatomical_entity_name.x == .x))  
+    duplicated_columns <- duplicated(as.list(id_dataframe))
+    id_dataframe<-id_dataframe[!duplicated_columns]
+    id_dataframe<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.x')))
+    CV_Tissue<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.y')))
+    colnames(CV_Tissue)[which(names(CV_Tissue) == "Anatomical_enti_name.y")] <- "Anatomical_entity_name"
     return(CV_Tissue)
   }
   
