@@ -232,20 +232,87 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make multiple heat maps per species and then put them together
   metric_type<- object@metric_type
   df_metric<-object@metric
-  if (metric_type == "CV_Species"){
-    df_metric.wide <- tidyr::pivot_wider(df_metric, names_from = Ensembl_ID, values_from = 'CV_Species')
-    df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Species")
+  
+  # Dumbbell Plot Function
+  # v1: numeric variable
+  # v2: numeric variable
+  # v3: numeric variable
+  # group: vector (numeric or character) or a factor containing groups
+  # labels: labels for the dot chart
+  # segments: whether to add segments (TRUE) or not (FALSE)
+  # text: whether to add text (TRUE) or not (FALSE)
+  # pch: symbol
+  # col1: color of the variable v1. If you want to
+  # add group colors add them here
+  # col1: color of the variable v2
+  # pt.cex: size of the points
+  # segcol: color of the segment
+  # lwd: width of the segment
+  # ... : additional arguments to be passed to dotchart function
+  dumbbell <- function(df,
+                       segments = TRUE, text = FALSE, pch = 19,
+                       colv1 = 1, colv2 = 1,colv3 = 1, pt.cex = 1, segcol = 1,
+                       lwd = 1, main = main,  ...) {
+    n_col<-ncol(df)-1
+    n_row<-nrow(df)
+    df_subset <- df[,-1]
+    group<-rep(1,n_row)
     
-    CV_plot<-heatmaply::heatmaply(df_metric.wide,
-                         na.value = "white",
-                         dendrogram = "none",
-                         xlab = "Ensembl ID",
-                         ylab = "Species",
-                         main = "The Coeffecient of Variation of Gene Expression of a set of Genes across Species",
-                         fontsize_row = 8,
-                         fontsize_col = 7,
-                        
-        )
+    o <- sort.list(as.numeric(group), decreasing = TRUE)
+    group <- group[o]
+    offset <- cumsum(c(0, diff(as.numeric(group)) != 0))
+    y <- 1L:n_row + 2 * offset
+    
+    dotchart(df[,2], labels = df$ensembl_id, color = 1, xlim = range(0, 1) + c(0, .1),
+             groups = group, pch = pch, pt.cex = pt.cex, main = main, xlab= "Coefficient of Variation (CV)",
+             ylab = col1)
+    
+    if(segments == TRUE) {
+      for(i in 1:n_row) {
+        segments(min(df_subset[i,]), y[i],
+                 max(df_subset[i,]), y[i],
+                 lwd = lwd, col = segcol) 
+      }
+    }
+    col<-c("plum","tomato","paleturquoise","lightcoral")
+    for(i in 1:n_row){
+      for (j in 1:n_col){
+        points(df_subset[i,j], y[i], pch = pch, cex = pt.cex, col = col[j])
+      }
+    }
+    
+    # if(text == TRUE) {
+    #   for(i in 1:length(v1)) {
+    #     text(min(v2[i ], v1[i]) - 1.5, y[i],
+    #          labels = min(v2[i], v1[i]))
+    #     text(max(v2[i], v1[i]) + 1.5, y[i],
+    #          labels = max(v2[i], v1[i])) 
+    #   }
+    # }
+    
+    legend("topright", 
+           legend = colnames(df_subset), 
+           col = col, 
+           pch = 19, 
+           bty = "n", 
+           pt.cex = 1, 
+           cex = 1, 
+           text.col = "black", 
+           horiz = F , 
+           inset = c(-.1, -.04))
+  }
+  
+  if (metric_type == "CV_Species"){
+    #CV Species
+    input_species<-object@i_species
+    col1 <- paste(input_species,"ensembl_id",sep = "_")
+    CV_Species_Plot <- CV_Species %>% remove_rownames %>% column_to_rownames(var=col1)
+    CV_Species_Plot<-select(CV_Species_Plot, contains("CV_species"))
+    CV_Species_Plot <- tibble::rownames_to_column(CV_Species_Plot, "ensembl_id")
+    colnames(CV_Species_Plot)<-gsub("_CV_species","",colnames(CV_Species_Plot))
+    CV_plot<-dumbbell(CV_Species_Plot, text = FALSE, segments = TRUE, pch = 19,
+             pt.cex = 1, main= "CV across Species in Geneset")
+    
   }
   else if (metric_type == "CV_Tissue"){
     df_metric_remove_s<-subset(df_metric, select = -c(Species) )
