@@ -127,6 +127,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     id_dataframe<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.x')))
     CV_Tissue<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.y')))
     colnames(CV_Tissue)[which(names(CV_Tissue) == "Anatomical_enti_name.y")] <- "Anatomical_entity_name"
+    CV_Tissue<- unique(CV_Tissue)
     return(CV_Tissue)
   }
   
@@ -137,7 +138,22 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     filter_gex<-tidyr::separate_rows(filter_gene, VST)
     filter_gex$VST <- as.numeric(filter_gex$VST)
     CV_Species<-filter_gex %>% group_by(Ensembl_ID,Species) %>% summarise(CV_Species = CV_function(VST, na.rm=FALSE))
-    CV_Tissue<-CV_Tissue %>% tidyr::spread(Species)
+    cv_species <- tidyr::pivot_wider(CV_Species, names_from = Species, values_from = CV_Species)
+    colnames(cv_species)[which(names(cv_species) == "Homo_sapiens")] <- "h_sapiens_CV_species"
+    colnames(cv_species)[which(names(cv_species) == "Mus_musculus")] <- "m_musculus_CV_species"
+    colnames(cv_species)[which(names(cv_species) == "Rattus_norvegicus")] <- "r_norvegicus_CV_species"
+    colnames(cv_species)[which(names(cv_species) == "Danio_rerio")] <- "d_rerio_CV_species"
+    colnames(cv_species)[which(names(cv_species) == "Drosophila_melanogaster")] <- "d_melanogaster_CV_species"
+    colnames(cv_species)[which(names(cv_species) == "Caenorhabditis_elegans")] <- "c_elegans_CV_species"
+    for(i in 1:length(colnames(id_dataframe))){
+      id<- colnames(id_dataframe)[i]
+      id_dataframe<- id_dataframe %>% merge(., cv_species, by.x = id, by.y="Ensembl_ID")
+    }
+    id_dataframe<- id_dataframe[,colSums(is.na(id_dataframe))<nrow(id_dataframe)]
+    id_dataframe<- id_dataframe %>% select(order(colnames(id_dataframe),decreasing=TRUE))
+    id_dataframe<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.x')))
+    CV_Species<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.y')))
+    CV_Species<- unique(CV_Species)
     return(CV_Species)
   }
   
