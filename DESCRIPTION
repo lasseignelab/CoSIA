@@ -40,3 +40,7 @@ Suggest:
 biocViews: Software
 BugReports: https://github.com/lasseignelab/CoSIA/issues
 URL:
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
