@@ -234,25 +234,18 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
   df_metric<-object@metric
   
   # Dumbbell Plot Function
-  # v1: numeric variable
-  # v2: numeric variable
-  # v3: numeric variable
-  # group: vector (numeric or character) or a factor containing groups
-  # labels: labels for the dot chart
+  # Plot
+  # df: CV_Species_Plot
   # segments: whether to add segments (TRUE) or not (FALSE)
   # text: whether to add text (TRUE) or not (FALSE)
   # pch: symbol
-  # col1: color of the variable v1. If you want to
-  # add group colors add them here
-  # col1: color of the variable v2
   # pt.cex: size of the points
   # segcol: color of the segment
   # lwd: width of the segment
   # ... : additional arguments to be passed to dotchart function
   dumbbell <- function(df,
-                       segments = TRUE, text = FALSE, pch = 19,
-                       colv1 = 1, colv2 = 1,colv3 = 1, pt.cex = 1, segcol = 1,
-                       lwd = 1, main = main,  ...) {
+                       segments = TRUE, text = FALSE, pch = 19, pt.cex = 1, segcol = 1,
+                       lwd = 1, main = "", metric= "", ...) {
     n_col<-ncol(df)-1
     n_row<-nrow(df)
     df_subset <- df[,-1]
@@ -264,7 +257,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
     y <- 1L:n_row + 2 * offset
     
     dotchart(df[,2], labels = df$ensembl_id, color = 1, xlim = range(0, 1) + c(0, .1),
-             groups = group, pch = pch, pt.cex = pt.cex, main = main, xlab= "Coefficient of Variation (CV)",
+             groups = group, pch = NA, pt.cex = pt.cex, main = main, xlab= "Coefficient of Variation (CV)",
              ylab = col1)
     
     if(segments == TRUE) {
@@ -274,10 +267,28 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
                  lwd = lwd, col = segcol) 
       }
     }
-    col<-c("plum","tomato","paleturquoise","lightcoral")
-    for(i in 1:n_row){
-      for (j in 1:n_col){
-        points(df_subset[i,j], y[i], pch = pch, cex = pt.cex, col = col[j])
+    if(metric=="CV_Tissue"){
+      col<-c("plum","tomato","paleturquoise","lightcoral")
+      pch<- c(19,18,17,16,15,3,4,8,7,9,10,13)
+      count<-1
+      for(i in 1:n_row){
+        if(count/length(map_tissues)==1){
+          count<-1
+        }
+        else{
+          count<-count+1
+        }
+        for (j in 1:n_col){
+          points(df_subset[i,j], y[i], pch = pch[count], cex = pt.cex, col = col[j])
+        }
+      }
+    }
+    if(metric=='CV_Species'){
+      col<-c("plum","tomato","paleturquoise","lightcoral")
+      for(i in 1:n_row){
+        for (j in 1:n_col){
+          points(df_subset[i,j], y[i], pch = 19, cex = pt.cex, col = col[j])
+        }
       }
     }
     
@@ -310,24 +321,22 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
     CV_Species_Plot<-select(CV_Species_Plot, contains("CV_species"))
     CV_Species_Plot <- tibble::rownames_to_column(CV_Species_Plot, "ensembl_id")
     colnames(CV_Species_Plot)<-gsub("_CV_species","",colnames(CV_Species_Plot))
-    CV_plot<-dumbbell(CV_Species_Plot, text = FALSE, segments = TRUE, pch = 19,
-             pt.cex = 1, main= "CV across Species in Geneset")
+    dumbbell(CV_Species_Plot, text = FALSE, segments = TRUE,
+             pt.cex = 1, main= "CV across Species in Geneset", metric = "CV_Species")
     
   }
   else if (metric_type == "CV_Tissue"){
-    df_metric_remove_s<-subset(df_metric, select = -c(Species) )
-    df_metric.wide <- tidyr::pivot_wider(df_metric_remove_s, names_from = Ensembl_ID, values_from = 'CV_Tissue')
-    df_metric.wide <- df_metric.wide %>% remove_rownames %>% tibble::column_to_rownames(var="Anatomical_entity_name")
-    CV_plot<-heatmaply::heatmaply(df_metric.wide,
-                         na.value = "white",
-                         dendrogram = "none",
-                         xlab = "Ensembl ID",
-                         ylab = "Anatomical_entity_name",
-                         main = "The Coeffecient of Variation of Gene Expression of a set of Genes across Tissues",
-                         fontsize_row = 8,
-                         fontsize_col = 7,
-    )
-    
+    input_species<-object@i_species
+    col1 <- paste(input_species,"ensembl_id",sep = "_")
+    CV_Tissue_Plot <- CV_Tissue %>% tidyr::unite("ensembl_id_AE_names", all_of(col1), Anatomical_entity_name, sep= "_", 
+                                                 remove = FALSE)
+    CV_Tissue_Plot<- CV_Tissue_Plot %>% remove_rownames %>% column_to_rownames(var="ensembl_id_AE_names")
+    CV_Tissue_Plot<-select(CV_Tissue_Plot, contains("CV_tissue"))
+    CV_Tissue_Plot <- tibble::rownames_to_column(CV_Tissue_Plot, "ensembl_id_AE_names")
+    colnames(CV_Tissue_Plot)<-gsub("_CV_tissue","",colnames(CV_Tissue_Plot))
+    CV_Tissue_Plot<-CV_Tissue_Plot[with(CV_Tissue_Plot, order(ensembl_id_AE_names)), ]
+    CV_plot<-dumbbell(CV_Tissue_Plot, text = FALSE, segments = TRUE,
+             pt.cex = 1, main= "CV across Tissues in Geneset", metric = "CV_Tissue")
   }
   else{
     stop("Error: Invalid metric type for plotCV make sure you have a CV argument as the metric type and the values are saved in the metric slot before proceeding. ")
