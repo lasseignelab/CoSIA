@@ -34,7 +34,7 @@ knitr::opts_chunk$set(
 
 `CoSIA`: **C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across model organisms and their tissues. Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene's expression across tissues and model organisms. CoSIA also streamlines conversions between gene identifiers among the same species and different species.
 
-<img src="../images/CoSIA Workflow.png" alt="Figure 1. CoSIA Workflow" width="705"/>
+<img src="../images/CoSIA_Workflow.png" alt="Figure 1. CoSIA Workflow" width="705"/>
 
 CoSIA is split into 3 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
@@ -137,7 +137,7 @@ Short statement on ids, note about requirement to convert to ensembl to access g
 
 ```{r use1,  message=FALSE, warning=FALSE}
 
-CoSIAn_Obj_convert <- CoSIA::getConversion(CoSIAn_Obj)
+CoSIAn_Obj_convert <- CoSIA::getConversions(CoSIAn_Obj)
 
 str(CoSIAn_Obj_convert)
 
@@ -211,7 +211,7 @@ CoSIAn_Obj_DS <- CoSIA::CoSIAn(gene_set = unique(monogenic_kidney_genes$Gene),
                             metric_type = "DS_Tissue"
                             )
 
-CoSIAn_Obj_DS <- CoSIA::getConversion(CoSIAn_Obj_DS)
+CoSIAn_Obj_DS <- CoSIA::getConversions(CoSIAn_Obj_DS)
 
 CoSIAn_Obj_DS <- CoSIA::getGExMetrics(CoSIAn_Obj_DS)
 
