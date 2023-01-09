@@ -317,18 +317,18 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
     #CV Species
     input_species<-object@i_species
     col1 <- paste(input_species,"ensembl_id",sep = "_")
-    CV_Species_Plot <- CV_Species %>% remove_rownames %>% column_to_rownames(var=col1)
+    CV_Species_Plot <- df_metric %>% remove_rownames %>% column_to_rownames(var=col1)
     CV_Species_Plot<-select(CV_Species_Plot, contains("CV_species"))
     CV_Species_Plot <- tibble::rownames_to_column(CV_Species_Plot, "ensembl_id")
     colnames(CV_Species_Plot)<-gsub("_CV_species","",colnames(CV_Species_Plot))
-    dumbbell(CV_Species_Plot, text = FALSE, segments = TRUE,
+    CV_plot<-dumbbell(CV_Species_Plot, text = FALSE, segments = TRUE,
              pt.cex = 1, main= "CV across Species in Geneset", metric = "CV_Species")
     
   }
   else if (metric_type == "CV_Tissue"){
     input_species<-object@i_species
     col1 <- paste(input_species,"ensembl_id",sep = "_")
-    CV_Tissue_Plot <- CV_Tissue %>% tidyr::unite("ensembl_id_AE_names", all_of(col1), Anatomical_entity_name, sep= "_", 
+    CV_Tissue_Plot <- df_metric %>% tidyr::unite("ensembl_id_AE_names", all_of(col1), Anatomical_entity_name, sep= "_", 
                                                  remove = FALSE)
     CV_Tissue_Plot<- CV_Tissue_Plot %>% remove_rownames %>% column_to_rownames(var="ensembl_id_AE_names")
     CV_Tissue_Plot<-select(CV_Tissue_Plot, contains("CV_tissue"))
