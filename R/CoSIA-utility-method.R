@@ -10,6 +10,7 @@
 #' @export
 #'
 #' @examples
+#' load("~/Desktop/EH_Data.RData")
 #' tissue<-getTissues(c("m_musculus"))
 
 getTissues<- function(species) {

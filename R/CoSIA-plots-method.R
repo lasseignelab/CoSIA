@@ -18,6 +18,14 @@ setGeneric("plotSpeciesGEx", function(object, single_tissue, single_gene) standa
 #' @importFrom tidyselect ends_with
 #'
 #' @examples
+#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762","ENSG00000152217"),
+#' i_species = "h_sapiens",input_id = "Ensembl_id",o_species = c("d_melanogaster","m_musculus",
+#' "h_sapiens", "d_rerio","c_elegans","r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), 
+#' mapping_tool = "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
+#' map_species = c("m_musculus"),metric_type = "DS_Gene")
+#' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
+#' load("~/Desktop/EH_Data.RData")
+#' Kidney_gene_gex<- getGEx(Kidney_gene_conversion)
 #' plotSpeciesGEx(Kidney_gene_gex,"liver","ENSG00000008710")
 #' plotSpeciesGEx(Kidney_gene_gex,"brain","ENSG00000118762")
 
@@ -81,6 +89,14 @@ setGeneric("plotTissueGEx", function(object, single_species, single_gene) standa
 
 #'
 #' @examples
+#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762","ENSG00000152217"),
+#' i_species = "h_sapiens",input_id = "Ensembl_id",o_species = c("d_melanogaster","m_musculus",
+#' "h_sapiens", "d_rerio","c_elegans","r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), 
+#' mapping_tool = "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
+#' map_species = c("m_musculus"),metric_type = "DS_Gene")
+#' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
+#' load("~/Desktop/EH_Data.RData")
+#' Kidney_gene_gex<- getGEx(Kidney_gene_conversion)
 #' plotTissueGEx(Kidney_gene_gex,"h_sapiens","ENSG00000008710")
 #' plotTissueGEx(Kidney_gene_gex,"m_musculus","ENSG00000008710")
 
@@ -160,6 +176,14 @@ setGeneric("plotDSGEx", function(object) standardGeneric("plotDSGEx"))
 #' @export
 #'
 #' @examples
+#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762","ENSG00000152217"),
+#' i_species = "h_sapiens",input_id = "Ensembl_id",o_species = c("d_melanogaster","m_musculus",
+#' "h_sapiens", "d_rerio","c_elegans","r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), 
+#' mapping_tool = "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
+#' map_species = c("m_musculus"),metric_type = "DS_Gene")
+#' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
+#' load("~/Desktop/EH_Data.RData")
+#' Kidney_gene_metric<-getGExMetrics(Kidney_gene_conversion)
 #' plotDSGEx(Kidney_gene_metric)
 
 
@@ -226,6 +250,14 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 #' @importFrom tibble remove_rownames
 #'
 #' @examples
+#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762","ENSG00000152217"),
+#' i_species = "h_sapiens",input_id = "Ensembl_id",o_species = c("d_melanogaster","m_musculus",
+#' "h_sapiens", "d_rerio","c_elegans","r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), 
+#' mapping_tool = "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
+#' map_species = c("m_musculus"),metric_type = "DS_Gene")
+#' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
+#' load("~/Desktop/EH_Data.RData")
+#' Kidney_gene_metric<-getGExMetrics(Kidney_gene_conversion)
 #' plotCVGEx(Kidney_gene_metric)
 
 
