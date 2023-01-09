@@ -16,5 +16,6 @@ list of tissues that are common/available among the species or multiple species 
 getTissues
 }
 \examples{
+load("~/Desktop/EH_Data.RData")
 tissue<-getTissues(c("m_musculus"))
 }
