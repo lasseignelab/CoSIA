@@ -71,8 +71,10 @@ In R:
 library(CoSIA)
 library(tidyverse)
 
-load("../../Learning/useCoSIA/data/EH_Data.RData")
+load("~/Desktop/EH_Data.RData")
+#load("../../Learning/useCoSIA/data/EH_Data.RData")
 monogenic_kidney_genes <- readRDS("../data/monogenic_kidney_genes.rds")
+
 
 ```
 
@@ -137,7 +139,7 @@ Short statement on ids, note about requirement to convert to ensembl to access g
 
 ```{r use1,  message=FALSE, warning=FALSE}
 
-CoSIAn_Obj_convert <- CoSIA::getConversions(CoSIAn_Obj)
+CoSIAn_Obj_convert <- CoSIA::getConversion(CoSIAn_Obj)
 
 str(CoSIAn_Obj_convert)
 
@@ -211,7 +213,7 @@ CoSIAn_Obj_DS <- CoSIA::CoSIAn(gene_set = unique(monogenic_kidney_genes$Gene),
                             metric_type = "DS_Tissue"
                             )
 
-CoSIAn_Obj_DS <- CoSIA::getConversions(CoSIAn_Obj_DS)
+CoSIAn_Obj_DS <- CoSIA::getConversion(CoSIAn_Obj_DS)
 
 CoSIAn_Obj_DS <- CoSIA::getGExMetrics(CoSIAn_Obj_DS)
 

@@ -120,12 +120,12 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
       id_dataframe<- id_dataframe %>% merge(., cv_tissue, by.x = id, by.y="Ensembl_ID")
     }
     id_dataframe<- id_dataframe[,colSums(is.na(id_dataframe))<nrow(id_dataframe)]
-    id_dataframe<- id_dataframe %>% select(order(colnames(id_dataframe),decreasing=TRUE))
-    id_dataframe<-id_dataframe %>%filter(if_all(starts_with('Anatomical_entity_name'), ~ Anatomical_entity_name.x == .x))  
+    id_dataframe<- id_dataframe %>% dplyr::select(order(colnames(id_dataframe),decreasing=TRUE))
+    id_dataframe<-id_dataframe %>%dplyr::filter(dplyr::if_all(tidyselect::starts_with('Anatomical_entity_name'), ~ Anatomical_entity_name.x == .x))  
     duplicated_columns <- duplicated(as.list(id_dataframe))
     id_dataframe<-id_dataframe[!duplicated_columns]
-    id_dataframe<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.x')))
-    CV_Tissue<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.y')))
+    id_dataframe<-id_dataframe %>% dplyr::rename_with(~stringr::str_remove(., c('.x')))
+    CV_Tissue<-id_dataframe %>% dplyr::rename_with(~stringr::str_remove(., c('.y')))
     colnames(CV_Tissue)[which(names(CV_Tissue) == "Anatomical_enti_name.y")] <- "Anatomical_entity_name"
     CV_Tissue<- unique(CV_Tissue)
     return(CV_Tissue)
@@ -150,9 +150,9 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
       id_dataframe<- id_dataframe %>% merge(., cv_species, by.x = id, by.y="Ensembl_ID")
     }
     id_dataframe<- id_dataframe[,colSums(is.na(id_dataframe))<nrow(id_dataframe)]
-    id_dataframe<- id_dataframe %>% select(order(colnames(id_dataframe),decreasing=TRUE))
-    id_dataframe<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.x')))
-    CV_Species<-id_dataframe %>% rename_with(~stringr::str_remove(., c('.y')))
+    id_dataframe<- id_dataframe %>% dplyr::select(order(colnames(id_dataframe),decreasing=TRUE))
+    id_dataframe<-id_dataframe %>% dplyr::rename_with(~stringr::str_remove(., c('.x')))
+    CV_Species<-id_dataframe %>% dplyr::rename_with(~stringr::str_remove(., c('.y')))
     CV_Species<- unique(CV_Species)
     return(CV_Species)
   }
