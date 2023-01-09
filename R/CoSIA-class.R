@@ -74,7 +74,7 @@ CoSIAn <- function(gene_set, i_species, input_id, o_species, output_ids,
   if(missing(map_tissues)){stop("Please provide a valid tissue list (map_tissues)")}
   if(missing(map_species)){stop("Please provide a valid output species (map_species)")}
   if(missing(metric_type)){stop("Please provide a valid metric to be calculated (metric_type)")}
-  new("CoSIAn", gene_set = gene_set, i_species = i_species, input_id = input_id, o_species = o_species, output_ids = output_ids, 
+  methods::new("CoSIAn", gene_set = gene_set, i_species = i_species, input_id = input_id, o_species = o_species, output_ids = output_ids, 
       mapping_tool = mapping_tool, ortholog_database = ortholog_database, map_tissues = map_tissues, map_species = map_species, 
       metric_type = metric_type, converted_id = data.frame(0), gex = data.frame(0), metric = data.frame(0))
 }
