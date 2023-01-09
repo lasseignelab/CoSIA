@@ -256,7 +256,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
     offset <- cumsum(c(0, diff(as.numeric(group)) != 0))
     y <- 1L:n_row + 2 * offset
     
-    dotchart(df[,2], labels = df$ensembl_id, color = 1, xlim = range(0, 1) + c(0, .1),
+    graphics::dotchart(df[,2], labels = df$ensembl_id, color = 1, xlim = range(0, 1) + c(0, .1),
              groups = group, pch = NA, pt.cex = pt.cex, main = main, xlab= "Coefficient of Variation (CV)",
              ylab = col1)
     
@@ -279,7 +279,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
           count<-count+1
         }
         for (j in 1:n_col){
-          points(df_subset[i,j], y[i], pch = pch[count], cex = pt.cex, col = col[j])
+          graphics::points(df_subset[i,j], y[i], pch = pch[count], cex = pt.cex, col = col[j])
         }
       }
     }
@@ -287,7 +287,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
       col<-c("plum","tomato","paleturquoise","lightcoral")
       for(i in 1:n_row){
         for (j in 1:n_col){
-          points(df_subset[i,j], y[i], pch = 19, cex = pt.cex, col = col[j])
+          graphics::points(df_subset[i,j], y[i], pch = 19, cex = pt.cex, col = col[j])
         }
       }
     }
@@ -301,7 +301,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
     #   }
     # }
     
-    legend("topright", 
+    graphics::legend("topright", 
            legend = colnames(df_subset), 
            col = col, 
            pch = 19, 
@@ -318,7 +318,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
     input_species<-object@i_species
     col1 <- paste(input_species,"ensembl_id",sep = "_")
     CV_Species_Plot <- df_metric %>% remove_rownames %>% column_to_rownames(var=col1)
-    CV_Species_Plot<-select(CV_Species_Plot, contains("CV_species"))
+    CV_Species_Plot<-dplyr::select(CV_Species_Plot, contains("CV_species"))
     CV_Species_Plot <- tibble::rownames_to_column(CV_Species_Plot, "ensembl_id")
     colnames(CV_Species_Plot)<-gsub("_CV_species","",colnames(CV_Species_Plot))
     CV_plot<-dumbbell(CV_Species_Plot, text = FALSE, segments = TRUE,
@@ -328,10 +328,10 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) { #make mu
   else if (metric_type == "CV_Tissue"){
     input_species<-object@i_species
     col1 <- paste(input_species,"ensembl_id",sep = "_")
-    CV_Tissue_Plot <- df_metric %>% tidyr::unite("ensembl_id_AE_names", all_of(col1), Anatomical_entity_name, sep= "_", 
+    CV_Tissue_Plot <- df_metric %>% tidyr::unite("ensembl_id_AE_names", tidyselect::all_of(col1), Anatomical_entity_name, sep= "_", 
                                                  remove = FALSE)
     CV_Tissue_Plot<- CV_Tissue_Plot %>% remove_rownames %>% column_to_rownames(var="ensembl_id_AE_names")
-    CV_Tissue_Plot<-select(CV_Tissue_Plot, contains("CV_tissue"))
+    CV_Tissue_Plot<-dplyr::select(CV_Tissue_Plot, contains("CV_tissue"))
     CV_Tissue_Plot <- tibble::rownames_to_column(CV_Tissue_Plot, "ensembl_id_AE_names")
     colnames(CV_Tissue_Plot)<-gsub("_CV_tissue","",colnames(CV_Tissue_Plot))
     CV_Tissue_Plot<-CV_Tissue_Plot[with(CV_Tissue_Plot, order(ensembl_id_AE_names)), ]
