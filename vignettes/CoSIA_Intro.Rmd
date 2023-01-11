@@ -73,7 +73,7 @@ library(tidyverse)
 
 load("~/Desktop/EH_Data.RData")
 #load("../../Learning/useCoSIA/data/EH_Data.RData")
-monogenic_kidney_genes <- readRDS("../data/monogenic_kidney_genes.rds")
+load("../data/proccessed/monogenic_kidney_genes.rda")
 
 
 ```
