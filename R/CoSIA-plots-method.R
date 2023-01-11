@@ -254,7 +254,7 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 #' i_species = "h_sapiens",input_id = "Ensembl_id",o_species = c("d_melanogaster","m_musculus",
 #' "h_sapiens", "d_rerio","c_elegans","r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), 
 #' mapping_tool = "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
-#' map_species = c("m_musculus"),metric_type = "DS_Gene")
+#' map_species = c("h_sapiens","m_musculus"),metric_type = "CV_Species")
 #' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
 #' load("~/Desktop/EH_Data.RData")
 #' Kidney_gene_metric<-getGExMetrics(Kidney_gene_conversion)
