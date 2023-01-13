@@ -15,7 +15,9 @@ The first module and second module have a shared method, `getConversion`, that i
 In R:
 
 ``` r
-install_github("lasseignelab/CoSIA", ref= "main", auth_token = "***REMOVED***")
+install.packages("devtools")
+devtools::install_github("lasseignelab/CoSIA", ref= "main", auth_token = "")
+#add personal authorization token for the auth_token argument in order to properly load the CoSIA package
 ```
 
 ## How to use the CoSIA package
