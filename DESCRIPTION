@@ -2,7 +2,7 @@ Package: CoSIA
 Type: Package
 Title: An Investigation Across Different Species and Tissues
 Version: 0.1.0
-Author: Anisha Haldar
+Author: Anisha Haldar, Vishal H. Oza, Amanda D. Clark, Nathaniel S. DeVoss, Brittany N. Lasseigne
 Maintainer: Anisha Haldar <anishah@uab.edu>
 Description: CoSIA provides researchers with the ability to compare across species and tissues using gene expression by providing multiple gene-expression based metrics for calculating and visualizing transcriptome diversity and variation.
 License: MIT + file LICENSE

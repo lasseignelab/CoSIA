@@ -7,7 +7,7 @@
 plotCVGEx(object)
 }
 \arguments{
-\item{object}{}
+\item{object}{CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled}
 }
 \description{
 plotCVGEx Generic

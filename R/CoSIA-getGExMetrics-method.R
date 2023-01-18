@@ -1,6 +1,6 @@
 #' getGExMetrics Generic
 #'
-#' @param object
+#' @param object CoSIAn object with all user accessible slots filled with converted_id slot filled
 #'
 #' @export
 setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
@@ -9,7 +9,7 @@ setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
 
 #' getGExMetrics Method
 #'
-#' @param object CoSIAn. 
+#' @param object CoSIAn object with all user accessible slots filled with converted_id slot filled 
 #'
 #' @return CoSIAn Object with metric slot filled
 #' @export

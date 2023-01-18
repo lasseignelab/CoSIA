@@ -7,7 +7,7 @@
 \S4method{plotDSGEx}{CoSIAn}(object)
 }
 \arguments{
-\item{object}{CoSIAn.}
+\item{object}{CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled}
 }
 \value{
 plot object

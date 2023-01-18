@@ -1,6 +1,8 @@
 #' plotSpeciesGEx Generic
 #'
-#' @param object
+#' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and gex slot filled
+#' @param single_tissue one tissue that the user wants to investigate across the mapped species
+#' @param single_gene one ensembl id that the user wants to investigate across the mapped species
 #'
 #' @export
 #'
@@ -9,7 +11,7 @@ setGeneric("plotSpeciesGEx", function(object, single_tissue, single_gene) standa
 
 #' plotSpeciesGEx Method
 #'
-#' @param object CoSIAn. 
+#' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and gex slot filled 
 #' @param single_tissue one tissue that the user wants to investigate across the mapped species
 #' @param single_gene one ensembl id that the user wants to investigate across the mapped species
 #'
@@ -73,7 +75,9 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
 
 #' plotTissueGEx Generic
 #'
-#' @param object
+#' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and gex slot filled
+#' @param single_species one species that the user wants to investigate across the mapped tissues
+#' @param single_gene one ensembl id that the user wants to investigate across the mapped tissues
 #'
 #' @export
 
@@ -81,7 +85,9 @@ setGeneric("plotTissueGEx", function(object, single_species, single_gene) standa
 
 #' plotTissueGEx Method
 #'
-#' @param object CoSIAn. 
+#' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and gex slot filled
+#' @param single_species one species that the user wants to investigate across the mapped tissues
+#' @param single_gene one ensembl id that the user wants to investigate across the mapped tissues
 #'
 #' @return plot object
 #' @export
@@ -162,7 +168,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
 
 #' plotDSGEx Generic
 #'
-#' @param object
+#' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled
 #'
 #' @export
 setGeneric("plotDSGEx", function(object) standardGeneric("plotDSGEx"))
@@ -170,7 +176,7 @@ setGeneric("plotDSGEx", function(object) standardGeneric("plotDSGEx"))
 
 #' plotDSGEx Method
 #'
-#' @param object CoSIAn. 
+#' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled
 #'
 #' @return plot object
 #' @export
@@ -235,7 +241,7 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
 
 #' plotCVGEx Generic
 #'
-#' @param object
+#' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled
 #'
 #' @export
 setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
@@ -243,7 +249,7 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 
 #' plotCVGEx Method
 #'
-#' @param object CoSIAn. 
+#' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled
 #'
 #' @return plot object
 #' @export
