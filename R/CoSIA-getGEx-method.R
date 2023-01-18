@@ -1,6 +1,6 @@
 #' getGEx Generic
 #'
-#' @param object
+#' @param object CoSIAn object with all user accessible slots filled with converted_id slot filled
 #'
 #' @export
 
@@ -10,7 +10,7 @@ setGeneric("getGEx", function(object) standardGeneric("getGEx"))
 
 #' getGEx Method
 #'
-#' @param object CoSIAn. 
+#' @param object CoSIAn object with all user accessible slots filled with converted_id slot filled 
 #'
 #' @return CoSIAn Object with gex slot filled
 #' @export

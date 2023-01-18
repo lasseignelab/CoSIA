@@ -1,6 +1,7 @@
 #' getConversion Generic
 #'
-#' @param object
+#' @param object CoSIAn object with all user accessible slots filled
+#'
 #'
 #' @export
 
@@ -8,7 +9,7 @@ setGeneric("getConversion", function(object) standardGeneric("getConversion"))
 
 #' getConversion Method
 #'
-#' @param object CoSIAn. 
+#' @param object CoSIAn object with all user accessible slots filled 
 #'
 #' @return CoSIAn object with converted_id slot filled
 #' @export
