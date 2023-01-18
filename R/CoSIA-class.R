@@ -2,6 +2,7 @@ setClass("CoSIA", representation("VIRTUAL"))  # virtual class
 
 #' CoSIAn Class
 #' @name CoSIAn
+#' @aliases CoSIAn
 #' @rdname CoSIA-class
 #' @slot gene_set character. A singular gene or a list of genes.
 #' @slot i_species character. The species corresponding to gene_set.
