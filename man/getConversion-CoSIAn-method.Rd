@@ -7,7 +7,7 @@
 \S4method{getConversion}{CoSIAn}(object)
 }
 \arguments{
-\item{object}{CoSIAn.}
+\item{object}{CoSIAn object with all user accessible slots filled}
 }
 \value{
 CoSIAn object with converted_id slot filled

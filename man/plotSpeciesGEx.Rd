@@ -7,7 +7,11 @@
 plotSpeciesGEx(object, single_tissue, single_gene)
 }
 \arguments{
-\item{object}{}
+\item{object}{CoSIAn object with all user accessible slots filled in as well as the converted_id and gex slot filled}
+
+\item{single_tissue}{one tissue that the user wants to investigate across the mapped species}
+
+\item{single_gene}{one ensembl id that the user wants to investigate across the mapped species}
 }
 \description{
 plotSpeciesGEx Generic

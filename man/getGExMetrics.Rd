@@ -7,7 +7,7 @@
 getGExMetrics(object)
 }
 \arguments{
-\item{object}{}
+\item{object}{CoSIAn object with all user accessible slots filled with converted_id slot filled}
 }
 \description{
 getGExMetrics Generic

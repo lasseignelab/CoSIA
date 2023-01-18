@@ -7,7 +7,7 @@
 \S4method{getGEx}{CoSIAn}(object)
 }
 \arguments{
-\item{object}{CoSIAn.}
+\item{object}{CoSIAn object with all user accessible slots filled with converted_id slot filled}
 }
 \value{
 CoSIAn Object with gex slot filled

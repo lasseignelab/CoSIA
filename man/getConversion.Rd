@@ -7,7 +7,7 @@
 getConversion(object)
 }
 \arguments{
-\item{object}{}
+\item{object}{CoSIAn object with all user accessible slots filled}
 }
 \description{
 getConversion Generic

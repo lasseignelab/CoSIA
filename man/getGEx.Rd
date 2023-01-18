@@ -7,7 +7,7 @@
 getGEx(object)
 }
 \arguments{
-\item{object}{}
+\item{object}{CoSIAn object with all user accessible slots filled with converted_id slot filled}
 }
 \description{
 getGEx Generic

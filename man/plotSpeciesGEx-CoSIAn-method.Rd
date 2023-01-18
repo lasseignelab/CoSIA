@@ -7,7 +7,7 @@
 \S4method{plotSpeciesGEx}{CoSIAn}(object, single_tissue, single_gene)
 }
 \arguments{
-\item{object}{CoSIAn.}
+\item{object}{CoSIAn object with all user accessible slots filled in as well as the converted_id and gex slot filled}
 
 \item{single_tissue}{one tissue that the user wants to investigate across the mapped species}
 

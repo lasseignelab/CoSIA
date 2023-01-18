@@ -7,7 +7,7 @@
 \S4method{getGExMetrics}{CoSIAn}(object)
 }
 \arguments{
-\item{object}{CoSIAn.}
+\item{object}{CoSIAn object with all user accessible slots filled with converted_id slot filled}
 }
 \value{
 CoSIAn Object with metric slot filled
