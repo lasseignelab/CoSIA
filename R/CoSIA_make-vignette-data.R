@@ -9,10 +9,10 @@
 library(readr)
 
 # Load raw data
-monogenic_kidney_genes <- read_csv(file = "data/raw/385_NateraKidney.csv", col_names = T)
+monogenic_kidney_genes <- read_csv(file = "inst/extdata/raw/385_NateraKidney.csv", col_names = T)
 
 # Output RDS
-saveRDS(object = monogenic_kidney_genes, file = "data/proccessed/monogenic_kidney_genes.rds")
+saveRDS(object = monogenic_kidney_genes, file = "inst/extdata/proccessed/monogenic_kidney_genes.rds")
 
 # Output RDA
-save(monogenic_kidney_genes, file = "data/proccessed/monogenic_kidney_genes.rda")
+save(monogenic_kidney_genes, file = "inst/extdata/proccessed/monogenic_kidney_genes.rda")
