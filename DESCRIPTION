@@ -1,7 +1,7 @@
 Package: CoSIA
 Type: Package
 Title: An Investigation Across Different Species and Tissues
-Version: 0.1.0
+Version: 0.99.0
 Authors@R:
   c(person(given = "Anisha",
            family = "Haldar",
@@ -19,7 +19,7 @@ Authors@R:
     person(given = c("Nathaniel", "S."),
            family = "DeVoss",
            role = "aut",
-           comment = c(ORCID = "")),
+           comment = c(ORCID = "0000-0003-0465-2770")),
     person(given = c("Brittany", "N."),
            family = "Lasseigne",
            role = c("aut","cre"),
