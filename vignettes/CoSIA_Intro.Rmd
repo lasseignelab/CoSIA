@@ -73,7 +73,7 @@ library(tidyverse)
 
 load("~/Desktop/EH_Data.RData")
 #load("../../Learning/useCoSIA/data/EH_Data.RData")
-load("../data/proccessed/monogenic_kidney_genes.rda")
+load("../inst/extdata/proccessed/monogenic_kidney_genes.rda")
 
 
 ```
