@@ -13,23 +13,22 @@ Authors@R:
            comment = c(ORCID = "0000-0001-6990-0267")),
     person(given = c("Amanda", "D."),
            family = "Clark",
-           role = c("aut"),
+           role = c("aut","cre"),
            email = "amanda@freshairfamily.org",
-           comment = c(ORCID = "")),
+           comment = c(ORCID = "0000-0002-1186-3114")),
     person(given = c("Nathaniel", "S."),
            family = "DeVoss",
            role = "aut",
            comment = c(ORCID = "0000-0003-0465-2770")),
     person(given = c("Brittany", "N."),
            family = "Lasseigne",
-           role = c("aut","cre"),
-           email = "brittany.lasseigne@gmail.com",
-           comment = c(ORCID = "")))
+           role = c("aut"),
+           comment = c(ORCID = "0000-0002-1642-8904")))
 Description: CoSIA provides researchers with the ability to compare across species and tissues using gene expression by providing multiple gene-expression based metrics for calculating and visualizing transcriptome diversity and variation.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
-  R (>= 4.0)
+  R (>= 4.2.0)
 Imports:
   dplyr (>= 1.0.7),
   magrittr (>= 2.0.1),
