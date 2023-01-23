@@ -18,6 +18,8 @@ setClass("CoSIA", representation("VIRTUAL"))  # virtual class
 #' @slot metric_type character. A list of possible metric the user wants to calculate.
 #' @slot metric data frame. Output of coefficient of variation of gene expression data.
 #' @exportClass CoSIAn
+#' @return CoSIAn object
+
 setClass("CoSIAn",contains = "CoSIA",
          slots = c(
            gene_set = "character",
