@@ -40,6 +40,8 @@ CoSIAn(
 \item{metric_type}{A list of possible metric the user wants to calculate.}
 }
 \value{
+CoSIAn object
+
 An S4 \code{CoSIAn} object with character vector(s) as slots.
 }
 \description{
