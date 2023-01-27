@@ -243,7 +243,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     
   }
   #DS_Gene_all: outputs genes only restricted to selected genes across all tissues
-  DS_Gene_all<- function(map_species, map_tissues){
+  DS_Gene_all<- function(map_species){
     DS<-data.frame(matrix(ncol = 4, nrow = 0))
     colnames(DS)[1] <- "Ensembl_ID"
     for (x in 1:length(map_species)){
