@@ -38,8 +38,6 @@ Imports:
   stringr (>= 1.4.0),
   ggplot2 (>= 3.3.5),
   tibble (>= 3.1.7),
-  heatmaply (>= 1.4.0),
-  BioQC (>= 1.22.0),
   org.Hs.eg.db (>= 3.12.0),
   org.Mm.eg.db (>= 3.12.0),
   org.Dr.eg.db (>= 3.12.0),
@@ -53,12 +51,10 @@ Imports:
   readr (>= 2.1.1),
   methods (>= 4.1.2),
   tidyselect (>= 1.1.2),
-  grr (>= 0.9.5),
-  BiocStyle (>= 2.22.0),
-  tidyverse (>= 1.3.1),
   stats(>= 4.1.2)
 RoxygenNote: 7.2.3
 Suggest:
+    BiocStyle (>= 2.22.0)
 biocViews: Software, BiologicalQuestion, GeneExpression
 BugReports: https://github.com/lasseignelab/CoSIA/issues
 URL:
