@@ -5,10 +5,11 @@
 #'
 #' @export
 #' @examples
-#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762","ENSG00000152217"),
-#' i_species = "h_sapiens",input_id = "Ensembl_id",o_species = c("d_melanogaster","m_musculus",
-#' "h_sapiens", "d_rerio","c_elegans","r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), 
-#' mapping_tool = "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
+#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762",
+#' "ENSG00000152217"),i_species = "h_sapiens",input_id = "Ensembl_id",o_species 
+#' = c("d_melanogaster","m_musculus","h_sapiens", "d_rerio","c_elegans",
+#' "r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), mapping_tool = 
+#' "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
 #' map_species = c("m_musculus"),metric_type = "DS_Gene")
 #' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
 
@@ -25,22 +26,25 @@ setGeneric("getConversion", function(object) standardGeneric("getConversion"))
 #' @importFrom tidyselect contains
 #' 
 #' @examples
-#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762","ENSG00000152217"),
-#' i_species = "h_sapiens",input_id = "Ensembl_id",o_species = c("d_melanogaster","m_musculus",
-#' "h_sapiens", "d_rerio","c_elegans","r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), 
-#' mapping_tool = "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
+#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762",
+#' "ENSG00000152217"),i_species = "h_sapiens",input_id = "Ensembl_id",o_species 
+#' = c("d_melanogaster","m_musculus","h_sapiens", "d_rerio","c_elegans",
+#' "r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), mapping_tool = 
+#' "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
 #' map_species = c("m_musculus"),metric_type = "DS_Gene")
 #' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
 
 
-setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # user's input of the function
+setMethod("getConversion", signature(object = "CoSIAn"), function(object) { 
+  # user's input of the function
   #Set each part of the object that this method uses into their own variable that will be used inside the code
     input_species<-object@i_species
     input_id<-object@input_id
     input<-object@gene_set
     input<-unique(input)
     if (input_id=="Ensembl_id"){
-      input <- remove_version_numbers(input, input_species)  #puts the genes through the remove version number function to remove the version number (everything after the dot)
+      input <- remove_version_numbers(input, input_species)  
+      #puts the genes through the remove version number function to remove the version number (everything after the dot)
     }
     input<-as.character(input)
     output_ids<-object@output_ids
@@ -49,7 +53,8 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
     ortholog_database<-object@ortholog_database
     species_data<-data.frame(input)
     c_name<-tolower(paste(input_species,input_id , sep = "_"))
-    colnames(species_data)[which(names(species_data) == "input")] <- c_name  #changes name to more formal names
+    colnames(species_data)[which(names(species_data) == "input")] <- c_name  
+    #changes name to more formal names
     for(index in seq(length(output_species))){
         Filter_I_Species <- switch(input_species,
                                h_sapiens = {
