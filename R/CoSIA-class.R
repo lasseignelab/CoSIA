@@ -1,8 +1,9 @@
 setClass("CoSIA", representation("VIRTUAL"))  # virtual class
 ###############################################################################
-#' CoSIAn Class S4 Object
-#' @name CoSIAn-class
-#' @aliases CoSIAn
+#' @title CoSIAn Class S4 Object
+#' @description This Class is used to specify the information needed to conduct 
+#' analysis using CoSIA's other methods. An object of this class will pass as an
+#' argument to other methods in CoSIA
 #' @rdname CoSIA-class
 #' @slot gene_set character. A singular gene or a list of genes.
 #' @slot i_species character. The species corresponding to gene_set.

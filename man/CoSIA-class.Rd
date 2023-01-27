@@ -3,13 +3,14 @@
 \docType{class}
 \name{CoSIAn-class}
 \alias{CoSIAn-class}
-\alias{CoSIAn}
 \title{CoSIAn Class S4 Object}
 \value{
 CoSIAn object
 }
 \description{
-CoSIAn Class S4 Object
+This Class is used to specify the information needed to conduct 
+analysis using CoSIA's other methods. An object of this class will pass as an
+argument to other methods in CoSIA
 }
 \section{Slots}{
 
