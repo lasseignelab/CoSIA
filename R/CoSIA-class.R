@@ -44,7 +44,7 @@ setClass("CoSIAn",contains = "CoSIA",
            metric = "data.frame"
          )
 )
-#######################################################################################################
+################################################################################
 #' Constructor for the CoSIAn Object
 #' @name CoSIAn-Constructor Constructor for the CoSIAn Class
 #' @description The \code{CoSIAn} constructor creates a \code{CoSIAn} object 
