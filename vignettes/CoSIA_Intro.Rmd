@@ -69,7 +69,6 @@ In R:
 ```{r setup, warning=FALSE, message=FALSE}
 
 library(CoSIA)
-library(tidyverse)
 
 load("~/Desktop/EH_Data.RData")
 #load("../../Learning/useCoSIA/data/EH_Data.RData")
@@ -96,7 +95,7 @@ The function `getTissues` retrieves tissues available for a single species:
 
 ```{r getTissues_1}
 
-getTissues("d_rerio")
+CoSIA::getTissues("d_rerio")
 
 ```
 
@@ -104,7 +103,7 @@ getTissues("d_rerio")
 
 ```{r getTissues_2}
 
-getTissues(c("h_sapiens", "m_musculus", "r_norvegicus"))
+CoSIA::getTissues(c("h_sapiens", "m_musculus", "r_norvegicus"))
 
 ```
 
@@ -183,7 +182,7 @@ Here there should be words describing the metric and how it is calculated
 
 CoSIAn_Obj_CV <- CoSIA::getGExMetrics(CoSIAn_Obj_gex)
 
-CoSIAn_Obj_CVplot <- plotCVGEx(CoSIAn_Obj_CV)
+CoSIAn_Obj_CVplot <- CoSIA::plotCVGEx(CoSIAn_Obj_CV)
 
 CoSIAn_Obj_CVplot
 
