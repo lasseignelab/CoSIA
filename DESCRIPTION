@@ -54,7 +54,8 @@ Imports:
   stats(>= 4.1.2)
 RoxygenNote: 7.2.3
 Suggest:
-    BiocStyle (>= 2.22.0)
+    BiocStyle (>= 2.22.0),
+    tidyverse (>= 1.3.1)
 biocViews: Software, BiologicalQuestion, GeneExpression
 BugReports: https://github.com/lasseignelab/CoSIA/issues
 URL:
