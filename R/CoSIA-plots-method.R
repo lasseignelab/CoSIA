@@ -294,7 +294,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
             pt.cex = pt.cex, main = main, xlab = "Coefficient of Variation (CV)", ylab = col1)
 
         if (segments == TRUE) {
-            for (i in 1:n_row) {
+            for (i in seq_len(n_row)) {
                 segments(min(df_subset[i, ]), y[i], max(df_subset[i, ]), y[i], lwd = lwd, col = segcol)
             }
         }
@@ -302,21 +302,21 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
             col <- c("plum", "tomato", "paleturquoise", "lightcoral")
             pch <- c(19, 18, 17, 16, 15, 3, 4, 8, 7, 9, 10, 13)
             count <- 1
-            for (i in 1:n_row) {
+            for (i in seq_len(n_row)) {
                 if (count/length(map_tissues) == 1) {
                   count <- 1
                 } else {
                   count <- count + 1
                 }
-                for (j in 1:n_col) {
+                for (j in seq_len(n_col)) {
                   graphics::points(df_subset[i, j], y[i], pch = pch[count], cex = pt.cex, col = col[j])
                 }
             }
         }
         if (metric == "CV_Species") {
             col <- c("plum", "tomato", "paleturquoise", "lightcoral")
-            for (i in 1:n_row) {
-                for (j in 1:n_col) {
+            for (i in seq_len(n_row)) {
+                for (j in seq_len(n_col)) {
                   graphics::points(df_subset[i, j], y[i], pch = 19, cex = pt.cex, col = col[j])
                 }
             }
