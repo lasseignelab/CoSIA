@@ -2,7 +2,7 @@
 #'
 #' @param object CoSIAn object with all user accessible slots filled
 #'
-#'
+#' @return initializes a generic function for getConversion as preparation for defining the getConversion Method
 #' @export
 #' @examples
 #' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762",
