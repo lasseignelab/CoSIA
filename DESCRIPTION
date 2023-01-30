@@ -24,7 +24,16 @@ Authors@R:
            family = "Lasseigne",
            role = c("aut"),
            comment = c(ORCID = "0000-0002-1642-8904")))
-Description: CoSIA provides researchers with the ability to compare across species and tissues using gene expression by providing multiple gene-expression based metrics for calculating and visualizing transcriptome diversity and variation.
+Description: 
+Cross-Species Investigation and Analysis (CoSIA) is a package that provides 
+researchers with an alternative methodology for comparing across species and 
+tissues using normal wild-type RNA-Seq Gene Expression data from Bgee. Using 
+RNA-Seq Gene Expression data, CoSIA provides multiple visualization tools to 
+explore the transcriptome diversity and variation across genes, tissues, and 
+species. CoSIA uses the Coefficient of Variation and Shannon Entropy and 
+Specificity to calculate transcriptome diversity and variation. CoSIA also 
+provides additional conversion tools and utilities to provide a streamlined 
+methodology for cross-species comparison.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
