@@ -225,4 +225,9 @@ CoSIAn_Obj_DSplot
 
 Here there should be words of the interpretation of the use case gene set. 
 
+Session info
+```{r}
+sessionInfo()
+```
+
 
