@@ -62,13 +62,13 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
     fig <- filter_gex %>%
         plotly::plot_ly(x = ~Species, y = ~VST, type = "scatter", mode = "markers", color = ~Species, colors = color)
     fig <- fig %>%
-        plotly::add_trace(marker = list(size = 8, line = list(color = "black", width = 0.75)), showlegend = F)
+        plotly::add_trace(marker = list(size = 8, line = list(color = "black", width = 0.75)), showlegend = FALSE)
 
     fig <- fig %>%
-        plotly::add_trace(type = "violin", spanmode = "hard", showlegend = F)
+        plotly::add_trace(type = "violin", spanmode = "hard", showlegend = FALSE)
     fig <- fig %>%
         plotly::layout(xaxis = list(title = "Species", size = 2), yaxis = list(title = "VST (Variance Stabilized Transformation of Read Counts)",
-            zeroline = F), title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_tissue,
+            zeroline = FALSE), title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_tissue,
             "across species", sep = " ")), showlegend = FALSE)
     return(fig)
 })
@@ -148,13 +148,13 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
             colors = color)
 
     fig <- fig %>%
-        plotly::add_trace(marker = list(size = 8, line = list(color = "black", width = 0.75)), showlegend = F)
+        plotly::add_trace(marker = list(size = 8, line = list(color = "black", width = 0.75)), showlegend = FALSE)
 
     fig <- fig %>%
-        plotly::add_trace(type = "violin", spanmode = "hard", showlegend = F)
+        plotly::add_trace(type = "violin", spanmode = "hard", showlegend = FALSE)
     fig <- fig %>%
         plotly::layout(xaxis = list(title = "Anatomical Entity Name", size = 2), yaxis = list(title = "VST (Variance Stabilized Transformation of Read Counts)",
-            zeroline = F), title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_species,
+            zeroline = FALSE), title = stringr::str_wrap(paste("Gene Expression of the gene", single_gene, "in", single_species,
             "across tissues", sep = " ")), showlegend = FALSE)
 
     return(fig)
@@ -326,7 +326,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
         # text(max(v2[i], v1[i]) + 1.5, y[i], labels = max(v2[i], v1[i])) } }
 
         graphics::legend("topright", legend = colnames(df_subset), col = col, pch = 19, bty = "n", pt.cex = 1, cex = 1, text.col = "black",
-            horiz = F, inset = c(-0.1, -0.04))
+            horiz = FALSE, inset = c(-0.1, -0.04))
     }
 
     if (metric_type == "CV_Species") {
