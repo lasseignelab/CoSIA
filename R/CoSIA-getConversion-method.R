@@ -626,8 +626,8 @@ homolog <- function(entrez_data, species_number, ortholog_database) {
     homologs <- as.data.frame(species_two)
     homologs <- merge(data.frame(homologs, row.names = NULL), data.frame(species_one, row.names = NULL), by = 0, all = TRUE)[-1]
     manipulated_homologs <- data.frame(homologs)
-    x <- 1:nrow(manipulated_homologs)
-    for (i in seq_along(x)) {
+    x <- nrow(manipulated_homologs)
+    for (i in seq_len(x)) {
       ## print(i)
       char <- manipulated_homologs[i, 1]
       ## print(char)
@@ -649,8 +649,8 @@ homolog <- function(entrez_data, species_number, ortholog_database) {
     homologs <- as.data.frame(species_two)
     homologs <- merge(data.frame(homologs, row.names = NULL), data.frame(species_one, row.names = NULL), by = 0, all = TRUE)[-1]
     manipulated_homologs <- data.frame(homologs)
-    x <- 1:nrow(manipulated_homologs)
-    for (i in seq_along(x)) {
+    x <- nrow(manipulated_homologs)
+    for (i in seq_len(x)) {
       ## print(i)
       char <- manipulated_homologs[i, 1]
       ## print(char)
@@ -669,8 +669,8 @@ remove_version_numbers <- function(input_dataset, species) {
   if (species == "m_musculus") { #ENSMUSG00000032855.7
     input_dataset <- data.frame(input_dataset)
     colnames(input_dataset)[1] <- "ENSEMBL"
-    x <- 1:(nrow(input_dataset))
-    for (i in seq_along(x)) {
+    x <- nrow(input_dataset)
+    for (i in seq_len(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 18)
       input_dataset[i, 1] <- char1
@@ -681,8 +681,8 @@ remove_version_numbers <- function(input_dataset, species) {
   if (species == "h_sapiens") { #ENSG00000008710.20
     input_dataset <- data.frame(input_dataset)
     colnames(input_dataset)[1] <- "ENSEMBL"
-    x <- 1:(nrow(input_dataset))
-    for (i in seq_along(x)) {
+    x <- nrow(input_dataset)
+    for (i in seq_len(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 15)
       input_dataset[i, 1] <- char1
@@ -694,8 +694,8 @@ remove_version_numbers <- function(input_dataset, species) {
   if (species == "d_rerio") { #ENSDARG00000105344.2 (format)
     input_dataset <- data.frame(input_dataset)
     colnames(input_dataset)[1] <- "ENSEMBL"
-    x <- 1:(nrow(input_dataset))
-    for (i in seq_along(x)) {
+    x <- nrow(input_dataset)
+    for (i in seq_len(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 18)
       input_dataset[i, 1] <- char1
@@ -707,8 +707,8 @@ remove_version_numbers <- function(input_dataset, species) {
   if (species == "r_norvegicus") { #ENSRNOG00000010771.8 (format)
     input_dataset <- data.frame(input_dataset)
     colnames(input_dataset)[1] <- "ENSEMBL"
-    x <- 1:(nrow(input_dataset))
-    for (i in seq_along(x)) {
+    x <- nrow(input_dataset)
+    for (i in seq_len(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 18)
       input_dataset[i, 1] <- char1
