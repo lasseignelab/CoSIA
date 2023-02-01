@@ -3,6 +3,7 @@
 #' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and gex slot filled
 #' @param single_tissue one tissue that the user wants to investigate across the mapped species
 #' @param single_gene one ensembl id that the user wants to investigate across the mapped species
+#' @return initializes a generic function for plotSpeciesGEx as preparation for defining the plotSpeciesGEx Method
 #'
 #' @export
 #' @examples
@@ -78,6 +79,7 @@ setMethod("plotSpeciesGEx", signature(object = "CoSIAn"), function(object, singl
 #' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and gex slot filled
 #' @param single_species one species that the user wants to investigate across the mapped tissues
 #' @param single_gene one ensembl id that the user wants to investigate across the mapped tissues
+#' @return initializes a generic function for plotTissueGEx as preparation for defining the plotTissueGEx Method
 #'
 #' @export
 #' @examples
@@ -164,7 +166,7 @@ setMethod("plotTissueGEx", signature(object = "CoSIAn"), function(object, single
 #' plotDSGEx Generic
 #'
 #' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled
-#'
+#' @return initializes a generic function for plotDSGEx as preparation for defining the plotDSGEx Method
 #' @export
 #' @examples
 #' Kidney_Genes<-CoSIAn(gene_set = c('ENSG00000008710','ENSG00000118762','ENSG00000152217'),
@@ -236,6 +238,7 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
 #'
 #' @param object CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled
 #'
+#' @return initializes a generic function for plotCVGEx as preparation for defining the plotCVGEx Method
 #' @export
 #' @examples
 #' Kidney_Genes<-CoSIAn(gene_set = c('ENSG00000008710','ENSG00000118762','ENSG00000152217'),

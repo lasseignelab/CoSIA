@@ -2,6 +2,7 @@
 #'
 #' @param object CoSIAn object with all user accessible slots filled with converted_id slot filled
 #'
+#' @return initializes a generic function for getGExMetrics as preparation for defining the getGExMetrics Method
 #' @export
 #' @examples
 #' Kidney_Genes<-CoSIAn(gene_set = c('ENSG00000008710','ENSG00000118762','ENSG00000152217'),

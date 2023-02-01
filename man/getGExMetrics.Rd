@@ -9,6 +9,9 @@ getGExMetrics(object)
 \arguments{
 \item{object}{CoSIAn object with all user accessible slots filled with converted_id slot filled}
 }
+\value{
+initializes a generic function for getGExMetrics as preparation for defining the getGExMetrics Method
+}
 \description{
 getGExMetrics Generic
 }
