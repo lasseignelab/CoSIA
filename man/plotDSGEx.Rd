@@ -9,6 +9,9 @@ plotDSGEx(object)
 \arguments{
 \item{object}{CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled}
 }
+\value{
+initializes a generic function for plotDSGEx as preparation for defining the plotDSGEx Method
+}
 \description{
 plotDSGEx Generic
 }
