@@ -9,6 +9,9 @@ plotCVGEx(object)
 \arguments{
 \item{object}{CoSIAn object with all user accessible slots filled in as well as the converted_id and metric slot filled}
 }
+\value{
+initializes a generic function for plotCVGEx as preparation for defining the plotCVGEx Method
+}
 \description{
 plotCVGEx Generic
 }

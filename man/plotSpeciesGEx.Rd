@@ -13,6 +13,9 @@ plotSpeciesGEx(object, single_tissue, single_gene)
 
 \item{single_gene}{one ensembl id that the user wants to investigate across the mapped species}
 }
+\value{
+initializes a generic function for plotSpeciesGEx as preparation for defining the plotSpeciesGEx Method
+}
 \description{
 plotSpeciesGEx Generic
 }
