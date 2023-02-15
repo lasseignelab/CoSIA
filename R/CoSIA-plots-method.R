@@ -274,7 +274,7 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 
 
 setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
-    # make multiple heat maps per species and then put them together
+    # set object slots into variables
     metric_type <- object@metric_type
     df_metric <- object@metric
 
@@ -346,6 +346,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
             metric = "CV_Species")
 
     } else if (metric_type == "CV_Tissue") {
+        map_tissues <-object@map_tissues
         input_species <- object@i_species
         col1 <- paste(input_species, "ensembl_id", sep = "_")
         CV_Tissue_Plot <- df_metric %>%
@@ -358,7 +359,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
         colnames(CV_Tissue_Plot) <- gsub("_CV_tissue", "", colnames(CV_Tissue_Plot))
         CV_Tissue_Plot <- CV_Tissue_Plot[with(CV_Tissue_Plot, order(ensembl_id_AE_names)), ]
         CV_plot <- dumbbell(CV_Tissue_Plot, text = FALSE, segments = TRUE, pt.cex = 1, main = "CV across Tissues in Geneset",
-            metric = "CV_Tissue")
+            metric = "CV_Tissue", map_tissues = map_tissues)
     } else {
         stop("Error: Invalid metric type for plotCV make sure you have a CV argument as the metric type and the values are saved in the metric slot before proceeding. ")
     }
