@@ -1,14 +1,43 @@
 Package: CoSIA
 Type: Package
 Title: An Investigation Across Different Species and Tissues
-Version: 0.1.0
-Author: Anisha Haldar
-Maintainer: Anisha Haldar <anishah@uab.edu>
-Description: CoSIA provides researchers with the ability to compare across species and tissues using gene expression by providing multiple gene-expression based metrics for calculating and visualizing transcriptome diversity and variation.
+Version: 0.99.0
+Authors@R:
+  c(person(given = "Anisha",
+           family = "Haldar",
+           role = "aut",
+           comment = c(ORCID = "0000-0002-1395-9793")),
+    person(given = c("Vishal", "H."),
+           family = "Oza",
+           role = "aut",
+           comment = c(ORCID = "0000-0001-6990-0267")),
+    person(given = c("Amanda", "D."),
+           family = "Clark",
+           role = c("aut","cre"),
+           email = "amanda@freshairfamily.org",
+           comment = c(ORCID = "0000-0002-1186-3114")),
+    person(given = c("Nathaniel", "S."),
+           family = "DeVoss",
+           role = "aut",
+           comment = c(ORCID = "0000-0003-0465-2770")),
+    person(given = c("Brittany", "N."),
+           family = "Lasseigne",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0002-1642-8904")))
+Description: 
+  Cross-Species Investigation and Analysis (CoSIA) is a package that provides 
+  researchers with an alternative methodology for comparing across species and 
+  tissues using normal wild-type RNA-Seq Gene Expression data from Bgee. Using 
+  RNA-Seq Gene Expression data, CoSIA provides multiple visualization tools to 
+  explore the transcriptome diversity and variation across genes, tissues, and 
+  species. CoSIA uses the Coefficient of Variation and Shannon Entropy and 
+  Specificity to calculate transcriptome diversity and variation. CoSIA also 
+  provides additional conversion tools and utilities to provide a streamlined 
+  methodology for cross-species comparison.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
-  R (>= 4.0)
+  R (>= 4.2.0)
 Imports:
   dplyr (>= 1.0.7),
   magrittr (>= 2.0.1),
@@ -18,8 +47,6 @@ Imports:
   stringr (>= 1.4.0),
   ggplot2 (>= 3.3.5),
   tibble (>= 3.1.7),
-  heatmaply (>= 1.4.0),
-  BioQC (>= 1.22.0),
   org.Hs.eg.db (>= 3.12.0),
   org.Mm.eg.db (>= 3.12.0),
   org.Dr.eg.db (>= 3.12.0),
@@ -33,11 +60,12 @@ Imports:
   readr (>= 2.1.1),
   methods (>= 4.1.2),
   tidyselect (>= 1.1.2),
-  grr (>= 0.9.5),
   stats(>= 4.1.2)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Suggest:
-biocViews: Software
+    BiocStyle (>= 2.22.0),
+    tidyverse (>= 1.3.1)
+biocViews: Software, BiologicalQuestion, GeneExpression, MultipleComparison
 BugReports: https://github.com/lasseignelab/CoSIA/issues
 URL:
 Suggests: 
