@@ -16,6 +16,7 @@
 #' tissue<-getTissues(c('m_musculus'))
 
 getTissues <- function(species) {
+    
     #Loading CoSIAdata
     CoSIAdata_load <- function(species) {
       eh <- ExperimentHub::ExperimentHub()
@@ -23,39 +24,39 @@ getTissues <- function(species) {
       colnames(merged_CoSIAdata) <- c("Anatomical_entity_name", "Ensembl_ID",
                                       "Sample_size", "VST", "Experiment_ID",
                                       "Anatomical_entity_ID","Species")
-      if (any(species == "Mus_musculus")) {
+      if (any(species == "m_musculus")) {
         mm_EH_File<-eh[["EH7859"]]
         merged_CoSIAdata <- rbind(merged_CoSIAdata, mm_EH_File)
         merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
       }
-      else if (any(species == "Rattus_norvegicus")) {
+      else if (any(species == "r_norvegicus")) {
         rn_EH_File<-eh[["EH7860"]]
         merged_CoSIAdata <- rbind(merged_CoSIAdata, rn_EH_File)
         merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
       }
-      else if (any(species == "Danio_rerio")) {
+      else if (any(species == "d_rerio")) {
         dr_EH_File<-eh[["EH7861"]]
         merged_CoSIAdata <- rbind(merged_CoSIAdata, dr_EH_File)
         merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
       }
-      else if (any(species == "Homo_sapiens")) {
+      else if (any(species == "h_sapiens")) {
         hs_EH_File<-eh[["EH7858"]]
         merged_CoSIAdata <- rbind(merged_CoSIAdata, hs_EH_File)
         merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
       }
-      else if (any(species == "Caenorhabditis_elegans")) {
+      else if (any(species == "c_elegans")) {
         ce_EH_File<-eh[["EH7863"]]
         merged_CoSIAdata <- rbind(merged_CoSIAdata, ce_EH_File)
         merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
       }
-      else if (any(species == "Drosophila_melanogaster")) {
+      else if (any(species == "d_melanogaster")) {
         dm_EH_File<-eh[["EH7862"]]
         merged_CoSIAdata <- rbind(merged_CoSIAdata, dm_EH_File)
         merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
       }
       else {
         stop("Error: species in CoSIAn Object. Make sure the species in the
-          map_species slot are avalible organisms through CoSIA and are in the
+          species slot are avalible organisms through CoSIA and are in the
           correct format.")
       }
       return(merged_CoSIAdata)
