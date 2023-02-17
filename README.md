@@ -2,9 +2,9 @@
 
 CoSIA is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across model organisms and their tissues. Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene's expression across tissues and model organisms. CoSIA also streamlines conversions between gene identifiers among the same species and different species.
 
-<img src="images/CoSIA_Workflow.png" alt="Figure 1. CoSIA_Workflow" width="705"/>
+<img src="inst/images/CoSIA_Workflow.png" alt="Figure 1. CoSIA_Workflow" width="703"/>
 
-CoSIA is split into 5 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
+CoSIA is split into 3 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
 The first module and second module have a shared method, `getConversion`, that is used to conduct conversion between different gene identifiers in the same species as well as in different species. The third module has a method, `getTissueExpression`, that is used to visualize the raw gene expression values of a gene across multiple tissues in one model organism. The fourth module has a method, `getSpeciesExpression`, that is used to visualize the raw gene expression values of a gene in one tissues across multiple model organisms.The fifth module has a method, `getTranscriptomeDiversity`, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and model organisms.
 
@@ -15,7 +15,9 @@ The first module and second module have a shared method, `getConversion`, that i
 In R:
 
 ``` r
-install_github("lasseignelab/CoSIA", ref= "main", auth_token = "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")
+install.packages("devtools")
+devtools::install_github("lasseignelab/CoSIA", ref= "main", auth_token = "")
+#add personal authorization token for the auth_token argument in order to properly load the CoSIA package
 ```
 
 ## How to use the CoSIA package

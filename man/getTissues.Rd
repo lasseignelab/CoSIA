@@ -7,14 +7,17 @@
 getTissues(species)
 }
 \arguments{
-\item{species}{name of a species or multiple species that you want to get available tissue list for}
+\item{species}{name of a species or multiple species that you want to get 
+available tissue list for}
 }
 \value{
-list of tissues that are common/available among the species or multiple species inputted
+list of tissues that are common/available among the species or 
+multiple species inputted
 }
 \description{
 getTissues
 }
 \examples{
-tissue<-getTissues(c("m_musculus"))
+load('~/Desktop/EH_Data.RData')
+tissue<-getTissues(c('m_musculus'))
 }
