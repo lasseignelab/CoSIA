@@ -16,18 +16,57 @@
 #' tissue<-getTissues(c('m_musculus'))
 
 getTissues <- function(species) {
+    #Loading CoSIAdata
+    CoSIAdata_load <- function(species) {
+      eh <- ExperimentHub::ExperimentHub()
+      merged_CoSIAdata <- data.frame(matrix(ncol = 7, nrow = 0))
+      colnames(merged_CoSIAdata) <- c("Anatomical_entity_name", "Ensembl_ID",
+                                      "Sample_size", "VST", "Experiment_ID",
+                                      "Anatomical_entity_ID","Species")
+      if (any(map_species == "Mus_musculus")) {
+        mm_EH_File<-eh[["EH7859"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, mm_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else if (any(map_species == "Rattus_norvegicus")) {
+        rn_EH_File<-eh[["EH7860"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, rn_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else if (any(map_species == "Danio_rerio")) {
+        dr_EH_File<-eh[["EH7861"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, dr_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else if (any(map_species == "Homo_sapiens")) {
+        hs_EH_File<-eh[["EH7858"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, hs_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else if (any(map_species == "Caenorhabditis_elegans")) {
+        ce_EH_File<-eh[["EH7863"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, ce_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else if (any(map_species == "Drosophila_melanogaster")) {
+        dm_EH_File<-eh[["EH7862"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, dm_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else {
+        stop("Error: map_species in CoSIAn Object. Make sure the species in the
+          map_species slot are avalible organisms through CoSIA and are in the
+          correct format.")
+      }
+      return(merged_CoSIAdata)
+    }
+    
+    merged_CoSIAdata <- lapply(map_species, CoSIAdata_load)
+    Experimental_Hub_File <- as.data.frame(do.call(rbind, merged_CoSIAdata))
+    
     List_of_Tissues <- Experimental_Hub_File %>%
         dplyr::group_by(Anatomical_entity_name) %>%
         dplyr::summarise(Anatomical_entity_ID = unique(Anatomical_entity_ID), Species = unique(Species))
-    Species_SWITCH <- Vectorize(vectorize.args = "species", FUN = function(species) {
-        switch(as.character(species), h_sapiens = "Homo_sapiens", m_musculus = "Mus_musculus", r_norvegicus = "Rattus_norvegicus",
-            d_rerio = "Danio_rerio", d_melanogaster = "Drosophila_melanogaster", c_elegans = "Caenorhabditis_elegans", stop("Error: Invalid species. Make sure you have choosen an avaliable
-                species in CoSIA"))
-    })
-    species <- Species_SWITCH(species)
-    # load the EH data here
-    LOT <- dplyr::filter(List_of_Tissues, Species %in% species)
-    LOT <- subset(LOT, select = -c(Species))
     L <- LOT %>%
         dplyr::summarise(Frequency = table(Anatomical_entity_name))
     frequency_value <- length(species)
