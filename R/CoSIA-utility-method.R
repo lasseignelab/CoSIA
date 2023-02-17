@@ -56,7 +56,7 @@ getTissues <- function(species) {
       }
       else {
         stop("Error: species in CoSIAn Object. Make sure the species in the
-          species slot are avalible organisms through CoSIA and are in the
+          species argument are avalible organisms through CoSIA and are in the
           correct format.")
       }
       return(merged_CoSIAdata)
