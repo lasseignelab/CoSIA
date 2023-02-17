@@ -24,6 +24,5 @@
 *.knit.md
 # R Environment Variables
 .Renviron
-/doc/
-/Meta/
-CoSIA.Rproj
+
+
