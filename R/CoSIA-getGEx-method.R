@@ -64,42 +64,42 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
                                 "Sample_size", "VST", "Experiment_ID", 
                                 "Anatomical_entity_ID","Species")
         if (any(map_species == "m_musculus_ensembl_id")) {
-            #mm_EH_File<-object[["EH7859"]]
+            #mm_EH_File<-eh[["EH7859"]]
             bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Mus_musculus") #after adding EH remove this line of code
             m_ensembl_id <- id_dataframe$m_musculus
             gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% m_ensembl_id) #after adding EH set bgee species to mm_EH_File
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "r_norvegicus_ensembl_id")) {
-            #rn_EH_File<-object[["EH7860"]]
+            #rn_EH_File<-eh[["EH7860"]]
             bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Rattus_norvegicus") #after adding EH remove this line of code
             r_ensembl_id <- id_dataframe$r_norvegicus
             gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% r_ensembl_id) #after adding EH set bgee species to rn_EH_File
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "d_rerio_ensembl_id")) {
-            #dr_EH_File<-object[["EH7861"]]
+            #dr_EH_File<-eh[["EH7861"]]
             bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Danio_rerio") #after adding EH remove this line of code
             dr_ensembl_id <- id_dataframe$d_rerio
             gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% dr_ensembl_id) #after adding EH set bgee species to dr_EH_File
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "h_sapiens_ensembl_id")) {
-            #hs_EH_File<-object[["EH7858"]]
+            #hs_EH_File<-eh[["EH7858"]]
             bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Homo_sapiens") #after adding EH remove this line of code
             hs_ensembl_id <- id_dataframe$h_sapiens
             gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% hs_ensembl_id) #after adding EH set bgee species to hs_EH_File
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "c_elegans_ensembl_id")) {
-            #ce_EH_File<-object[["EH7863"]]
+            #ce_EH_File<-eh[["EH7863"]]
             bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Caenorhabditis_elegans") #after adding EH remove this line of code
             c_ensembl_id <- id_dataframe$c_elegans
             gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% c_ensembl_id) #after adding EH set bgee species to ce_EH_File
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "d_melanogaster_ensembl_id")) {
-            #dm_EH_File<-object[["EH7862"]]
+            #dm_EH_File<-eh[["EH7862"]]
             bgee_species <- dplyr::filter(Experimental_Hub_File, Species == "Drosophila_melanogaster") #after adding EH remove this line of code
             dm_ensembl_id <- id_dataframe$d_melanogaster
             gene_specific_data <- dplyr::filter(bgee_species, Ensembl_ID %in% dm_ensembl_id) #after adding EH set bgee species to dm_EH_File
