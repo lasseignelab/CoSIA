@@ -11,7 +11,6 @@
 #' mapping_tool = 'annotationDBI',ortholog_database = 'HomoloGene',map_tissues = 'heart', 
 #' map_species = c('m_musculus'),metric_type = 'DS_Gene')
 #' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
-#' load('~/Desktop/EH_Data.RData')
 #' Kidney_gene_metric<-getGExMetrics(Kidney_gene_conversion)
 
 setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
@@ -34,7 +33,6 @@ setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
 #' mapping_tool = 'annotationDBI',ortholog_database = 'HomoloGene',map_tissues = 'heart', 
 #' map_species = c('m_musculus'),metric_type = 'DS_Gene')
 #' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
-#' load('~/Desktop/EH_Data.RData')
 #' Kidney_gene_metric<-getGExMetrics(Kidney_gene_conversion)
 
 setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
