@@ -34,7 +34,7 @@ knitr::opts_chunk$set(
 
 `CoSIA`: **C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across model organisms and their tissues. Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene's expression across tissues and model organisms. CoSIA also streamlines conversions between gene identifiers among the same species and different species.
 
-<img src="../images/CoSIA Workflow.png" alt="Figure 1. CoSIA Workflow" width="705"/>
+<img src="../inst/images/CoSIA_Workflow.png" alt="Figure 1. CoSIA_Workflow" width="703"/>
 
 CoSIA is split into 3 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
@@ -69,10 +69,11 @@ In R:
 ```{r setup, warning=FALSE, message=FALSE}
 
 library(CoSIA)
-library(tidyverse)
 
-load("../../Learning/useCoSIA/data/EH_Data.RData")
-monogenic_kidney_genes <- readRDS("../data/monogenic_kidney_genes.rds")
+load("~/Desktop/EH_Data.RData")
+#load("../../Learning/useCoSIA/data/EH_Data.RData")
+load("../inst/extdata/proccessed/monogenic_kidney_genes.rda")
+
 
 ```
 
@@ -94,7 +95,7 @@ The function `getTissues` retrieves tissues available for a single species:
 
 ```{r getTissues_1}
 
-getTissues("d_rerio")
+CoSIA::getTissues("d_rerio")
 
 ```
 
@@ -102,7 +103,7 @@ getTissues("d_rerio")
 
 ```{r getTissues_2}
 
-getTissues(c("h_sapiens", "m_musculus", "r_norvegicus"))
+CoSIA::getTissues(c("h_sapiens", "m_musculus", "r_norvegicus"))
 
 ```
 
@@ -181,7 +182,7 @@ Here there should be words describing the metric and how it is calculated
 
 CoSIAn_Obj_CV <- CoSIA::getGExMetrics(CoSIAn_Obj_gex)
 
-CoSIAn_Obj_CVplot <- plotCVGEx(CoSIAn_Obj_CV)
+CoSIAn_Obj_CVplot <- CoSIA::plotCVGEx(CoSIAn_Obj_CV)
 
 CoSIAn_Obj_CVplot
 
@@ -223,3 +224,10 @@ CoSIAn_Obj_DSplot
 ```
 
 Here there should be words of the interpretation of the use case gene set. 
+
+Session info
+```{r}
+sessionInfo()
+```
+
+

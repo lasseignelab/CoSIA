@@ -1,14 +1,23 @@
 #' getConversion Generic
 #'
-#' @param object
+#' @param object CoSIAn object with all user accessible slots filled
 #'
+#' @return initializes a generic function for getConversion as preparation for defining the getConversion Method
 #' @export
+#' @examples
+#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762",
+#' "ENSG00000152217"),i_species = "h_sapiens",input_id = "Ensembl_id",o_species 
+#' = c("d_melanogaster","m_musculus","h_sapiens", "d_rerio","c_elegans",
+#' "r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), mapping_tool = 
+#' "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
+#' map_species = c("m_musculus"),metric_type = "DS_Gene")
+#' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
 
 setGeneric("getConversion", function(object) standardGeneric("getConversion"))
 
 #' getConversion Method
 #'
-#' @param object CoSIAn. 
+#' @param object CoSIAn object with all user accessible slots filled 
 #'
 #' @return CoSIAn object with converted_id slot filled
 #' @export
@@ -17,17 +26,25 @@ setGeneric("getConversion", function(object) standardGeneric("getConversion"))
 #' @importFrom tidyselect contains
 #' 
 #' @examples
+#' Kidney_Genes<-CoSIAn(gene_set = c("ENSG00000008710","ENSG00000118762",
+#' "ENSG00000152217"),i_species = "h_sapiens",input_id = "Ensembl_id",o_species 
+#' = c("d_melanogaster","m_musculus","h_sapiens", "d_rerio","c_elegans",
+#' "r_norvegicus"),output_ids = c("Ensembl_id","Symbol"), mapping_tool = 
+#' "annotationDBI",ortholog_database = "HomoloGene",map_tissues = "heart", 
+#' map_species = c("m_musculus"),metric_type = "DS_Gene")
 #' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
 
 
-setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # user's input of the function
+setMethod("getConversion", signature(object = "CoSIAn"), function(object) { 
+  # user's input of the function
   #Set each part of the object that this method uses into their own variable that will be used inside the code
     input_species<-object@i_species
     input_id<-object@input_id
     input<-object@gene_set
     input<-unique(input)
     if (input_id=="Ensembl_id"){
-      input <- remove_version_numbers(input, input_species)  #puts the genes through the remove version number function to remove the version number (everything after the dot)
+      input <- remove_version_numbers(input, input_species)  
+      #puts the genes through the remove version number function to remove the version number (everything after the dot)
     }
     input<-as.character(input)
     output_ids<-object@output_ids
@@ -36,14 +53,15 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
     ortholog_database<-object@ortholog_database
     species_data<-data.frame(input)
     c_name<-tolower(paste(input_species,input_id , sep = "_"))
-    colnames(species_data)[which(names(species_data) == "input")] <- c_name  #changes name to more formal names
+    colnames(species_data)[which(names(species_data) == "input")] <- c_name  
+    #changes name to more formal names
     for(index in seq(length(output_species))){
         Filter_I_Species <- switch(input_species,
                                h_sapiens = {
                                  hs_data<-h_sapiens(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  hs_data<-data.frame(lapply(hs_data,as.character))
                                  result <- try({dplyr::full_join(species_data,hs_data)}, silent = TRUE)
-                                 if (class(result) == "try-error") {
+                                 if (is(result, 'try-error')) {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,hs_data)
@@ -53,7 +71,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
                                  mm_data<-m_musculus(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  mm_data<-data.frame(lapply(mm_data,as.character))
                                  result <- try({ dplyr::full_join(species_data,mm_data)}, silent = TRUE)
-                                 if (class(result) == "try-error") {
+                                 if (is(result, 'try-error')) {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,mm_data)
@@ -63,7 +81,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
                                  rn_data<-r_norvegicus(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  rn_data<-data.frame(lapply(rn_data,as.character))
                                  result <- try({ dplyr::full_join(species_data,rn_data)}, silent = TRUE)
-                                 if (class(result) == "try-error") {
+                                 if (is(result, 'try-error')) {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,rn_data)
@@ -73,7 +91,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
                                  dr_data<-d_rerio(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  dr_data<-data.frame(lapply(dr_data,as.character))
                                  result <- try({dplyr::full_join(species_data,dr_data)}, silent = TRUE)
-                                 if (class(result) == "try-error") {
+                                 if (is(result, 'try-error')) {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,dr_data)
@@ -83,7 +101,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
                                  ce_data<-c_elegans(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  ce_data<-data.frame(lapply(ce_data,as.character))
                                  result <- try({dplyr::full_join(species_data,ce_data)}, silent = TRUE)
-                                 if (class(result) == "try-error") {
+                                 if (is(result, 'try-error')) {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,ce_data)
@@ -93,7 +111,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) { # us
                                  dm_data<-d_melanogaster(input_id,input,output_ids,output_species[index], tool, ortholog_database)
                                  dm_data<-data.frame(lapply(dm_data,as.character))
                                  result <- try({dplyr::full_join(species_data,dm_data)}, silent = TRUE)
-                                 if (class(result) == "try-error") {
+                                 if (is(result, 'try-error')) {
                                    warning("No orthologs were found for ", paste(output_species[index], sep=" "), " across all the genes provided by the user.")                                 }
                                  else{
                                    species_data<-dplyr::full_join(species_data,dm_data)
@@ -608,8 +626,8 @@ homolog <- function(entrez_data, species_number, ortholog_database) {
     homologs <- as.data.frame(species_two)
     homologs <- merge(data.frame(homologs, row.names = NULL), data.frame(species_one, row.names = NULL), by = 0, all = TRUE)[-1]
     manipulated_homologs <- data.frame(homologs)
-    x <- 1:nrow(manipulated_homologs)
-    for (i in seq_along(x)) {
+    x <- nrow(manipulated_homologs)
+    for (i in seq_len(x)) {
       ## print(i)
       char <- manipulated_homologs[i, 1]
       ## print(char)
@@ -631,8 +649,8 @@ homolog <- function(entrez_data, species_number, ortholog_database) {
     homologs <- as.data.frame(species_two)
     homologs <- merge(data.frame(homologs, row.names = NULL), data.frame(species_one, row.names = NULL), by = 0, all = TRUE)[-1]
     manipulated_homologs <- data.frame(homologs)
-    x <- 1:nrow(manipulated_homologs)
-    for (i in seq_along(x)) {
+    x <- nrow(manipulated_homologs)
+    for (i in seq_len(x)) {
       ## print(i)
       char <- manipulated_homologs[i, 1]
       ## print(char)
@@ -651,8 +669,8 @@ remove_version_numbers <- function(input_dataset, species) {
   if (species == "m_musculus") { #ENSMUSG00000032855.7
     input_dataset <- data.frame(input_dataset)
     colnames(input_dataset)[1] <- "ENSEMBL"
-    x <- 1:(nrow(input_dataset))
-    for (i in seq_along(x)) {
+    x <- nrow(input_dataset)
+    for (i in seq_len(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 18)
       input_dataset[i, 1] <- char1
@@ -663,8 +681,8 @@ remove_version_numbers <- function(input_dataset, species) {
   if (species == "h_sapiens") { #ENSG00000008710.20
     input_dataset <- data.frame(input_dataset)
     colnames(input_dataset)[1] <- "ENSEMBL"
-    x <- 1:(nrow(input_dataset))
-    for (i in seq_along(x)) {
+    x <- nrow(input_dataset)
+    for (i in seq_len(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 15)
       input_dataset[i, 1] <- char1
@@ -676,8 +694,8 @@ remove_version_numbers <- function(input_dataset, species) {
   if (species == "d_rerio") { #ENSDARG00000105344.2 (format)
     input_dataset <- data.frame(input_dataset)
     colnames(input_dataset)[1] <- "ENSEMBL"
-    x <- 1:(nrow(input_dataset))
-    for (i in seq_along(x)) {
+    x <- nrow(input_dataset)
+    for (i in seq_len(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 18)
       input_dataset[i, 1] <- char1
@@ -689,8 +707,8 @@ remove_version_numbers <- function(input_dataset, species) {
   if (species == "r_norvegicus") { #ENSRNOG00000010771.8 (format)
     input_dataset <- data.frame(input_dataset)
     colnames(input_dataset)[1] <- "ENSEMBL"
-    x <- 1:(nrow(input_dataset))
-    for (i in seq_along(x)) {
+    x <- nrow(input_dataset)
+    for (i in seq_len(x)) {
       char <- input_dataset[i, 1]
       char1 <- substr(char, start = 1, stop = 18)
       input_dataset[i, 1] <- char1
