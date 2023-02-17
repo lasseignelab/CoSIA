@@ -67,7 +67,7 @@ getTissues <- function(species) {
     List_of_Tissues <- Experimental_Hub_File %>%
         dplyr::group_by(Anatomical_entity_name) %>%
         dplyr::summarise(Anatomical_entity_ID = unique(Anatomical_entity_ID), Species = unique(Species))
-    L <- LOT %>%
+    L <- List_of_Tissues %>%
         dplyr::summarise(Frequency = table(Anatomical_entity_name))
     frequency_value <- length(species)
     common_tissue <- dplyr::filter(L, Frequency == frequency_value)
