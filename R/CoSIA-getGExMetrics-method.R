@@ -276,6 +276,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         DS <- data.frame(matrix(ncol = 4, nrow = 0))
         colnames(DS)[which(names(DS) == "map_tissues")] <- "Anatomical_entity_name"
         for (x in seq_len(length(map_species))) {
+            filter_species <- dplyr::filter(filter_species, Species == map_species[x])
             filter_tissue <- dplyr::filter(filter_species, Anatomical_entity_name %in% map_tissues)
             id <- as.vector(t(id_dataframe))
             filter_gene <- dplyr::filter(filter_tissue, Ensembl_ID %in% id)
@@ -318,6 +319,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         DS <- data.frame(matrix(ncol = 4, nrow = 0))
         colnames(DS)[1] <- "Ensembl_ID"
         for (x in seq_len(length(map_species))) {
+            filter_species <- dplyr::filter(filter_species, Species == map_species[x])
             id <- as.vector(t(id_dataframe))
             filter_gene <- dplyr::filter(filter_species, Ensembl_ID %in% id)
             filter_gene$Scaled_Median_VST <- as.numeric(filter_gene$Scaled_Median_VST)
@@ -359,6 +361,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         DS <- data.frame(matrix(ncol = 4, nrow = 0))
         colnames(DS)[which(names(DS) == "map_tissues")] <- "Anatomical_entity_name"
         for (x in seq_len(length(map_species))) {
+            filter_species <- dplyr::filter(filter_species, Species == map_species[x])
             filter_tissue <- dplyr::filter(filter_species, Anatomical_entity_name %in% map_tissues)
             filter_tissue$Scaled_Median_VST <- as.numeric(filter_tissue$Scaled_Median_VST)
             filter_gex <- dplyr::select(filter_tissue, Anatomical_entity_name, Scaled_Median_VST, Ensembl_ID)
