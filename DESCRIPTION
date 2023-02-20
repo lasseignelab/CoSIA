@@ -62,13 +62,13 @@ Imports:
   tidyselect (>= 1.1.2),
   stats (>= 4.1.2)
 RoxygenNote: 7.2.3
-Suggest:
+Suggests:
     BiocStyle (>= 2.22.0),
-    tidyverse (>= 1.3.1)
+    tidyverse (>= 1.3.1), 
+    knitr (>= 1.42), 
+    rmarkdown (>= 2.20),
+    ExperimentHub (>= 2.7.0)
 biocViews: Software, BiologicalQuestion, GeneExpression, MultipleComparison
 BugReports: https://github.com/lasseignelab/CoSIA/issues
 URL:
-Suggests: 
-    knitr,
-    rmarkdown
 VignetteBuilder: knitr
