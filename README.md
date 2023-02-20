@@ -1,6 +1,18 @@
 # CoSIA: **C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis
 
-CoSIA is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across model organisms and their tissues. Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene's expression across tissues and model organisms. CoSIA also streamlines conversions between gene identifiers among the same species and different species.
+Cross-Species Investigation and Analysis (CoSIA) is a package that provides 
+  researchers with an alternative methodology for comparing across species and 
+  tissues using normal wild-type RNA-Seq Gene Expression data from Bgee. Using 
+  RNA-Seq Gene Expression data, CoSIA provides multiple visualization tools to 
+  explore the transcriptome diversity and variation across genes, tissues, and 
+  species. CoSIA uses the Coefficient of Variation and Shannon Entropy and 
+  Specificity to calculate transcriptome diversity and variation. CoSIA also 
+  provides additional conversion tools and utilities to provide a streamlined 
+  methodology for cross-species comparison.
+
+CoSIA is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across five commonly used biomedical research species (Mus musculus, Rattus norvegicus, Danio rerio, Drosophila melanogaster, and Caenorhabditis elegans) in addition to Homo sapiens and their tissues.
+
+Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene's expression across tissues and species. CoSIA also streamlines conversions between gene identifiers among the same species and different species.
 
 <img src="inst/images/CoSIA_Workflow.png" alt="Figure 1. CoSIA_Workflow" width="703"/>
 
@@ -15,9 +27,8 @@ The first module and second module have a shared method, `getConversion`, that i
 In R:
 
 ``` r
-install.packages("devtools")
-devtools::install_github("lasseignelab/CoSIA", ref= "main", auth_token = "")
-#add personal authorization token for the auth_token argument in order to properly load the CoSIA package
+library(devtools)
+install_github("lasseignelab/CoSIA", ref= "main", auth_token = "<PAT>")
 ```
 
 ## How to use the CoSIA package
@@ -26,16 +37,6 @@ devtools::install_github("lasseignelab/CoSIA", ref= "main", auth_token = "")
 
 ``` r
 library(CoSIA)
-```
-
-### Test Case: 10 Monogenic Kidney Disease Genes
-
-In the following example, we will aim to portray how CoSIA can be used using 10 genes from [Natera's Monogenic Kidney Gene Panel](https://www.natera.com/resource-library/renasight/385-genes-associated-with-monogenic-disorders-linked-to-kidney-disease). First we will create a data frame with 10 Human Gene Symbols and Conditions from this panel.
-
-``` r
-Monogenic_Kidney_Genes <- data.frame (
-  Human_Gene_Symbols = 
-)
 ```
 
 ## Authors
