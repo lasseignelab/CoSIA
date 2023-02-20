@@ -18,6 +18,5 @@ multiple species inputted
 getTissues
 }
 \examples{
-load('~/Desktop/EH_Data.RData')
 tissue<-getTissues(c('m_musculus'))
 }
