@@ -22,6 +22,5 @@ i_species = 'h_sapiens',input_id = 'Ensembl_id',o_species = c('d_melanogaster','
 mapping_tool = 'annotationDBI',ortholog_database = 'HomoloGene',map_tissues = 'heart', 
 map_species = c('m_musculus'),metric_type = 'DS_Gene')
 Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
-load('~/Desktop/EH_Data.RData')
 Kidney_gene_gex<- getGEx(Kidney_gene_conversion)
 }
