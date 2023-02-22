@@ -1,24 +1,16 @@
 # CoSIA: **C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis
 
-Cross-Species Investigation and Analysis (CoSIA) is a package that provides 
-  researchers with an alternative methodology for comparing across species and 
-  tissues using normal wild-type RNA-Seq Gene Expression data from Bgee. Using 
-  RNA-Seq Gene Expression data, CoSIA provides multiple visualization tools to 
-  explore the transcriptome diversity and variation across genes, tissues, and 
-  species. CoSIA uses the Coefficient of Variation and Shannon Entropy and 
-  Specificity to calculate transcriptome diversity and variation. CoSIA also 
-  provides additional conversion tools and utilities to provide a streamlined 
-  methodology for cross-species comparison.
-
-CoSIA is an R package that provides researchers with the tools to measure and visualize gene-expression metrics in order to compare across five commonly used biomedical research species (Mus musculus, Rattus norvegicus, Danio rerio, Drosophila melanogaster, and Caenorhabditis elegans) in addition to Homo sapiens and their tissues.
-
-Specifically, CoSIA uses curated non-diseased wild-type RNA-sequencing expression data, from Bgee, to visualize a gene's expression across tissues and species. CoSIA also streamlines conversions between gene identifiers among the same species and different species.
+**C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis (`CoSIA`) is a package that provides researchers with an alternative methodology for comparing across species and tissues using normal wild-type RNA-Seq Gene Expression data from Bgee. Using RNA-Seq Gene Expression data, CoSIA provides multiple visualization tools to explore the transcriptome diversity and variation across genes, tissues, and species. CoSIA uses Coefficient of Variation and Shannon Entropy and Specificity to calculate transcriptome diversity and variation. CoSIA also provides additional conversion tools and utilities to provide a streamlined methodology for cross-species comparison across the tissues and genes of five commonly used biomedical research species (*Mus musculus*, *Rattus norvegicus*, *Danio rerio*, *Drosophila melanogaster*, and *Caenorhabditis elegans*) in addition to *Homo sapiens*.
 
 <img src="inst/images/CoSIA_Workflow.png" alt="Figure 1. CoSIA_Workflow" width="703"/>
 
-CoSIA is split into 3 modules that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
+CoSIA is split into 3 methods that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
-The first module and second module have a shared method, `getConversion`, that is used to conduct conversion between different gene identifiers in the same species as well as in different species. The third module has a method, `getTissueExpression`, that is used to visualize the raw gene expression values of a gene across multiple tissues in one model organism. The fourth module has a method, `getSpeciesExpression`, that is used to visualize the raw gene expression values of a gene in one tissues across multiple model organisms.The fifth module has a method, `getTranscriptomeDiversity`, that is used to visualize median-based Coefficient of Variation and Shannon Entropy to look at the variation and diversity of gene expression across tissues and model organisms.
+The first method `getConversion` is used to conduct gene identifier and ortholog conversions.
+
+The second method `getGEx` is used to obtain the raw gene expression values (Variance Stabilizing Transformation of Read Counts) of a gene or set of gene among tissues or species of choice. The data obtained in `getGEx` can then be visualized for a single gene *across multiple tissues in single model organism* through `plotTissueGEx` or *across multiple species in a single tissue* through `plotSpeciesGEx`.
+
+The third method `getGExMetrics` provides various methodologies in calculating median-based Coefficient of Variation (variability) and Shannon Entropy (diversity & specificity). Once calculated, `plotCVGEx` & `plotDSGEx` can be used to visualize the variation and diversity & specificity (DS) of gene expression across genes, tissues, and species.
 
 ## Getting Started
 
@@ -29,15 +21,12 @@ In R:
 ``` r
 library(devtools)
 install_github("lasseignelab/CoSIA", ref= "main", auth_token = "<PAT>")
-```
-
-## How to use the CoSIA package
-
-### Load the package
-
-``` r
 library(CoSIA)
 ```
+
+### Using CoSIA
+
+(add link to Vignette for users to be able to get more information on running CoSIA)
 
 ## Authors
 
