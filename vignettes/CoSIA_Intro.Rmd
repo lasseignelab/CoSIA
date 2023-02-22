@@ -34,7 +34,11 @@ knitr::opts_chunk$set(
 
 CoSIA is split into 3 methods that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
-Method 1 uses `getConversion` to convert inputs between different gene identifiers in the same species as well as orthologs in different species. The other modules access tissue- and/or species-specific gene expression. Method 2 uses `getGEx` to obtain raw read counts that undergo Variance Stabilizing Transformation via DESeq2 methodology. Gene expression values are visualized for a single gene *across multiple tissues in single model organism* or *across multiple species in a single tissue* using the plotting methods, `plotTissueGEx` & `plotSpeciesGEx`, respectively. Method 3 uses `getGExMetrics` to calculate median-based Coefficient of Variation (variability) and Shannon Entropy (diversity & specificity). There are two accompanying plotting methods, `plotCVGEx` & `plotDSGEx` that are used to visualize the variation and diversity & specificity (DS) of gene expression across genes, tissues, and species.
+-   Method 1 uses `getConversion` to convert inputs between different gene identifiers in the same species as well as orthologs in different species. The other modules access tissue- and/or species-specific gene expression.
+
+-   Method 2 uses `getGEx` to obtain raw read counts that undergo Variance Stabilizing Transformation via DESeq2 methodology. Gene expression values are visualized for a single gene *across multiple tissues in single model organism* or *across multiple species in a single tissue* using the plotting methods, `plotTissueGEx` & `plotSpeciesGEx`, respectively.
+
+-   Method 3 uses `getGExMetrics` to calculate median-based Coefficient of Variation (variability) and Shannon Entropy (diversity & specificity). There are two accompanying plotting methods, `plotCVGEx` & `plotDSGEx` that are used to visualize the variation and diversity & specificity (DS) of gene expression across genes, tissues, and species.
 
 ------------------------------------------------------------------------
 
@@ -62,23 +66,15 @@ load("../inst/extdata/proccessed/monogenic_kidney_genes.rda")
 
 ### Arguments and options table
 
-+-----------------------------------+------------------------------------------------------------------------+---------------+
-| Slot Name                         | Possible Value Options                                                 | Default       |
-+:=================================:+:======================================================================:+:=============:+
-| gene_set                          | "character", c(characters), data.frame\$column                         | N/A           |
-+-----------------------------------+------------------------------------------------------------------------+---------------+
-| i_species; o_species; map_species | h_sapiens, m_musculus, r_noregicus, d_rerio, d_melangoaster, c_elegans | N/A           |
-+-----------------------------------+------------------------------------------------------------------------+---------------+
-| mapping_tool                      | annotationDBI, biomaRt                                                 | annotationDBI |
-+-----------------------------------+------------------------------------------------------------------------+---------------+
-| input_id; output_ids              | Ensembl_id, Entrez_id, Symbol                                          | N/A           |
-+-----------------------------------+------------------------------------------------------------------------+---------------+
-| ortholog_database                 | NCBIOrtho, HomoloGene                                                  | HomoloGene    |
-+-----------------------------------+------------------------------------------------------------------------+---------------+
-| map_tissue                        | c("tissue"), "tissue"; see `getTissues`                                | N/A           |
-+-----------------------------------+------------------------------------------------------------------------+---------------+
-| metric_type                       | CV_Tissue, CV_Species, DS_Gene, DS_Gene_all, DS_Tissue, DS_Tissue_all  | N/A           |
-+-----------------------------------+------------------------------------------------------------------------+---------------+
+|             Slot Name             |                               Possible Value Options                               |    Default    |
+|:---------------------------------:|:----------------------------------------------------------------------------------:|:-------------:|
+|             gene_set              |                   "character", c(characters), data.frame\$column                   |      N/A      |
+| i_species; o_species; map_species | "h_sapiens", "m_musculus", "r_noregicus", "d_rerio", "d_melangoaster", "c_elegans" |      N/A      |
+|           mapping_tool            |                             "annotationDBI", "biomaRt"                             | annotationDBI |
+|       input_id; output_ids        |                        "Ensembl_id", "Entrez_id", "Symbol"                         |      N/A      |
+|         ortholog_database         |                             "NCBIOrtho", "HomoloGene"                              |  HomoloGene   |
+|            map_tissue             |                      c("tissue"), "tissue"; see `getTissues`                       |      N/A      |
+|            metric_type            | "CV_Tissue", "CV_Species", "DS_Gene", "DS_Gene_all", "DS_Tissue", "DS_Tissue_all"  |      N/A      |
 
 : Table 1. CoSIA Arguments and Options.
 
@@ -137,7 +133,7 @@ The following use cases provide running examples of CoSIA applications with [Nat
 
 ### Use Case #1: Converting Gene Symbols to Ensembl IDs (`getConversion`)
 
-CoSIA can convert input ids to any of the types listed in Table 1 \@ref(tab:table1).
+CoSIA can convert input ids to any of the types listed in Table \@ref(tab:table1).
 
 ```{r use1,  message=FALSE, warning=FALSE}
 
@@ -226,9 +222,16 @@ CoSIAn_Obj_DSplot
 
 ```
 
-There are three other methods for calculating and visualizing diversity and specificity.
+There are three other methods for calculating and visualizing diversity and specificity `metric_type="DS_Tissue_all"`, `metric_type="DS_Gene"`, and `metric_type="DS_Gene_all"`.
 
-CoSIA can calculate diversity specificity for tissues across all genes for a species with `metric_type="DS_Tissue_all"`, for input gene sets across input tissues with `metric_type="DS_Gene"`, and for input gene sets across all tissues for a species with `metric_type="DS_Gene_all"`
+| Metric Type   | Function                                                                                                      |
+|---------------|---------------------------------------------------------------------------------------------------------------|
+| DS_Gene       | calculates diversity and specificity across genes in `gene_set` in the tissues listed in `map_tissue`         |
+| DS_Gene_all   | calculates diversity and specificity across genes in `gene_set` in the all the available tissues in a species |
+| DS_Tissue     | calculates diversity and specificity across tissues listed in `map_tissue` in the genes in `gene_set`         |
+| DS_Tissue_all | calculates diversity and specificity across tissues listed in `map_tissue` in the all the genes in a species  |
+
+: Table 2. CoSIA Metric Type options.
 
 Session info
 
