@@ -159,7 +159,7 @@ These data can be visualized with `plotSpeciesGEx` to plot expression of a singl
 Here we are plotting gene expression for the [GATM](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4175) gene in kidney tissue for human, mouse, and rat. 
 
 
-```{r plotSpeciesGEx, fig.cap = "Gene Expression of GATM in Kidney Across Species", message=FALSE, warning=FALSE}
+```{r plotSpeciesGEx, fig.small=TRUE, fig.cap = "Gene Expression of GATM in Kidney Across Species", message=FALSE, warning=FALSE}
 
 CoSIAn_Obj_gexplot <- CoSIA::plotSpeciesGEx(CoSIAn_Obj_gex, "adult mammalian kidney", "ENSG00000171766")
 
@@ -173,7 +173,7 @@ CoSIA produces an interactive plot of expression values for GATM in kidney for h
 
 ### Use Case #3:  Gene expression variability across species for kidney tissue by calculating and visualizing Coefficient of Variation (CV)
 
-Calculating and visualizing coefficient of variation allows for a relative comparison of gene expression variability between species. In CoSIA, CV is calculated as the standard deviation over the median using VST read count values. In the section \@ref(initiating-a-cosian-object), we set `metric_type= "CV_Species"` to calculate CV for the monogenic kidney gene set across human, mouse and rat. 
+Calculating and visualizing coefficient of variation allows for a relative comparison of gene expression variability between species. In CoSIA, CV is calculated as the standard deviation over the median using VST read count values. In the section \@ref(initializing-a-cosian-object), we set `metric_type= "CV_Species"` to calculate CV for the monogenic kidney gene set across human, mouse and rat. 
 
 ```{r plotCVGEx, dpi=275, fig.height=35, fig.width=8, fig.cap = "Gene Expression Variability Across Species in Kidney Tissue", fig.wide=TRUE, message=FALSE, warning=FALSE}
 
@@ -197,7 +197,7 @@ Diversity and specificity metrics are also suitable for comparing gene expressio
 In the final use case, we are calculating and visualizing diversity and specificity for kidney and heart tissue across the monogenic kidney gene set by setting `metric_type= "DS_Tissue"`
 ```{r use4, message=FALSE, warning=FALSE}
 
-CoSIAn_Obj_DS <- CoSIA::CoSIAn(gene_set = unique(monogenic_kidney_genes$Gene),
+CoSIAn_Obj_DS <- CoSIA::CoSIAn(gene_set = c("PKD1", "PKD2"),
                             i_species = "h_sapiens",
                             o_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
                             input_id = "Symbol",
