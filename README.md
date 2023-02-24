@@ -16,6 +16,8 @@ The third method `getGExMetrics` provides various methodologies in calculating m
 
 ### Installing
 
+**In preparation for the Bioconductor 3.17 release, we have developed CoSIA within the Bioconductor development docker. Follow the instructions on [Bioconductor's Docker Help Page](https://www.bioconductor.org/help/docker/) to install and run CoSIA within the `bioconductor_docker:devel` container.**
+
 In R:
 
 ``` r
@@ -33,7 +35,7 @@ library(CoSIA)
 -   Anisha Haldar
 -   Vishal H. Oza
 -   Nathaniel DeVoss
--   Amanda Clark
+-   Amanda D. Clark
 -   Brittany N. Lasseigne
 
 ## License
