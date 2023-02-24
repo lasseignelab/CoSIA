@@ -11,7 +11,6 @@
 #' mapping_tool = 'annotationDBI',ortholog_database = 'HomoloGene',map_tissues = 'heart', 
 #' map_species = c('m_musculus'),metric_type = 'DS_Gene')
 #' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
-#' load('~/Desktop/EH_Data.RData')
 #' Kidney_gene_metric<-getGExMetrics(Kidney_gene_conversion)
 
 setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
@@ -34,7 +33,6 @@ setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
 #' mapping_tool = 'annotationDBI',ortholog_database = 'HomoloGene',map_tissues = 'heart', 
 #' map_species = c('m_musculus'),metric_type = 'DS_Gene')
 #' Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
-#' load('~/Desktop/EH_Data.RData')
 #' Kidney_gene_metric<-getGExMetrics(Kidney_gene_conversion)
 
 setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
@@ -84,53 +82,54 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     metric_type <- object@metric_type
     metric_type <- as.character(metric_type)
     
-    # #Load CoSIAdata and merge into merged_CoSIAdata that is species specific to the mapped_species slot
-    # CoSIAdata_load <- function(map_species) {
-    #   eh <- ExperimentHub::ExperimentHub() 
-    #   merged_CoSIAdata <- data.frame(matrix(ncol = 7, nrow = 0))
-    #   colnames(merged_CoSIAdata) <- c("Anatomical_entity_name", "Ensembl_ID", 
-    #                           "Sample_size", "VST", "Experiment_ID", 
-    #                           "Anatomical_entity_ID","Species")
-    #   if (any(map_species == "Mus_musculus")) {
-    #     mm_EH_File<-eh[["EH7859"]]
-    #     merged_CoSIAdata <- rbind(merged_CoSIAdata, mm_EH_File)
-    #     merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
-    #     }
-    #   else if (any(map_species == "Rattus_norvegicus")) {
-    #     rn_EH_File<-eh[["EH7860"]]
-    #     merged_CoSIAdata <- rbind(merged_CoSIAdata, rn_EH_File)
-    #     merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
-    #   }
-    #   else if (any(map_species == "Danio_rerio")) {
-    #     dr_EH_File<-eh[["EH7861"]]
-    #     merged_CoSIAdata <- rbind(merged_CoSIAdata, dr_EH_File)
-    #     merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
-    #   }
-    #   else if (any(map_species == "Homo_sapiens")) {
-    #     hs_EH_File<-eh[["EH7858"]]
-    #     merged_CoSIAdata <- rbind(merged_CoSIAdata, hs_EH_File)
-    #     merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
-    #   }
-    #   else if (any(map_species == "Caenorhabditis_elegans")) {
-    #     ce_EH_File<-eh[["EH7863"]]
-    #     merged_CoSIAdata <- rbind(merged_CoSIAdata, ce_EH_File)
-    #     merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
-    #   }
-    #   else if (any(map_species == "Drosophila_melanogaster")) {
-    #     dm_EH_File<-eh[["EH7862"]]
-    #     merged_CoSIAdata <- rbind(merged_CoSIAdata, dm_EH_File)
-    #     merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
-    #   }
-    #   else {
-    #     stop("Error: map_species in CoSIAn Object. Make sure the species in the 
-    #     map_species slot are avalible organisms through CoSIA and are in the 
-    #     correct format.")
-    #   }
-    #   return(merged_CoSIAdata)
-    # }
-    # 
-    # merged_CoSIAdata <- lapply(map_species, CoSIAdata_load)
-    # filter_species <- as.data.frame(do.call(rbind, merged_CoSIAdata))
+    #Load CoSIAdata and merge into merged_CoSIAdata that is species specific to the mapped_species slot
+    CoSIAdata_load <- function(map_species) {
+      eh <- ExperimentHub::ExperimentHub()
+      merged_CoSIAdata <- data.frame(matrix(ncol = 7, nrow = 0))
+      colnames(merged_CoSIAdata) <- c("Anatomical_entity_name", "Ensembl_ID",
+                              "Sample_size", "VST", "Experiment_ID",
+                              "Anatomical_entity_ID","Species")
+      if (any(map_species == "Mus_musculus")) {
+        mm_EH_File<-eh[["EH7859"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, mm_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+        }
+      else if (any(map_species == "Rattus_norvegicus")) {
+        rn_EH_File<-eh[["EH7860"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, rn_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else if (any(map_species == "Danio_rerio")) {
+        dr_EH_File<-eh[["EH7861"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, dr_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else if (any(map_species == "Homo_sapiens")) {
+        hs_EH_File<-eh[["EH7858"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, hs_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else if (any(map_species == "Caenorhabditis_elegans")) {
+        ce_EH_File<-eh[["EH7863"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, ce_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else if (any(map_species == "Drosophila_melanogaster")) {
+        dm_EH_File<-eh[["EH7862"]]
+        merged_CoSIAdata <- rbind(merged_CoSIAdata, dm_EH_File)
+        merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
+      }
+      else {
+        stop("Error: map_species in CoSIAn Object. Make sure the species in the
+        map_species slot are avalible organisms through CoSIA and are in the
+        correct format.")
+      }
+      return(merged_CoSIAdata)
+    }
+
+    merged_CoSIAdata <- lapply(map_species, CoSIAdata_load)
+    filter_species <- as.data.frame(do.call(rbind, merged_CoSIAdata))
+    rm(merged_CoSIAdata)
 
     CV_function <- function(x, na.rm = FALSE) {
         stopifnot(is.numeric(x))
@@ -170,7 +169,6 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
 
 
     CV_Tissue <- function(map_species, map_tissues) {
-        filter_species <- dplyr::filter(Experimental_Hub_File, Species %in% map_species) #remove this line of code once CoSIAdata loaded
         filter_tissue <- dplyr::filter(filter_species, Anatomical_entity_name %in% map_tissues)
         id <- as.vector(t(id_dataframe))
         filter_gene <- dplyr::filter(filter_tissue, Ensembl_ID %in% id)
@@ -208,7 +206,6 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     }
 
     CV_Species <- function(map_species, map_tissues) {
-        filter_species <- dplyr::filter(Experimental_Hub_File, Species %in% map_species) #remove this line of code once CoSIAdata loaded
         id <- as.vector(t(id_dataframe))
         filter_gene <- dplyr::filter(filter_species, Ensembl_ID %in% id)
         filter_gex <- tidyr::separate_rows(filter_gene, VST)
@@ -241,7 +238,6 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
 
     # DS_Gene : output genes restricted by mapped tissues and gene set
     DS_Gene <- function(map_species, map_tissues) {
-        filter_species <- dplyr::filter(Experimental_Hub_File, Species %in% map_species) #remove this line of code once CoSIAdata loaded
         filter_tissue <- dplyr::filter(filter_species, Anatomical_entity_name %in% map_tissues)
         id <- as.vector(t(id_dataframe))
         filter_gene <- dplyr::filter(filter_tissue, Ensembl_ID %in% id)
@@ -276,13 +272,13 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         return(DS)
     }
 
-    # DS_Tissues: output is tissues restricted to mapped tissues and gene set
+    # DS_Tissue: output is tissues restricted to mapped tissues and gene set
     DS_Tissue <- function(map_species, map_tissues) {
         DS <- data.frame(matrix(ncol = 4, nrow = 0))
         colnames(DS)[which(names(DS) == "map_tissues")] <- "Anatomical_entity_name"
         for (x in seq_len(length(map_species))) {
-            filter_species <- dplyr::filter(Experimental_Hub_File, Species == map_species[x])
-            filter_tissue <- dplyr::filter(filter_species, Anatomical_entity_name %in% map_tissues)
+            filter_specific <- dplyr::filter(filter_species, Species == map_species[x])
+            filter_tissue <- dplyr::filter(filter_specific, Anatomical_entity_name %in% map_tissues)
             id <- as.vector(t(id_dataframe))
             filter_gene <- dplyr::filter(filter_tissue, Ensembl_ID %in% id)
             filter_gene$Scaled_Median_VST <- as.numeric(filter_gene$Scaled_Median_VST)
@@ -324,9 +320,9 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         DS <- data.frame(matrix(ncol = 4, nrow = 0))
         colnames(DS)[1] <- "Ensembl_ID"
         for (x in seq_len(length(map_species))) {
-            filter_species <- dplyr::filter(Experimental_Hub_File, Species == map_species[x])
+          filter_specific <- dplyr::filter(filter_species, Species == map_species[x])
             id <- as.vector(t(id_dataframe))
-            filter_gene <- dplyr::filter(filter_species, Ensembl_ID %in% id)
+            filter_gene <- dplyr::filter(filter_specific, Ensembl_ID %in% id)
             filter_gene$Scaled_Median_VST <- as.numeric(filter_gene$Scaled_Median_VST)
             filter_gex <- dplyr::select(filter_gene, Anatomical_entity_name, Scaled_Median_VST, Ensembl_ID)
 
@@ -361,13 +357,13 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         return(DS)
     }
 
-    # DS_Tissues_All: output is tissues restricted to mapped tissues across all genes
+    # DS_Tissue_All: output is tissues restricted to mapped tissues across all genes
     DS_Tissue_all <- function(map_species, map_tissues) {
         DS <- data.frame(matrix(ncol = 4, nrow = 0))
         colnames(DS)[which(names(DS) == "map_tissues")] <- "Anatomical_entity_name"
         for (x in seq_len(length(map_species))) {
-            filter_species <- dplyr::filter(Experimental_Hub_File, Species == map_species[x])
-            filter_tissue <- dplyr::filter(filter_species, Anatomical_entity_name %in% map_tissues)
+            filter_specific <- dplyr::filter(filter_species, Species == map_species[x])
+            filter_tissue <- dplyr::filter(filter_specific, Anatomical_entity_name %in% map_tissues)
             filter_tissue$Scaled_Median_VST <- as.numeric(filter_tissue$Scaled_Median_VST)
             filter_gex <- dplyr::select(filter_tissue, Anatomical_entity_name, Scaled_Median_VST, Ensembl_ID)
 
