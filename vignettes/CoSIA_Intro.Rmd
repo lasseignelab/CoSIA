@@ -185,9 +185,31 @@ CoSIA produces an interactive plot of expression values for GATM in kidney for h
 
 Calculating and visualizing median-based coefficient of variation allows for a relative comparison of gene expression variability between species. In CoSIA, CV is calculated as the standard deviation over the median using VST read count values. In the section \@ref(initiating-a-cosian-object), we set `metric_type= "CV_Species"` to calculate CV for the monogenic kidney gene set across human, mouse and rat.
 
-```{r plotCVGEx, dpi=275, fig.height=35, fig.width=8, fig.cap = "Gene Expression Variability Across Species in Kidney Tissue", fig.wide=TRUE, message=FALSE, warning=FALSE}
+```{r plotCVGEx, dpi=200, fig.height=15, fig.width=8, fig.cap = "Gene Expression Variability Across Species in Kidney Tissue", fig.wide=TRUE, message=FALSE, warning=FALSE}
 
-CoSIAn_Obj_CV <- CoSIA::getGExMetrics(CoSIAn_Obj_gex)
+# downsampling data for figure
+monogenic_kid_sample <- dplyr::sample_n(monogenic_kidney_genes, 50)
+
+CoSIAn_Obj_CV <- CoSIA::CoSIAn(gene_set = unique(monogenic_kid_sample$Gene),
+                            i_species = "h_sapiens",
+                            o_species = c("h_sapiens", 
+                                          "m_musculus", 
+                                          "r_norvegicus"),
+                            input_id = "Symbol",
+                            output_ids = "Ensembl_id",
+                            map_species = c("h_sapiens", 
+                                            "m_musculus", 
+                                            "r_norvegicus"),
+                            map_tissues = c("adult mammalian kidney", 
+                                            "heart"),
+                            mapping_tool = "annotationDBI",
+                            ortholog_database = "HomoloGene",
+                            metric_type = "CV_Species"
+                            )
+
+CoSIAn_Obj_CV <- CoSIA::getConversion(CoSIAn_Obj_CV)
+
+CoSIAn_Obj_CV <- CoSIA::getGExMetrics(CoSIAn_Obj_CV)
 
 CoSIAn_Obj_CVplot <- CoSIA::plotCVGEx(CoSIAn_Obj_CV)
 
@@ -229,6 +251,7 @@ CoSIAn_Obj_DSplot
 
 
 ```
+There is low specificity in kidney tissue, indicating there are more genes from the set that are expressed in kidney. We see higher specificity in heart tissue, indicating that there are fewer genes from the set that are expressed in heart. This pattern is seen for all three species. 
 
 +---------------+---------------------------------------------------------------------------------------------------------------+
 | Metric Type   | Function                                                                                                      |
@@ -243,6 +266,7 @@ CoSIAn_Obj_DSplot
 +---------------+---------------------------------------------------------------------------------------------------------------+
 
 : (#tab:Table2.) CoSIA Metric Type options.
+
 
 Session info
 
