@@ -25,7 +25,7 @@ CoSIAn(
 
 \item{input_id}{The type of id corresponding to gene_set.}
 
-\item{o_species}{The singular or list of species that the gene set is being 
+\item{o_species}{The singular or list of species that the gene set is being
 converted to.}
 
 \item{output_ids}{The singular or list of id types that the gene set is being
@@ -34,7 +34,7 @@ converted to.}
 \item{mapping_tool}{The mapping tool, BiomaRt or annotationDBI, being used to
 map the conversion between IDs.}
 
-\item{ortholog_database}{The ortholog database, HomoloGene or NCBIOrtho, 
+\item{ortholog_database}{The ortholog database, HomoloGene or NCBIOrtho,
 being used to map the conversion between species.}
 
 \item{map_tissues}{A list of tissues being investigated}
@@ -47,14 +47,20 @@ being used to map the conversion between species.}
 An S4 \code{CoSIAn} object with character vector(s) as slots.
 }
 \description{
-The \code{CoSIAn} constructor creates a \code{CoSIAn} object 
+The \code{CoSIAn} constructor creates a \code{CoSIAn} object
 from character vector(s).
 }
 \examples{
-Kidney_Genes<-CoSIAn(gene_set = c('ENSG00000008710','ENSG00000118762',
-'ENSG00000152217'),i_species = 'h_sapiens',input_id = 'Ensembl_id',
-o_species = c('d_melanogaster','m_musculus','h_sapiens', 'd_rerio',
-'c_elegans','r_norvegicus'),output_ids = c('Ensembl_id','Symbol'), 
-mapping_tool = 'annotationDBI',ortholog_database = 'HomoloGene',
-map_tissues = 'heart', map_species = c('m_musculus'),metric_type = 'DS_Gene')
+Kidney_Genes <- CoSIAn(
+    gene_set = c(
+        "ENSG00000008710", "ENSG00000118762",
+        "ENSG00000152217"
+    ), i_species = "h_sapiens", input_id = "Ensembl_id",
+    o_species = c(
+        "d_melanogaster", "m_musculus", "h_sapiens", "d_rerio",
+        "c_elegans", "r_norvegicus"
+    ), output_ids = c("Ensembl_id", "Symbol"),
+    mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
+    map_tissues = "heart", map_species = c("m_musculus"), metric_type = "DS_Gene"
+)
 }

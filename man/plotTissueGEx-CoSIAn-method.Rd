@@ -7,11 +7,14 @@
 \S4method{plotTissueGEx}{CoSIAn}(object, single_species, single_gene)
 }
 \arguments{
-\item{object}{CoSIAn object with all user accessible slots filled in as well as the converted_id and gex slot filled}
+\item{object}{CoSIAn object with all user accessible slots filled in as well
+as the converted_id and gex slot filled}
 
-\item{single_species}{one species that the user wants to investigate across the mapped tissues}
+\item{single_species}{one species that the user wants to investigate across
+the mapped tissues}
 
-\item{single_gene}{one ensembl id that the user wants to investigate across the mapped tissues}
+\item{single_gene}{one ensembl id that the user wants to investigate across
+the mapped tissues}
 }
 \value{
 plot object
@@ -20,13 +23,18 @@ plot object
 plotTissueGEx Method
 }
 \examples{
-Kidney_Genes<-CoSIAn(gene_set = c('ENSG00000008710','ENSG00000118762','ENSG00000152217'),
-i_species = 'h_sapiens',input_id = 'Ensembl_id',o_species = c('d_melanogaster','m_musculus',
-'h_sapiens', 'd_rerio','c_elegans','r_norvegicus'),output_ids = c('Ensembl_id','Symbol'), 
-mapping_tool = 'annotationDBI',ortholog_database = 'HomoloGene',map_tissues = 'heart', 
-map_species = c('m_musculus'),metric_type = 'DS_Gene')
-Kidney_gene_conversion<-CoSIA::getConversion(Kidney_Genes)
-Kidney_gene_gex<- getGEx(Kidney_gene_conversion)
-plotTissueGEx(Kidney_gene_gex,'h_sapiens','ENSG00000008710')
-plotTissueGEx(Kidney_gene_gex,'m_musculus','ENSG00000008710')
+Kidney_Genes <- CoSIAn(
+    gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+    i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
+        "d_melanogaster", "m_musculus",
+        "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+    ), output_ids = c("Ensembl_id", "Symbol"),
+    mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
+    map_tissues = "heart", map_species = c("m_musculus"),
+    metric_type = "DS_Gene"
+)
+Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
+Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
+plotTissueGEx(Kidney_gene_gex, "h_sapiens", "ENSG00000008710")
+plotTissueGEx(Kidney_gene_gex, "m_musculus", "ENSG00000008710")
 }
