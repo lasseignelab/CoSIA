@@ -609,45 +609,51 @@ h_sapiens <- function(input_id, input_dataset, output_ids, output_species, tool,
     else if (tool == "annotationDBI") {
         Filter_AO_HS <- switch(output_species,
             h_sapiens = {
-                output_data <- annotationDBI(input_id, input_dataset, output_ids,
-                    input_species = "h_sapiens", output_species, 9606,
-                    org.Hs.eg.db::org.Hs.eg.db, org.Hs.eg.db::org.Hs.eg.db,
-                    ortholog_database
+                output_data <- annotationDBI(input_id, input_dataset,
+                    output_ids,
+                    input_species = "h_sapiens", output_species,
+                    9606, org.Hs.eg.db::org.Hs.eg.db,
+                    org.Hs.eg.db::org.Hs.eg.db, ortholog_database
                 )
             },
             m_musculus = {
-                output_data <- annotationDBI(input_id, input_dataset, output_ids,
-                    input_species = "h_sapiens", output_species, 10090,
-                    org.Hs.eg.db::org.Hs.eg.db, org.Mm.eg.db::org.Mm.eg.db,
-                    ortholog_database
+                output_data <- annotationDBI(input_id, input_dataset,
+                    output_ids,
+                    input_species = "h_sapiens", output_species,
+                    10090, org.Hs.eg.db::org.Hs.eg.db,
+                    org.Mm.eg.db::org.Mm.eg.db, ortholog_database
                 )
             },
             d_melanogaster = {
-                output_data <- annotationDBI(input_id, input_dataset, output_ids,
-                    input_species = "h_sapiens", output_species, 7227,
-                    org.Hs.eg.db::org.Hs.eg.db, org.Dm.eg.db::org.Dm.eg.db,
-                    ortholog_database
+                output_data <- annotationDBI(input_id, input_dataset,
+                    output_ids,
+                    input_species = "h_sapiens", output_species,
+                    7227, org.Hs.eg.db::org.Hs.eg.db,
+                    org.Dm.eg.db::org.Dm.eg.db, ortholog_database
                 )
             },
             d_rerio = {
-                output_data <- annotationDBI(input_id, input_dataset, output_ids,
-                    input_species = "h_sapiens", output_species, 7955,
-                    org.Hs.eg.db::org.Hs.eg.db, org.Dr.eg.db::org.Dr.eg.db,
-                    ortholog_database
+                output_data <- annotationDBI(input_id, input_dataset,
+                    output_ids,
+                    input_species = "h_sapiens", output_species,
+                    7955, org.Hs.eg.db::org.Hs.eg.db,
+                    org.Dr.eg.db::org.Dr.eg.db, ortholog_database
                 )
             },
             c_elegans = {
-                output_data <- annotationDBI(input_id, input_dataset, output_ids,
-                    input_species = "h_sapiens", output_species, 6239,
-                    org.Hs.eg.db::org.Hs.eg.db, org.Ce.eg.db::org.Ce.eg.db,
-                    ortholog_database
+                output_data <- annotationDBI(input_id, input_dataset,
+                    output_ids,
+                    input_species = "h_sapiens", output_species,
+                    6239, org.Hs.eg.db::org.Hs.eg.db,
+                    org.Ce.eg.db::org.Ce.eg.db, ortholog_database
                 )
             },
             r_norvegicus = {
-                output_data <- annotationDBI(input_id, input_dataset, output_ids,
-                    input_species = "h_sapiens", output_species, 10116,
-                    org.Hs.eg.db::org.Hs.eg.db, org.Rn.eg.db::org.Rn.eg.db,
-                    ortholog_database
+                output_data <- annotationDBI(input_id, input_dataset,
+                    output_ids,
+                    input_species = "h_sapiens", output_species,
+                    10116, org.Hs.eg.db::org.Hs.eg.db,
+                    org.Rn.eg.db::org.Rn.eg.db, ortholog_database
                 )
             },
             stop("Error: Invalid o_species in CoSIAn Object.
@@ -656,7 +662,7 @@ h_sapiens <- function(input_id, input_dataset, output_ids, output_species, tool,
         )
         return(output_data)
     }
-    # code follows this path if the tool that was inputted into the system does not match.
+    # code follows this path if the tool does not match.
     else {
         stop("Error: Invalid tool in CoSIAn Object.
              Make sure the tool is either annotationDBI or biomaRt.")
