@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7674870.svg)](https://doi.org/10.5281/zenodo.7674870)
+
 # CoSIA: **C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis
 
 **C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis (`CoSIA`) is a package that provides researchers with an alternative methodology for comparing across species and tissues using normal wild-type RNA-Seq Gene Expression data from Bgee. Using RNA-Seq Gene Expression data, CoSIA provides multiple visualization tools to explore the transcriptome diversity and variation across genes, tissues, and species. CoSIA uses Coefficient of Variation and Shannon Entropy and Specificity to calculate transcriptome diversity and variation. CoSIA also provides additional conversion tools and utilities to provide a streamlined methodology for cross-species comparison across the tissues and genes of five commonly used biomedical research species (*Mus musculus*, *Rattus norvegicus*, *Danio rerio*, *Drosophila melanogaster*, and *Caenorhabditis elegans*) in addition to *Homo sapiens*.
@@ -16,6 +18,8 @@ The third method `getGExMetrics` provides various methodologies in calculating m
 
 ### Installing
 
+**In preparation for the Bioconductor 3.17 release, we have developed CoSIA within a Bioconductor docker. Follow the instructions on [Bioconductor's Docker Help Page](https://www.bioconductor.org/help/docker/) to install and run CoSIA within the `bioconductor_docker:devel` container.**
+
 In R:
 
 ``` r
@@ -33,7 +37,7 @@ library(CoSIA)
 -   Anisha Haldar
 -   Vishal H. Oza
 -   Nathaniel DeVoss
--   Amanda Clark
+-   Amanda D. Clark
 -   Brittany N. Lasseigne
 
 ## License
