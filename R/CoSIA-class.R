@@ -75,7 +75,8 @@ setClass("CoSIAn", contains = "CoSIA", slots = c(
 #'         "c_elegans", "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("m_musculus"), metric_type = "DS_Gene"
+#'     map_tissues = "heart", map_species = c("m_musculus"), 
+#'     metric_type = "DS_Gene"
 #' )
 CoSIAn <- function(gene_set, i_species, input_id, o_species, output_ids,
                    mapping_tool = "annotationDBI",
