@@ -5,21 +5,21 @@ knitr::opts_chunk$set(
 )
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  
+#
 #  #if (!requireNamespace("BiocManager", quietly=TRUE))
 #      #install.packages("BiocManager")
 #  #BiocManager::install("CoSIA")
-#  
+#
 #  #library(devtools)
 #  #install_github("lasseignelab/CoSIA", ref= "main")
-#  
+#
 
 ## ----setup, warning=FALSE, message=FALSE--------------------------------------
 
 library(CoSIA)
 
 load("~/Desktop/EH_Data.RData")
-#load("../../Learning/useCoSIA/data/EH_Data.RData")
+# load("../../Learning/useCoSIA/data/EH_Data.RData")
 load("../inst/extdata/proccessed/monogenic_kidney_genes.rda")
 
 
@@ -36,17 +36,18 @@ CoSIA::getTissues(c("h_sapiens", "m_musculus", "r_norvegicus"))
 
 ## ----CoSIAnObj----------------------------------------------------------------
 
-CoSIAn_Obj <- CoSIA::CoSIAn(gene_set = unique(monogenic_kidney_genes$Gene),
-                            i_species = "h_sapiens",
-                            o_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
-                            input_id = "Symbol",
-                            output_ids = "Ensembl_id",
-                            map_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
-                            map_tissues = c("adult mammalian kidney", "heart"),
-                            mapping_tool = "annotationDBI",
-                            ortholog_database = "HomoloGene",
-                            metric_type = "CV_Species"
-                            )
+CoSIAn_Obj <- CoSIA::CoSIAn(
+  gene_set = unique(monogenic_kidney_genes$Gene),
+  i_species = "h_sapiens",
+  o_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
+  input_id = "Symbol",
+  output_ids = "Ensembl_id",
+  map_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
+  map_tissues = c("adult mammalian kidney", "heart"),
+  mapping_tool = "annotationDBI",
+  ortholog_database = "HomoloGene",
+  metric_type = "CV_Species"
+)
 
 str(CoSIAn_Obj)
 
@@ -84,17 +85,18 @@ CoSIAn_Obj_CVplot
 
 ## ----use4, message=FALSE, warning=FALSE---------------------------------------
 
-CoSIAn_Obj_DS <- CoSIA::CoSIAn(gene_set = unique(monogenic_kidney_genes$Gene),
-                            i_species = "h_sapiens",
-                            o_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
-                            input_id = "Symbol",
-                            output_ids = "Ensembl_id",
-                            map_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
-                            map_tissues = c("adult mammalian kidney", "heart"),
-                            mapping_tool = "annotationDBI",
-                            ortholog_database = "HomoloGene",
-                            metric_type = "DS_Tissue"
-                            )
+CoSIAn_Obj_DS <- CoSIA::CoSIAn(
+  gene_set = unique(monogenic_kidney_genes$Gene),
+  i_species = "h_sapiens",
+  o_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
+  input_id = "Symbol",
+  output_ids = "Ensembl_id",
+  map_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
+  map_tissues = c("adult mammalian kidney", "heart"),
+  mapping_tool = "annotationDBI",
+  ortholog_database = "HomoloGene",
+  metric_type = "DS_Tissue"
+)
 
 CoSIAn_Obj_DS <- CoSIA::getConversion(CoSIAn_Obj_DS)
 
@@ -108,4 +110,3 @@ CoSIAn_Obj_DSplot
 
 ## -----------------------------------------------------------------------------
 sessionInfo()
-
