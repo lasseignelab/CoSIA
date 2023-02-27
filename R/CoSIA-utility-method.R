@@ -69,6 +69,7 @@ getTissues <- function(species) {
     frequency_value <- length(species)
     common_tissue <- dplyr::filter(L, Frequency == frequency_value)
     common_tissue <- subset(common_tissue, select = -c(Frequency))
-    colnames(common_tissue)[which(names(common_tissue) == "Anatomical_entity_name")] <- "Common_Anatomical_Entity_Name"
+    colnames(common_tissue)[which(names(common_tissue) ==
+        "Anatomical_entity_name")] <- "Common_Anatomical_Entity_Name"
     return(common_tissue)
 }
