@@ -2,7 +2,8 @@
 #'
 #' @param object CoSIAn object with all user accessible slots filled
 #'
-#' @return initializes a generic function for getConversion as preparation for defining the getConversion Method
+#' @return initializes a generic function for getConversion as preparation for
+#' defining the getConversion Method
 #' @export
 #' @examples
 #' Kidney_Genes <- CoSIAn(
@@ -45,15 +46,14 @@ setGeneric("getConversion", function(object) standardGeneric("getConversion"))
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
-    # user's input of the function
-    # Set each part of the object that this method uses into their own variable that will be used inside the code
+    # Set each part of the object into its own variable to be used inside the code
     input_species <- object@i_species
     input_id <- object@input_id
     input <- object@gene_set
     input <- unique(input)
     if (input_id == "Ensembl_id") {
+        # Use remove_version_numbers to remove ensembl id versions (after the dot)
         input <- remove_version_numbers(input, input_species)
-        # puts the genes through the remove version number function to remove the version number (everything after the dot)
     }
     input <- as.character(input)
     output_ids <- object@output_ids
@@ -65,9 +65,17 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
     colnames(species_data)[which(names(species_data) == "input")] <- c_name
     # changes name to more formal names
     for (index in seq(length(output_species))) {
-        Filter_I_Species <- switch(input_species,
+      os<-paste(output_species[index], sep = " ")
+        switch(input_species,
             h_sapiens = {
-                hs_data <- h_sapiens(input_id, input, output_ids, output_species[index], tool, ortholog_database)
+                hs_data <- h_sapiens(
+                    input_id,
+                    input,
+                    output_ids,
+                    output_species[index],
+                    tool,
+                    ortholog_database
+                )
                 hs_data <- data.frame(lapply(hs_data, as.character))
                 result <- try(
                     {
@@ -76,7 +84,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
                     silent = TRUE
                 )
                 if (is(result, "try-error")) {
-                    warning("No orthologs were found for ", paste(output_species[index], sep = " "), " across all the genes provided by the user.")
+                    warning("No orthologs were found for ",os, " across all the genes provided by the user.")
                 } else {
                     species_data <- dplyr::full_join(species_data, hs_data)
                 }
@@ -91,7 +99,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
                     silent = TRUE
                 )
                 if (is(result, "try-error")) {
-                    warning("No orthologs were found for ", paste(output_species[index], sep = " "), " across all the genes provided by the user.")
+                    warning("No orthologs were found for ", os , " across all the genes provided by the user.")
                 } else {
                     species_data <- dplyr::full_join(species_data, mm_data)
                 }
@@ -106,7 +114,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
                     silent = TRUE
                 )
                 if (is(result, "try-error")) {
-                    warning("No orthologs were found for ", paste(output_species[index], sep = " "), " across all the genes provided by the user.")
+                    warning("No orthologs were found for ", os, " across all the genes provided by the user.")
                 } else {
                     species_data <- dplyr::full_join(species_data, rn_data)
                 }
@@ -121,7 +129,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
                     silent = TRUE
                 )
                 if (is(result, "try-error")) {
-                    warning("No orthologs were found for ", paste(output_species[index], sep = " "), " across all the genes provided by the user.")
+                    warning("No orthologs were found for ", os, " across all the genes provided by the user.")
                 } else {
                     species_data <- dplyr::full_join(species_data, dr_data)
                 }
@@ -136,7 +144,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
                     silent = TRUE
                 )
                 if (is(result, "try-error")) {
-                    warning("No orthologs were found for ", paste(output_species[index], sep = " "), " across all the genes provided by the user.")
+                    warning("No orthologs were found for ", os, " across all the genes provided by the user.")
                 } else {
                     species_data <- dplyr::full_join(species_data, ce_data)
                 }
@@ -151,7 +159,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
                     silent = TRUE
                 )
                 if (is(result, "try-error")) {
-                    warning("No orthologs were found for ", paste(output_species[index], sep = " "), " across all the genes provided by the user.")
+                    warning("No orthologs were found for ", os, " across all the genes provided by the user.")
                 } else {
                     species_data <- dplyr::full_join(species_data, dm_data)
                 }
