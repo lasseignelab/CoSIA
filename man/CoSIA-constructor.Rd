@@ -61,6 +61,7 @@ Kidney_Genes <- CoSIAn(
         "c_elegans", "r_norvegicus"
     ), output_ids = c("Ensembl_id", "Symbol"),
     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-    map_tissues = "heart", map_species = c("m_musculus"), metric_type = "DS_Gene"
+    map_tissues = "heart", map_species = c("m_musculus"), 
+    metric_type = "DS_Gene"
 )
 }
