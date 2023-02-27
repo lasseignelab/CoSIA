@@ -24,43 +24,23 @@ knitr::opts_chunk$set(
 )
 ```
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 # Summary
 
-**C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis (`CoSIA`) is a 
-package that provides researchers with an alternative methodology for comparing 
-across species and tissues using normal wild-type RNA-Seq Gene Expression data 
-from Bgee. Using RNA-Seq Gene Expression data, CoSIA provides multiple 
-visualization tools to explore the transcriptome diversity and variation 
-across genes, tissues, and species. CoSIA uses the Coefficient of Variation and 
-Shannon Entropy and Specificity to calculate transcriptome diversity and 
-variation. CoSIA also provides additional conversion tools and utilities to 
-provide a streamlined methodology for cross-species comparison.
+**C**r**o**ss **S**pecies **I**nvestigation and **A**nalysis (`CoSIA`) is a package that provides researchers with an alternative methodology for comparing across species and tissues using normal wild-type RNA-Seq Gene Expression data from Bgee. Using RNA-Seq Gene Expression data, CoSIA provides multiple visualization tools to explore the transcriptome diversity and variation across genes, tissues, and species. CoSIA uses the Coefficient of Variation and Shannon Entropy and Specificity to calculate transcriptome diversity and variation. CoSIA also provides additional conversion tools and utilities to provide a streamlined methodology for cross-species comparison.
 
-<img src="../inst/images/CoSIA_Workflow.png" alt="Figure 1. CoSIA_Workflow" 
-width="703"/>
+<img src="../inst/images/CoSIA_Workflow.png" alt="Figure 1. CoSIA_Workflow" width="703"/>
 
-CoSIA is split into 3 methods that provide various resources in order for 
-researchers to conduct cross species analysis using gene expression metrics.
+CoSIA is split into 3 methods that provide various resources in order for researchers to conduct cross species analysis using gene expression metrics.
 
--   Method 1 uses `getConversion` to convert inputs between different gene 
-identifiers in the same species as well as orthologs in different species. 
-The other modules access tissue- and/or species-specific gene expression.
+-   Method 1 uses `getConversion` to convert inputs between different gene identifiers in the same species as well as orthologs in different species. The other modules access tissue- and/or species-specific gene expression.
 
--   Method 2 uses `getGEx` to obtain raw read counts that undergo Variance 
-Stabilizing Transformation via DESeq2 methodology. Gene expression values are 
-visualized for a single gene *across multiple tissues in single model organism* 
-or *across multiple species in a single tissue* using the plotting methods,
-`plotTissueGEx` & `plotSpeciesGEx`, respectively.
+-   Method 2 uses `getGEx` to obtain raw read counts that undergo Variance Stabilizing Transformation via DESeq2 methodology. Gene expression values are visualized for a single gene *across multiple tissues in single model organism* or *across multiple species in a single tissue* using the plotting methods, `plotTissueGEx` & `plotSpeciesGEx`, respectively.
 
--   Method 3 uses `getGExMetrics` to calculate median-based Coefficient of 
-Variation (variability) and Shannon Entropy (diversity & specificity). There are
-two accompanying plotting methods, `plotCVGEx` & `plotDSGEx` that are used to 
-visualize the variation and diversity & specificity (DS) of gene expression 
-across genes, tissues, and species.
+-   Method 3 uses `getGExMetrics` to calculate median-based Coefficient of Variation (variability) and Shannon Entropy (diversity & specificity). There are two accompanying plotting methods, `plotCVGEx` & `plotDSGEx` that are used to visualize the variation and diversity & specificity (DS) of gene expression across genes, tissues, and species.
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ## Installation
 
@@ -116,9 +96,7 @@ CoSIA::getTissues("d_rerio")
 CoSIA::getTissues(c("h_sapiens", "m_musculus", "r_norvegicus"))
 ```
 
-*NOTE*: To compare across all shared tissues for your selected species, 
-you can assign the `getTissues` output to an object as input for `map_tissues` 
-when initializing a CoSIAn object.
+*NOTE*: To compare across all shared tissues for your selected species, you can assign the `getTissues` output to an object as input for `map_tissues` when initializing a CoSIAn object.
 
 ### Initializing a CoSIAn object
 
@@ -150,24 +128,17 @@ CoSIAn_Obj <- CoSIA::CoSIAn(
 str(CoSIAn_Obj)
 ```
 
-*NOTE*: Any species you plan to compare must be specified in `map_species` 
-AND `o_species`.
+*NOTE*: Any species you plan to compare must be specified in `map_species` AND `o_species`.
 
-*NOTE*: The `getGEx` function requires that "Ensembl_id" is included as an 
-`output_id`. Here, we convert gene symbols into Ensembl IDs.
+*NOTE*: The `getGEx` function requires that "Ensembl_id" is included as an `output_id`. Here, we convert gene symbols into Ensembl IDs.
 
 ## Use Cases with Monogenic Kidney Disease-Associated Genes
 
-The following use cases provide running examples of CoSIA applications with 
-[Natera's Monogenic Kidney Disease Panel](https://www.natera.com/resource-library/renasight/385-genes-associated-with-monogenic-disorders-linked-to-kidney-disease). We will perform id 
-conversion, obtain and visualize gene expression data, and calculate and 
-visualize CV and DS of gene expression across three species 
-(human, mouse, & rat) and two tissues (kidney & heart).
+The following use cases provide running examples of CoSIA applications with [Natera's Monogenic Kidney Disease Panel](https://www.natera.com/resource-library/renasight/385-genes-associated-with-monogenic-disorders-linked-to-kidney-disease). We will perform id conversion, obtain and visualize gene expression data, and calculate and visualize CV and DS of gene expression across three species (human, mouse, & rat) and two tissues (kidney & heart).
 
 ### Use Case #1: Converting Gene Symbols to Ensembl IDs (`getConversion`)
 
-CoSIA can convert input ids to any of the types listed in 
-Table \@ref(tab:Table1).
+CoSIA can convert input ids to any of the types listed in Table \@ref(tab:Table1).
 
 ```{r use1,  message=FALSE, warning=FALSE}
 CoSIAn_Obj_convert <- CoSIA::getConversion(CoSIAn_Obj)
@@ -175,12 +146,11 @@ CoSIAn_Obj_convert <- CoSIA::getConversion(CoSIAn_Obj)
 str(CoSIAn_Obj_convert)
 ```
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ### Use Case #2: Obtaining and visualizing curated non-diseased kidney and heart gene expression data for human, mouse, rat from Bgee
 
-Now we will use the converted IDs with `getGEx` to obtain heart and kidney gene
-expression data for human, mouse and rat curated from Bgee.
+Now we will use the converted IDs with `getGEx` to obtain heart and kidney gene expression data for human, mouse and rat curated from Bgee.
 
 ```{r use2_1,  message=FALSE, warning=FALSE}
 CoSIAn_Obj_gex <- CoSIA::getGEx(CoSIAn_Obj_convert)
@@ -188,39 +158,23 @@ CoSIAn_Obj_gex <- CoSIA::getGEx(CoSIAn_Obj_convert)
 str(CoSIAn_Obj_gex)
 ```
 
-These data can be visualized with `plotSpeciesGEx` to plot expression of a 
-single gene in a single tissue across species or `plotTissueGEx` to plot 
-expression of a single gene in a single species across tissues.
+These data can be visualized with `plotSpeciesGEx` to plot expression of a single gene in a single tissue across species or `plotTissueGEx` to plot expression of a single gene in a single species across tissues.
 
-Here we are plotting gene expression for the [GATM](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4175) 
-gene in kidney tissue for human, mouse, and rat.
+Here we are plotting gene expression for the [GATM](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4175) gene in kidney tissue for human, mouse, and rat.
 
 ```{r plotSpeciesGEx, fig.small=TRUE, fig.cap = "Gene Expression of GATM in Kidney Across Species", message=FALSE, warning=FALSE}
-CoSIAn_Obj_gexplot <- CoSIA::plotSpeciesGEx(
-    CoSIAn_Obj_gex,
-    "adult mammalian kidney",
-    "ENSG00000171766"
-)
+CoSIAn_Obj_gexplot <- CoSIA::plotSpeciesGEx(CoSIAn_Obj_gex, "adult mammalian kidney", "ENSG00000171766")
 
 CoSIAn_Obj_gexplot
 ```
 
-CoSIA produces an interactive plot of expression values for GATM in kidney for 
-human mouse and rat. Hovering over the plot displays sample-specific VST read 
-count values. *NOTE:* Expression values are not meant to be compared across 
-species in this plot. The next two use cases demonstrate appropriate methods 
-for comparing gene expression patterns across species.
+CoSIA produces an interactive plot of expression values for GATM in kidney for human mouse and rat. Hovering over the plot displays sample-specific VST read count values. *NOTE:* Expression values are not meant to be compared across species in this plot. The next two use cases demonstrate appropriate methods for comparing gene expression patterns across species.
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ### Use Case #3: Gene expression variability across species for kidney tissue by calculating and visualizing median-based Coefficient of Variation (CV)
 
-Calculating and visualizing median-based coefficient of variation allows for a 
-relative comparison of gene expression variability between species. In CoSIA, 
-CV is calculated as the standard deviation over the median using VST read count 
-values. In the section \@ref(initiating-a-cosian-object), we set `metric_type= 
-"CV_Species"` to calculate CV for the monogenic kidney gene set across human, 
-mouse and rat.
+Calculating and visualizing median-based coefficient of variation allows for a relative comparison of gene expression variability between species. In CoSIA, CV is calculated as the standard deviation over the median using VST read count values. In the section \@ref(initiating-a-cosian-object), we set `metric_type= "CV_Species"` to calculate CV for the monogenic kidney gene set across human, mouse and rat.
 
 ```{r plotCVGEx, dpi=200, fig.height=15, fig.width=8, fig.cap = "Gene Expression Variability Across Species in Kidney Tissue", fig.wide=TRUE, message=FALSE, warning=FALSE}
 # downsampling data for figure
@@ -259,25 +213,15 @@ CoSIAn_Obj_CVplot <- CoSIA::plotCVGEx(CoSIAn_Obj_CV)
 CoSIAn_Obj_CVplot
 ```
 
-Here we see relatively high variability in gene expression of multiple genes in 
-mouse relative to rat and human.`metric_type= "CV_Tissue"` displays the 
-variability of gene expression for the monogenic gene set across selected, 
-shared tissues.
+Here we see relatively high variability in gene expression of multiple genes in mouse relative to rat and human.`metric_type= "CV_Tissue"` displays the variability of gene expression for the monogenic gene set across selected, shared tissues.
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
-### Use Case #4: Gene expression diversity and specificity across tissues and                         species for monogenic kidney-disease associated genes
+### Use Case #4: Gene expression diversity and specificity across tissues and species for monogenic kidney-disease associated genes
 
-Diversity and specificity metrics are also suitable for comparing gene 
-expression patterns across species. In CoSIA, diversity and specificity 
-(based on Shannon's entropy) are calculated using min-max scaled median VST 
-values generated each gene in a tissue- and species-specific manner. Values 
-are used to calculate diversity and specificity as in [Martínez & Reyes-Valdés, 2008](https://www.pnas.org/doi/10.1073/pnas.0803479105).
+Diversity and specificity metrics are also suitable for comparing gene expression patterns across species. In CoSIA, diversity and specificity (based on Shannon's entropy) are calculated using min-max scaled median VST values generated each gene in a tissue- and species-specific manner. Values are used to calculate diversity and specificity as in [Martínez & Reyes-Valdés, 2008](https://www.pnas.org/doi/10.1073/pnas.0803479105).
 
-In the final use case, we are calculating and visualizing diversity and 
-specificity for kidney and heart tissue across the monogenic kidney gene set by
-setting `metric_type= "DS_Tissue"`. There are additional metric_types for the 
-CoSIAn objects, view \@ref(tab:Table2)
+In the final use case, we are calculating and visualizing diversity and specificity for kidney and heart tissue across the monogenic kidney gene set by setting `metric_type= "DS_Tissue"`. There are additional metric_types for the CoSIAn objects, view \@ref(tab:Table2)
 
 ```{r use4, message=FALSE, warning=FALSE}
 CoSIAn_Obj_DS <- CoSIA::CoSIAn(
@@ -301,10 +245,7 @@ CoSIAn_Obj_DSplot <- CoSIA::plotDSGEx(CoSIAn_Obj_DS)
 
 CoSIAn_Obj_DSplot
 ```
-There is low specificity in kidney tissue, indicating there are more genes from 
-the set that are expressed in kidney. We see higher specificity in heart tissue,
-indicating that there are fewer genes from the set that are expressed in heart. 
-This pattern is seen for all three species. 
+There is low specificity in kidney tissue, indicating there are more genes from the set that are expressed in kidney. We see higher specificity in heart tissue, indicating that there are fewer genes from the set that are expressed in heart. This pattern is seen for all three species. 
 
 +---------------+---------------------------------------------------------------------------------------------------------------+
 | Metric Type   | Function                                                                                                      |
