@@ -19,8 +19,8 @@ author:
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+    collapse = TRUE,
+    comment = "#>"
 )
 ```
 
@@ -102,27 +102,27 @@ CoSIA::getTissues(c("h_sapiens", "m_musculus", "r_norvegicus"))
 
 ```{r CoSIAnObj}
 CoSIAn_Obj <- CoSIA::CoSIAn(
-  gene_set = unique(monogenic_kidney_genes$Gene),
-  i_species = "h_sapiens",
-  o_species = c(
-    "h_sapiens",
-    "m_musculus",
-    "r_norvegicus"
-  ),
-  input_id = "Symbol",
-  output_ids = "Ensembl_id",
-  map_species = c(
-    "h_sapiens",
-    "m_musculus",
-    "r_norvegicus"
-  ),
-  map_tissues = c(
-    "adult mammalian kidney",
-    "heart"
-  ),
-  mapping_tool = "annotationDBI",
-  ortholog_database = "HomoloGene",
-  metric_type = "CV_Species"
+    gene_set = unique(monogenic_kidney_genes$Gene),
+    i_species = "h_sapiens",
+    o_species = c(
+        "h_sapiens",
+        "m_musculus",
+        "r_norvegicus"
+    ),
+    input_id = "Symbol",
+    output_ids = "Ensembl_id",
+    map_species = c(
+        "h_sapiens",
+        "m_musculus",
+        "r_norvegicus"
+    ),
+    map_tissues = c(
+        "adult mammalian kidney",
+        "heart"
+    ),
+    mapping_tool = "annotationDBI",
+    ortholog_database = "HomoloGene",
+    metric_type = "CV_Species"
 )
 
 str(CoSIAn_Obj)
@@ -181,27 +181,27 @@ Calculating and visualizing median-based coefficient of variation allows for a r
 monogenic_kid_sample <- dplyr::sample_n(monogenic_kidney_genes, 50)
 
 CoSIAn_Obj_CV <- CoSIA::CoSIAn(
-  gene_set = unique(monogenic_kid_sample$Gene),
-  i_species = "h_sapiens",
-  o_species = c(
-    "h_sapiens",
-    "m_musculus",
-    "r_norvegicus"
-  ),
-  input_id = "Symbol",
-  output_ids = "Ensembl_id",
-  map_species = c(
-    "h_sapiens",
-    "m_musculus",
-    "r_norvegicus"
-  ),
-  map_tissues = c(
-    "adult mammalian kidney",
-    "heart"
-  ),
-  mapping_tool = "annotationDBI",
-  ortholog_database = "HomoloGene",
-  metric_type = "CV_Species"
+    gene_set = unique(monogenic_kid_sample$Gene),
+    i_species = "h_sapiens",
+    o_species = c(
+        "h_sapiens",
+        "m_musculus",
+        "r_norvegicus"
+    ),
+    input_id = "Symbol",
+    output_ids = "Ensembl_id",
+    map_species = c(
+        "h_sapiens",
+        "m_musculus",
+        "r_norvegicus"
+    ),
+    map_tissues = c(
+        "adult mammalian kidney",
+        "heart"
+    ),
+    mapping_tool = "annotationDBI",
+    ortholog_database = "HomoloGene",
+    metric_type = "CV_Species"
 )
 
 CoSIAn_Obj_CV <- CoSIA::getConversion(CoSIAn_Obj_CV)
@@ -225,16 +225,16 @@ In the final use case, we are calculating and visualizing diversity and specific
 
 ```{r use4, message=FALSE, warning=FALSE}
 CoSIAn_Obj_DS <- CoSIA::CoSIAn(
-  gene_set = unique(monogenic_kidney_genes$Gene),
-  i_species = "h_sapiens",
-  o_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
-  input_id = "Symbol",
-  output_ids = "Ensembl_id",
-  map_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
-  map_tissues = c("adult mammalian kidney", "heart"),
-  mapping_tool = "annotationDBI",
-  ortholog_database = "HomoloGene",
-  metric_type = "DS_Tissue"
+    gene_set = unique(monogenic_kidney_genes$Gene),
+    i_species = "h_sapiens",
+    o_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
+    input_id = "Symbol",
+    output_ids = "Ensembl_id",
+    map_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
+    map_tissues = c("adult mammalian kidney", "heart"),
+    mapping_tool = "annotationDBI",
+    ortholog_database = "HomoloGene",
+    metric_type = "DS_Tissue"
 )
 
 CoSIAn_Obj_DS <- CoSIA::getConversion(CoSIAn_Obj_DS)
