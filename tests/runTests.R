@@ -1,7 +1,0 @@
-library(testthat)
-library(CoSIA)
-source("../R/CoSIA-getConversion.R")
-source("../R/CoSIA-getGEx.R")
-source("../R/CoSIA-class.R")
-source("unitTests/test_CoSIA-getConversion.R")
-source("unitTests/test_CoSIA-getGEx.R")
