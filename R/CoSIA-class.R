@@ -25,6 +25,7 @@ setClass("CoSIA", representation("VIRTUAL")) # virtual class
 #' @slot metric data frame. Output of coefficient of variation of gene
 #' expression data.
 #' @exportClass CoSIAn
+#' @import methods
 #' @return CoSIAn object
 
 setClass("CoSIAn", contains = "CoSIA", slots = c(
