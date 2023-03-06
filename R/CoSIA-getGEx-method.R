@@ -5,6 +5,7 @@
 #' @return initializes a generic function for getGEx as preparation for
 #' defining the getGEx Method
 #' @export
+#' @import ExperimentHub
 #' @examples
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
