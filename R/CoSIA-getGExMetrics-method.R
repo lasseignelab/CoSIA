@@ -342,6 +342,10 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
 
     # DS_Tissue: output is tissues restricted to mapped tissues and gene set
     DS_Tissue <- function(map_species, map_tissues) {
+        gene_set<- object@gene_set
+        if (length(gene_set)<2){
+          stop("DS_Tissue requires more than one gene.")
+        }
         DS <- data.frame(matrix(ncol = 4, nrow = 0))
         colnames(DS)[which(names(DS) ==
             "map_tissues")] <- "Anatomical_entity_name"
