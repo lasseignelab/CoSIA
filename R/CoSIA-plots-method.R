@@ -114,8 +114,7 @@ setMethod(
                 xaxis = list(title = "Species", size = 2),
                 yaxis = list(
                     title =
-                        "VST (Variance Stabilized
-                    Transformation of Read Counts)",
+                        "VST of Read Counts",
                     zeroline = FALSE
                 ), title = stringr::str_wrap(paste("Gene Expression
                                                    of the gene",
@@ -258,8 +257,7 @@ setMethod(
             plotly::layout(
                 xaxis = list(title = "Anatomical Entity Name", size = 2),
                 yaxis = list(
-                    title = "VST (Variance Stabilized Transformation of Read
-                    Counts)",
+                    title = "VST of Read Counts",
                     zeroline = FALSE
                 ), title = stringr::str_wrap(paste("Gene Expression of the
                                                    gene",
