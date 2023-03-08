@@ -60,7 +60,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
                 d_rerio = "d_rerio_ensembl_id",
                 d_melanogaster = "d_melanogaster_ensembl_id",
                 c_elegans = "c_elegans_ensembl_id",
-                stop("Error: Invalid map_species in CoSIAn Object. Make sure the
+                stop("Invalid map_species in CoSIAn Object. Make sure the
             species in the map_species slot are an avalible model organism and
             are in the correct format.")
             )
@@ -95,7 +95,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
                 d_rerio_ensembl_id = "Danio_rerio",
                 d_melanogaster_ensembl_id = "Drosophila_melanogaster",
                 c_elegans_ensembl_id = "Caenorhabditis_elegans",
-                stop("Error: Invalid map_species in CoSIAn Object. Make sure the
+                stop("Invalid map_species in CoSIAn Object. Make sure the
             species in the map_species slot are an avalible model organism and
                  are in the correct format.")
             )
@@ -137,7 +137,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
             merged_CoSIAdata <- rbind(merged_CoSIAdata, dm_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else {
-            stop("Error: map_species in CoSIAn Object. Make sure the species in
+            stop("map_species in CoSIAn Object. Make sure the species in
             the map_species slot are avalible organisms through CoSIA and are in
             the correct format.")
         }
@@ -580,7 +580,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         DS_Tissue_all <- DS_Tissue_all(map_species, map_tissues)
         object@metric <- DS_Tissue_all
     } else {
-        (stop("Error: invalid metric type"))
+        (stop("Invalid metric type"))
     }
 
     return(object)
