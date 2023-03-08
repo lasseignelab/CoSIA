@@ -48,7 +48,7 @@ getTissues <- function(species) {
             merged_CoSIAdata <- rbind(merged_CoSIAdata, dm_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else {
-            stop("Error: species in CoSIAn Object. Make sure the species in the
+            stop("Issue with species in CoSIAn Object. Make sure the species in the
           species argument are avalible organisms through CoSIA and are in the
           correct format.")
         }

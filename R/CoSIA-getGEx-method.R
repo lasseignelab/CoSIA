@@ -61,7 +61,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
                 d_rerio = "d_rerio_ensembl_id",
                 d_melanogaster = "d_melanogaster_ensembl_id",
                 c_elegans = "c_elegans_ensembl_id",
-                stop("Error: Invalid map_species in CoSIAn Object.
+                stop("Invalid map_species in CoSIAn Object.
                Make sure the species in the map_species slot are an avalible
                model organism and are in the correct format.")
             )
@@ -135,7 +135,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else {
-            stop("Error: map_species in CoSIAn Object.
+            stop("map_species in CoSIAn Object.
             Make sure the species in the map_species slot are avalible model
             organisms and are in the correct format.")
         }

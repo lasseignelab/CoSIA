@@ -205,7 +205,7 @@ setMethod(
                     d_rerio = "Danio_rerio",
                     d_melanogaster = "Drosophila_melanogaster",
                     c_elegans = "Caenorhabditis_elegans",
-                    stop("Error: Invalid map_species in CoSIAn Object.
+                    stop("Invalid map_species in CoSIAn Object.
             Make sure the species in the map_species slot are an avalible model
             organism and are in the correct format.")
                 )
@@ -393,7 +393,7 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
             \nAcross all Tissues in a Species") +
             ggplot2::theme_classic()
     } else {
-        stop("Error: Invalid metric type for plotDS make sure you have a DS
+        stop("Invalid metric type for plotDS make sure you have a DS
              argument as the metric type and the values are saved in the metric
              slot before proceeding. ")
     }
@@ -577,7 +577,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
             metric = "CV_Tissue", map_tissues = map_tissues
         )
     } else {
-        stop("Error: Invalid metric type for plotCV make sure you have a CV
+        stop("Invalid metric type for plotCV make sure you have a CV
              argument as the metric type and the values are saved in the metric
              slot before proceeding. ")
     }
