@@ -517,7 +517,7 @@ setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
         graphics::legend("topright",
             legend = colnames(df_subset), col = col, pch = 19, bty = "n",
             pt.cex = 1, cex = 1, text.col = "black",
-            horiz = FALSE, inset = c(-0.1, -0.04)
+            horiz = FALSE, inset = c(0, 0)
         )
     }
 
