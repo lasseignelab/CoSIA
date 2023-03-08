@@ -191,7 +191,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
                     species_data <- dplyr::full_join(species_data, dm_data)
                 }
             },
-            stop("Error: Invalid i_species in CoSIAn Object.
+            stop("Invalid i_species in CoSIAn Object.
             Make sure the species in the i_species slot is an avalible model
             organism and is in the correct format.")
         )
@@ -250,7 +250,7 @@ c_elegans <- function(input_id, input_dataset, output_ids, output_species, tool,
                     ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
@@ -306,13 +306,13 @@ c_elegans <- function(input_id, input_dataset, output_ids, output_species, tool,
                     org.Dm.eg.db::org.Dm.eg.db, ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
     } else {
         # Code follows this path if the tool does not match possible options
-        stop("Error: Invalid tool in CoSIAn Object.
+        stop("Invalid tool in CoSIAn Object.
              Make sure the tool is either annotationDBI or biomaRt.")
     }
 }
@@ -366,7 +366,7 @@ d_melanogaster <- function(input_id, input_dataset, output_ids, output_species,
                     ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
@@ -422,14 +422,14 @@ d_melanogaster <- function(input_id, input_dataset, output_ids, output_species,
                     org.Dm.eg.db::org.Dm.eg.db, ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
     }
     # Code follows this path if the tool does not match possible options
     else {
-        stop("Error: Invalid tool in CoSIAn Object.
+        stop("Invalid tool in CoSIAn Object.
              Make sure the tool is either annotationDBI or biomaRt.")
     }
 }
@@ -482,7 +482,7 @@ d_rerio <- function(input_id, input_dataset, output_ids, output_species, tool,
                     ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
@@ -538,14 +538,14 @@ d_rerio <- function(input_id, input_dataset, output_ids, output_species, tool,
                     org.Rn.eg.db::org.Rn.eg.db, ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
     }
     # Code follows this path if the tool does not match possible options
     else {
-        stop("Error: Invalid tool in CoSIAn Object.
+        stop("Invalid tool in CoSIAn Object.
              Make sure the tool is either annotationDBI or biomaRt.")
     }
 }
@@ -599,7 +599,7 @@ h_sapiens <- function(input_id, input_dataset, output_ids, output_species, tool,
                     ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
@@ -656,7 +656,7 @@ h_sapiens <- function(input_id, input_dataset, output_ids, output_species, tool,
                     org.Rn.eg.db::org.Rn.eg.db, ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
@@ -664,7 +664,7 @@ h_sapiens <- function(input_id, input_dataset, output_ids, output_species, tool,
     }
     # code follows this path if the tool does not match.
     else {
-        stop("Error: Invalid tool in CoSIAn Object.
+        stop("Invalid tool in CoSIAn Object.
              Make sure the tool is either annotationDBI or biomaRt.")
     }
 }
@@ -717,7 +717,7 @@ m_musculus <- function(input_id, input_dataset, output_ids, output_species,
                     ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
                  organism and is in the correct format.")
         )
@@ -773,14 +773,14 @@ m_musculus <- function(input_id, input_dataset, output_ids, output_species,
                     org.Rn.eg.db::org.Rn.eg.db, ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
     }
     # code follows this path if the tool does not match.
     else {
-        stop("Error: Invalid tool in CoSIAn Object.
+        stop("Invalid tool in CoSIAn Object.
              Make sure the tool is either annotationDBI or biomaRt.")
     }
 }
@@ -833,7 +833,7 @@ r_norvegicus <- function(input_id, input_dataset, output_ids, output_species,
                     "rnorvegicus_gene_ensembl", ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
@@ -889,14 +889,14 @@ r_norvegicus <- function(input_id, input_dataset, output_ids, output_species,
                     org.Rn.eg.db::org.Rn.eg.db, ortholog_database
                 )
             },
-            stop("Error: Invalid o_species in CoSIAn Object.
+            stop("Invalid o_species in CoSIAn Object.
             Make sure the species in the o_species slot is an avalible model
             organism and is in the correct format.")
         )
     }
     # code follows this path if the tool that does not match.
     else {
-        stop("Error: Invalid tool in CoSIAn Object.
+        stop("Invalid tool in CoSIAn Object.
              Make sure the tool is either annotationDBI or biomaRt.")
     }
 }
@@ -914,7 +914,7 @@ annotationDBI <- function(input_id, input_dataset, output_ids, input_species,
             Entrez_id = "ENTREZID",
             Ensembl_id = "ENSEMBL",
             Symbol = "SYMBOL",
-            stop("Error: Invalid input_id or output_ids. The acceptable ids for
+            stop("Invalid input_id or output_ids. The acceptable ids for
                  annotationDBI are Entrez_id, Ensembl_id, Ensembl_id_version,
                  Symbol, and Gene_name.")
         )
@@ -1053,7 +1053,7 @@ biomaRt <- function(input_id, input_dataset, output_ids, input_species,
             Entrez_id = "entrezgene_id",
             Ensembl_id = "ensembl_gene_id",
             Symbol = "external_gene_name",
-            stop("Error: Invalid input_id or output_ids.
+            stop("Invalid input_id or output_ids.
                  The acceptable ids for biomaRt is Entrez_id,
                  Ensembl_id, and Symbol")
         )
@@ -1331,6 +1331,6 @@ remove_version_numbers <- function(input_dataset, species) {
         input_dataset <- data.frame(input_dataset)
         return(input_dataset$input)
     } else {
-        stop("Error. Invalid species. Make sure it matches the proper format.")
+        stop("Invalid species. Make sure it matches the proper format.")
     }
 }
