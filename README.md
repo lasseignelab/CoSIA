@@ -30,8 +30,8 @@ library(CoSIA)
 
 ### Using CoSIA
 
-(add link to Vignette for users to be able to get more information on 
-running CoSIA)
+Check out the vignette for more information on how to use CoSIA and its 
+functionality.
 
 ## Authors
 
@@ -49,12 +49,12 @@ running CoSIA)
 
 ## Funding
 
-This work was supported in part by the UAB Lasseigne Lab Start-Up funds 
-(BNL, AH, ND, ADC and VHO), the UAB Pilot Center for Precision Animal Modeling 
-(C-PAM) (1U54OD030167) (BNL and VHO), UAB Pilot Center for Precision Animal 
-Modeling (C-PAM) - Diversity Supplement (3U54OD030167-03S1) (ADC), and 
-Mentored Experiences in Research, Instruction, and Teaching (MERIT) 
-Program (K12 GM088010) (ADC).
+This work was supported in part by the UAB Lasseigne Lab Start-Up funds (BNL, 
+AH, ND, ADC and VHO), the UAB Pilot Center for Precision Animal Modeling (C-PAM)
+(1U54OD030167) (BNL and VHO), UAB Pilot Center for Precision Animal Modeling 
+(C-PAM) - Diversity Supplement (3U54OD030167-03S1) (ADC), and Mentored 
+Experiences in Research, Instruction, and Teaching (MERIT) Program 
+(K12 GM088010) (ADC).
 
 ## Acknowledgements
 
