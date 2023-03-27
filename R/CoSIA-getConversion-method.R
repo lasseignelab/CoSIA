@@ -197,7 +197,7 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
         )
     }
     converted_id <- data.frame(unique(species_data))
-    rownames(converted_id) = seq(length=nrow(converted_id))
+    rownames(converted_id) <- seq(length=nrow(converted_id))
     object@converted_id<-converted_id
     return(object)
 })
