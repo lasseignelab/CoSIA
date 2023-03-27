@@ -26,3 +26,5 @@
 .Renviron
 .DS_Store
 CoSIA.Rproj
+/doc/
+/Meta/
