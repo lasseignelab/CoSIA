@@ -8,7 +8,7 @@
 CoSIAn object
 }
 \description{
-This Class is used to specify the information needed to conduct 
+This Class is used to specify the information needed to conduct
 analysis using CoSIA's other methods. An object of this class will pass as an
 argument to other methods in CoSIA
 }
@@ -21,16 +21,16 @@ argument to other methods in CoSIA
 
 \item{\code{input_id}}{character. The type of id corresponding to gene_set.}
 
-\item{\code{o_species}}{character. The singular or list of species that the gene set 
+\item{\code{o_species}}{character. The singular or list of species that the gene set
 is being converted to.}
 
-\item{\code{output_ids}}{character. The singular or list of id types that the gene 
+\item{\code{output_ids}}{character. The singular or list of id types that the gene
 set is being converted to.}
 
-\item{\code{mapping_tool}}{character. The mapping tool, BiomaRt or annotationDBI, 
+\item{\code{mapping_tool}}{character. The mapping tool, BiomaRt or annotationDBI,
 being used to map the conversion between IDs.}
 
-\item{\code{ortholog_database}}{character. The ortholog database, HomoloGene or 
+\item{\code{ortholog_database}}{character. The ortholog database, HomoloGene or
 NCBIOrtho, being used to map the conversion between species.}
 
 \item{\code{converted_id}}{data frame. Output of getConversion.}
@@ -41,10 +41,10 @@ NCBIOrtho, being used to map the conversion between species.}
 
 \item{\code{gex}}{data frame. Output of gene expression data.}
 
-\item{\code{metric_type}}{character. A list of possible metric the user wants to 
+\item{\code{metric_type}}{character. A list of possible metric the user wants to
 calculate.}
 
-\item{\code{metric}}{data frame. Output of coefficient of variation of gene 
+\item{\code{metric}}{data frame. Output of coefficient of variation of gene
 expression data.}
 }}
 
