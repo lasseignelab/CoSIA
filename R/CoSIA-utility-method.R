@@ -48,7 +48,7 @@ getTissues <- function(species) {
             merged_CoSIAdata <- rbind(merged_CoSIAdata, dm_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else {
-            stop("Error: species in CoSIAn Object. Make sure the species in the
+            stop("Issue with species in CoSIAn Object. Make sure the species in the
           species argument are avalible organisms through CoSIA and are in the
           correct format.")
         }
@@ -69,6 +69,7 @@ getTissues <- function(species) {
     frequency_value <- length(species)
     common_tissue <- dplyr::filter(L, Frequency == frequency_value)
     common_tissue <- subset(common_tissue, select = -c(Frequency))
-    colnames(common_tissue)[which(names(common_tissue) == "Anatomical_entity_name")] <- "Common_Anatomical_Entity_Name"
+    colnames(common_tissue)[which(names(common_tissue) ==
+        "Anatomical_entity_name")] <- "Common_Anatomical_Entity_Name"
     return(common_tissue)
 }
