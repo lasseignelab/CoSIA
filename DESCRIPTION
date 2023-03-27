@@ -37,7 +37,9 @@ Description:
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
-  R (>= 4.3.0)
+  R (>= 4.3.0),
+  methods (>= 4.3.0),
+  ExperimentHub (>= 2.7.0)
 Imports:
   dplyr (>= 1.0.7),
   magrittr (>= 2.0.1),
@@ -59,9 +61,7 @@ Imports:
   annotationTools (>= 1.64.0),
   readr (>= 2.1.1),
   tidyselect (>= 1.1.2),
-  stats (>= 4.1.2),
-  ExperimentHub (>= 2.7.0),
-  methods (>= 4.3.0)
+  stats (>= 4.1.2)
 RoxygenNote: 7.2.3
 Suggests:
     BiocStyle (>= 2.22.0),
