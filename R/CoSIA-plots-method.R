@@ -446,12 +446,15 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_metric <- getGExMetrics(Kidney_gene_conversion)
 #' plotCVGEx(Kidney_gene_metric)
+#' @references Dot plot in R with the dotchart function [with examples]. 
+#' R CODER. (2020, November 20). Retrieved from https://r-coder.com/dot-plot-r/ 
 setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
     # set object slots into variables
     metric_type <- object@metric_type
     df_metric <- object@metric
 
     # Dumbbell Plot Function Plot:
+    # Adapted from R CODER
     dumbbell <- function(df, segments = TRUE, text = FALSE, pch = 19,
                          pt.cex = 1, segcol = 1, lwd = 1,
                          main = "", metric = "",
