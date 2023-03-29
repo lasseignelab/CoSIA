@@ -45,6 +45,12 @@ setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_metric <- getGExMetrics(Kidney_gene_conversion)
+#' @references Kohl M (2022). MKdescr: Descriptive Statistics. R package version 
+#' 0.8, https://github.com/stamats/MKdescr.
+#' @references Zhang JD, Hatje K, Sturm G, Broger C, Ebeling M, Burtin M, Terzi 
+#' F, Pomposiello SI, Badi L (2017). “Detect tissue heterogeneity in gene 
+#' expression data with BioQC.” BMC Genomics, 18(1), 277. 
+#' http://accio.github.io/BioQC/.
 setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     id_dataframe <- object@converted_id
     id_dataframe <- as.data.frame(id_dataframe)
@@ -147,7 +153,8 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     merged_CoSIAdata <- lapply(map_species, CoSIAdata_load)
     filter_species <- as.data.frame(do.call(rbind, merged_CoSIAdata))
     rm(merged_CoSIAdata)
-
+    
+    #Adapted from the Mkdescr package under the license (LGPL-3)
     CV_function <- function(x, na.rm = FALSE) {
         stopifnot(is.numeric(x))
         if (na.rm) {
@@ -159,7 +166,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         stats::sd(x, na.rm = FALSE) / stats::median(x)
     }
 
-    # Code adapted from BioQC
+    # Adapted from BioQC packages under the license (GPL)
     DS_function <- function(type, mat) {
         Shannon_Entropy <- function(x) ifelse(x == 0, 0, x * log2(x))
         Diversity <- function(x) {
