@@ -56,16 +56,16 @@ getTissues <- function(species) {
     }
 
     merged_CoSIAdata <- lapply(species, CoSIAdata_load)
-    Experimental_Hub_File <- as.data.frame(do.call(rbind, merged_CoSIAdata))
+    merged_CoSIAdata <- as.data.frame(do.call(rbind, merged_CoSIAdata))
 
-    List_of_Tissues <- Experimental_Hub_File %>%
+    List_of_Tissues <- merged_CoSIAdata %>%
         dplyr::group_by(Anatomical_entity_name) %>%
-        dplyr::summarise(
+        dplyr::reframe(
             Anatomical_entity_ID = unique(Anatomical_entity_ID),
             Species = unique(Species)
         )
     L <- List_of_Tissues %>%
-        dplyr::summarise(Frequency = table(Anatomical_entity_name))
+        dplyr::reframe(Anatomical_entity_name = Anatomical_entity_name,Frequency = table(Anatomical_entity_name))
     frequency_value <- length(species)
     common_tissue <- dplyr::filter(L, Frequency == frequency_value)
     common_tissue <- subset(common_tissue, select = -c(Frequency))
