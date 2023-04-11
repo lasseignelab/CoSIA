@@ -30,3 +30,12 @@ Kidney_Genes <- CoSIAn(
 Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 Kidney_gene_metric <- getGExMetrics(Kidney_gene_conversion)
 }
+\references{
+Kohl M (2022). MKdescr: Descriptive Statistics. R package version 
+0.8, https://github.com/stamats/MKdescr.
+
+Zhang JD, Hatje K, Sturm G, Broger C, Ebeling M, Burtin M, Terzi 
+F, Pomposiello SI, Badi L (2017). “Detect tissue heterogeneity in gene 
+expression data with BioQC.” BMC Genomics, 18(1), 277. 
+http://accio.github.io/BioQC/.
+}
