@@ -1,7 +1,7 @@
 Package: CoSIA
 Type: Package
 Title: An Investigation Across Different Species and Tissues
-Version: 0.99.0
+Version: 0.99.1
 Authors@R:
   c(person(given = "Anisha",
            family = "Haldar",
