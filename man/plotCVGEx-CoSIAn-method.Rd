@@ -31,3 +31,7 @@ Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 Kidney_gene_metric <- getGExMetrics(Kidney_gene_conversion)
 plotCVGEx(Kidney_gene_metric)
 }
+\references{
+Dot plot in R with the dotchart function [with examples]. 
+R CODER. (2020, November 20). Retrieved from https://r-coder.com/dot-plot-r/
+}
