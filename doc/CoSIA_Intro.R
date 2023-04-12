@@ -5,6 +5,12 @@ knitr::opts_chunk$set(
 )
 
 ## ---- eval=FALSE--------------------------------------------------------------
+#  if (!require("BiocManager", quietly = TRUE))
+#      install.packages("BiocManager")
+#  
+#  BiocManager::install("CoSIA")
+#  
+#  
 #  library(devtools)
 #  install_github("lasseignelab/CoSIA", ref = "main", auth_token = "<PAT>")
 
@@ -56,9 +62,9 @@ CoSIAn_Obj_gex <- CoSIA::getGEx(CoSIAn_Obj_convert)
 str(CoSIAn_Obj_gex)
 
 ## ----plotSpeciesGEx, fig.small=TRUE, fig.cap = "Gene Expression of GATM in Kidney Across Species", message=FALSE, warning=FALSE----
-#CoSIAn_Obj_gexplot <- CoSIA::plotSpeciesGEx(CoSIAn_Obj_gex, "adult mammalian kidney", "ENSG00000171766")
+CoSIAn_Obj_gexplot <- CoSIA::plotSpeciesGEx(CoSIAn_Obj_gex, "adult mammalian kidney", "ENSG00000171766")
 
-#CoSIAn_Obj_gexplot
+CoSIAn_Obj_gexplot
 
 ## ----plotCVGEx, dpi=200, fig.height=15, fig.width=8, fig.cap = "Gene Expression Variability Across Species in Kidney Tissue", fig.wide=TRUE, message=FALSE, warning=FALSE----
 # downsampling data for figure
