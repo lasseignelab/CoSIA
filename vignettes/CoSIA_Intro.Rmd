@@ -63,8 +63,8 @@ install_github("lasseignelab/CoSIA", ref = "main", auth_token = "<PAT>")
 
 ```{r setup, warning=FALSE, message=FALSE}
 library(CoSIA)
-load(here::here("inst", "extdata",
-"proccessed", "monogenic_kidney_genes.rda"))
+load("../inst/extdata/proccessed/monogenic_kidney_genes.rda")
+```
 ```
 
 ### Arguments and options table
