@@ -47,6 +47,12 @@ CoSIA is split into 3 methods that provide various resources in order for resear
 In R:
 
 ```{r, eval=FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("CoSIA")
+
+
 library(devtools)
 install_github("lasseignelab/CoSIA", ref = "main", auth_token = "<PAT>")
 ```
@@ -57,7 +63,8 @@ install_github("lasseignelab/CoSIA", ref = "main", auth_token = "<PAT>")
 
 ```{r setup, warning=FALSE, message=FALSE}
 library(CoSIA)
-load("../inst/extdata/proccessed/monogenic_kidney_genes.rda")
+load(here::here("inst", "extdata",
+"proccessed", "monogenic_kidney_genes.rda"))
 ```
 
 ### Arguments and options table
