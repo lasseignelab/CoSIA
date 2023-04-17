@@ -51,10 +51,6 @@ if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
 BiocManager::install("CoSIA")
-
-
-library(devtools)
-install_github("lasseignelab/CoSIA", ref = "main", auth_token = "<PAT>")
 ```
 
 ## Generating a CoSIAn object
@@ -64,7 +60,12 @@ install_github("lasseignelab/CoSIA", ref = "main", auth_token = "<PAT>")
 ```{r setup, warning=FALSE, message=FALSE}
 library(CoSIA)
 load("../inst/extdata/proccessed/monogenic_kidney_genes.rda")
-```
+
+
+# downsampling data for figure
+set.seed(42)
+monogenic_kid_sample <- dplyr::sample_n(monogenic_kidney_genes, 50)
+
 ```
 
 ### Arguments and options table
@@ -93,7 +94,7 @@ load("../inst/extdata/proccessed/monogenic_kidney_genes.rda")
 
 The function `getTissues` retrieves tissues available for a single species:
 
-```{r getTissues_1, warning=FALSE, message=FALSE}
+```{r getTissues_1, warning=FALSE, message=FALSE, eval=FALSE}
 CoSIA::getTissues("d_rerio")
 ```
 
@@ -109,7 +110,7 @@ CoSIA::getTissues(c("h_sapiens", "m_musculus", "r_norvegicus"))
 
 ```{r CoSIAnObj}
 CoSIAn_Obj <- CoSIA::CoSIAn(
-    gene_set = unique(monogenic_kidney_genes$Gene),
+    gene_set = unique(monogenic_kid_sample$Gene),
     i_species = "h_sapiens",
     o_species = c(
         "h_sapiens",
@@ -150,7 +151,7 @@ CoSIA can convert input ids to any of the types listed in Table \@ref(tab:Table1
 ```{r use1,  message=FALSE, warning=FALSE}
 CoSIAn_Obj_convert <- CoSIA::getConversion(CoSIAn_Obj)
 
-str(CoSIAn_Obj_convert)
+CoSIA::viewConvertId(CoSIAn_Obj_convert)
 ```
 
 ------------------------------------------------------------------------
@@ -162,20 +163,22 @@ Now we will use the converted IDs with `getGEx` to obtain heart and kidney gene 
 ```{r use2_1,  message=FALSE, warning=FALSE}
 CoSIAn_Obj_gex <- CoSIA::getGEx(CoSIAn_Obj_convert)
 
-str(CoSIAn_Obj_gex)
+CoSIA::viewGEx(CoSIAn_Obj_gex)
 ```
 
 These data can be visualized with `plotSpeciesGEx` to plot expression of a single gene in a single tissue across species or `plotTissueGEx` to plot expression of a single gene in a single species across tissues.
 
-Here we are plotting gene expression for the [GATM](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4175) gene in kidney tissue for human, mouse, and rat.
+Here we are plotting gene expression for the [TACO1](https://www.proteinatlas.org/ENSG00000136463-TACO1) gene in kidney tissue for human, mouse, and rat.
 
-```{r plotSpeciesGEx, fig.small=TRUE, fig.cap = "Gene Expression of GATM in Kidney Across Species", message=FALSE, warning=FALSE}
-CoSIAn_Obj_gexplot <- CoSIA::plotSpeciesGEx(CoSIAn_Obj_gex, "adult mammalian kidney", "ENSG00000171766")
+```{r plotSpeciesGEx, fig.small=TRUE, fig.cap = "Gene Expression of TACO1 in Kidney Across Species", message=FALSE, warning=FALSE, eval=FALSE}
+CoSIAn_Obj_gexplot <- CoSIA::plotSpeciesGEx(CoSIAn_Obj_gex, "adult mammalian kidney", "ENSG00000136463")
 
 CoSIAn_Obj_gexplot
 ```
+<img src="../inst/images/CoSIA_vignette_gex_TACO1.png" alt="Figure 2. Gene Expression of TACO1 in Kidney Across Selected Species" width="703"/>
 
-CoSIA produces an interactive plot of expression values for GATM in kidney for human mouse and rat. Hovering over the plot displays sample-specific VST read count values. *NOTE:* Expression values are not meant to be compared across species in this plot. The next two use cases demonstrate appropriate methods for comparing gene expression patterns across species.
+CoSIA produces an interactive plot of expression values for TACO1 in kidney for human mouse and rat. Hovering over the plot displays sample-specific VST read count values. For file size compliance, we have included a static plot for this output. 
+*NOTE:* Expression values are not meant to be compared across species in this plot. The next two use cases demonstrate appropriate methods for comparing gene expression patterns across species.
 
 ------------------------------------------------------------------------
 
@@ -183,9 +186,7 @@ CoSIA produces an interactive plot of expression values for GATM in kidney for h
 
 Calculating and visualizing median-based coefficient of variation allows for a relative comparison of gene expression variability between species. In CoSIA, CV is calculated as the standard deviation over the median using VST read count values. In the section \@ref(initializing-a-cosian-object), we set `metric_type= "CV_Species"` to calculate CV for the monogenic kidney gene set across human, mouse and rat.
 
-```{r plotCVGEx, dpi=200, fig.height=15, fig.width=8, fig.cap = "Gene Expression Variability Across Species in Kidney Tissue", fig.wide=TRUE, message=FALSE, warning=FALSE}
-# downsampling data for figure
-monogenic_kid_sample <- dplyr::sample_n(monogenic_kidney_genes, 50)
+```{r plotCVGEx, dpi=200, fig.height=13, fig.width=6, fig.cap = "Gene Expression Variability Across Species in Kidney Tissue", fig.wide=TRUE, message=FALSE, warning=FALSE}
 
 CoSIAn_Obj_CV <- CoSIA::CoSIAn(
     gene_set = unique(monogenic_kid_sample$Gene),
@@ -232,7 +233,7 @@ In the final use case, we are calculating and visualizing diversity and specific
 
 ```{r use4, message=FALSE, warning=FALSE}
 CoSIAn_Obj_DS <- CoSIA::CoSIAn(
-    gene_set = unique(monogenic_kidney_genes$Gene),
+    gene_set = unique(monogenic_kid_sample$Gene),
     i_species = "h_sapiens",
     o_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
     input_id = "Symbol",
