@@ -19,9 +19,6 @@
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 setGeneric("getConversion", function(object) standardGeneric("getConversion"))
-setGeneric(
-  "viewConvertId", 
-  function(object) standardGeneric("viewConvertId"))
 ################################################################################
 #' getConversion Method
 #' @method get conversions
@@ -204,14 +201,6 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
     object@converted_id<-converted_id
     return(object)
 })
-
-#' @method view conversions
-#' @export
-setMethod(
-  "viewConvertId", 
-  signature(object = "CoSIAn"), 
-  function(object) object@converted_id)
-
 ## Species Functions
 # Caenorhabditis elegans
 # Input data funneling in from the cross species conversion function
