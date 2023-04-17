@@ -29,7 +29,5 @@ Kidney_Genes <- CoSIAn(
     map_tissues = "heart", map_species = c("m_musculus"),
     metric_type = "DS_Gene"
 )
-Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
-Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
-viewGEx(Kidney_gene_gex)
+viewGEx(Kidney_Genes)
 }
