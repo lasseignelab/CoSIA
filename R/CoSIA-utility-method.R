@@ -76,101 +76,54 @@ getTissues <- function(species) {
 
 #CoSIA Accessor Functions
 
-#' viewConvertId Generics
+#' viewCoSIAn Generics
 #'
 #' @param object CoSIAn object with all user accessible slots filled
 #'
-#' @return initializes a generic function for getConvertId as preparation for
-#' defining the getConvertId Method
+#' @return initializes a generic function for viewCoSIAn as preparation for
+#' defining the viewCoSIAn Method 
 #' @export
 #'
 #' @examples
 #' Kidney_Genes <- CoSIAn(
-#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     gene_set = c("ENSG00000008710", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id",
 #'     o_species = c(
-#'         "d_melanogaster", "m_musculus", "h_sapiens", "d_rerio",
-#'         "c_elegans", "r_norvegicus"
+#'         "d_melanogaster"
 #'     ),
 #'     output_ids = c("Ensembl_id", "Symbol"), mapping_tool = "annotationDBI",
 #'     ortholog_database = "HomoloGene", map_tissues = "heart",
-#'     map_species = c("m_musculus"), metric_type = "DS_Gene"
+#'     map_species = c("d_melanogaster"), metric_type = "DS_Gene"
 #' )
-#' viewConvertId(Kidney_Genes)
+#' viewCoSIAn(Kidney_Genes)
 setGeneric(
-  "viewConvertId", 
-  function(object) standardGeneric("viewConvertId"))
+  "viewCoSIAn", 
+  function(object, ...) standardGeneric("viewCoSIAn"))
 
-#' viewConvertId
+#' viewCoSIAn
 #'
 #' @param object CoSIAn object with all user accessible slots filled
-#' @return converted_id slot in CoSIAn Object
+#' @return slots in CoSIAn object
 #' @export
 #'
 #' @examples
 #' Kidney_Genes <- CoSIAn(
-#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     gene_set = c("ENSG00000008710", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id",
 #'     o_species = c(
-#'         "d_melanogaster", "m_musculus", "h_sapiens", "d_rerio",
-#'         "c_elegans", "r_norvegicus"
+#'         "d_melanogaster"
 #'     ),
 #'     output_ids = c("Ensembl_id", "Symbol"), mapping_tool = "annotationDBI",
 #'     ortholog_database = "HomoloGene", map_tissues = "heart",
-#'     map_species = c("m_musculus"), metric_type = "DS_Gene"
+#'     map_species = c("d_melanogaster"), metric_type = "DS_Gene"
 #' )
-#' viewConvertId(Kidney_Genes)
+#' viewCoSIAn(Kidney_Genes, converted_id)
 setMethod(
-  "viewConvertId", 
+  "viewCoSIAn", 
   signature(object = "CoSIAn"), 
-  function(object) object@converted_id)
-
-#' viewGEx Generic
-#'
-#' @param object CoSIAn object with all user accessible slots filled with
-#' converted_id slot filled
-#'
-#' @return initializes a generic function for viewGEx as preparation for
-#' defining the viewGEx Method
-#' @export
-#'
-#' @examples
-#' Kidney_Genes <- CoSIAn(
-#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
-#'     i_species = "h_sapiens", input_id = "Ensembl_id",
-#'     o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
-#'     ), output_ids = c("Ensembl_id", "Symbol"),
-#'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("m_musculus"),
-#'     metric_type = "DS_Gene"
-#' )
-#' viewGEx(Kidney_Genes)
-setGeneric(
-  "viewGEx",
-  function(object) standardGeneric("viewGEx"))
-#' viewGEx
-#'
-#' @param object CoSIAn object with all user accessible slots filled with
-#' converted_id slot filled
-#'
-#' @return gex slot in CoSIAn Object
-#' @export
-#'
-#' @examples
-#' Kidney_Genes <- CoSIAn(
-#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
-#'     i_species = "h_sapiens", input_id = "Ensembl_id",
-#'     o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
-#'     ), output_ids = c("Ensembl_id", "Symbol"),
-#'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("m_musculus"),
-#'     metric_type = "DS_Gene"
-#' )
-#' viewGEx(Kidney_Genes)
-setMethod( "viewGEx",
-           signature(object = "CoSIAn"),
-           function(object) object@gex)
+  function(object, slot_name) 
+    ifelse(slot_name == "converted_id", object@converted_id, 
+           ifelse(slot_name == "gex", object@gex, 
+                  ifelse(slot_name == "metric", object@metric, 
+                         stop("User provided slot does not exist"))))
+  )
