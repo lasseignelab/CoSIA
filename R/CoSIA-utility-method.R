@@ -79,6 +79,7 @@ getTissues <- function(species) {
 #' viewCoSIAn Generics
 #'
 #' @param object CoSIAn object with all user accessible slots filled
+#' @param slot_name name of output slots
 #'
 #' @return initializes a generic function for viewCoSIAn as preparation for
 #' defining the viewCoSIAn Method 
@@ -95,14 +96,15 @@ getTissues <- function(species) {
 #'     ortholog_database = "HomoloGene", map_tissues = "heart",
 #'     map_species = c("d_melanogaster"), metric_type = "DS_Gene"
 #' )
-#' viewCoSIAn(Kidney_Genes)
+#' viewCoSIAn(Kidney_Genes, "converted_id")
 setGeneric(
   "viewCoSIAn", 
-  function(object, ...) standardGeneric("viewCoSIAn"))
+  function(object, slot_name) standardGeneric("viewCoSIAn"))
 
 #' viewCoSIAn
 #'
 #' @param object CoSIAn object with all user accessible slots filled
+#' @param slot_name name of output slots
 #' @return slots in CoSIAn object
 #' @export
 #'
@@ -117,7 +119,7 @@ setGeneric(
 #'     ortholog_database = "HomoloGene", map_tissues = "heart",
 #'     map_species = c("d_melanogaster"), metric_type = "DS_Gene"
 #' )
-#' viewCoSIAn(Kidney_Genes, converted_id)
+#' viewCoSIAn(Kidney_Genes, "converted_id")
 setMethod(
   "viewCoSIAn", 
   signature(object = "CoSIAn"), 

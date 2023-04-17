@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{object}{CoSIAn object with all user accessible slots filled}
+
+\item{slot_name}{name of output slots}
 }
 \value{
 slots in CoSIAn object
@@ -26,5 +28,5 @@ Kidney_Genes <- CoSIAn(
     ortholog_database = "HomoloGene", map_tissues = "heart",
     map_species = c("d_melanogaster"), metric_type = "DS_Gene"
 )
-viewCoSIAn(Kidney_Genes, converted_id)
+viewCoSIAn(Kidney_Genes, "converted_id")
 }
