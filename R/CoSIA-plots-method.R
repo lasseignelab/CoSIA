@@ -24,7 +24,6 @@
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
 #' plotSpeciesGEx(Kidney_gene_gex, "liver", "ENSG00000008710")
-#' plotSpeciesGEx(Kidney_gene_gex, "brain", "ENSG00000118762")
 setGeneric(
     "plotSpeciesGEx",
     function(object,
@@ -61,7 +60,6 @@ setGeneric(
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
 #' plotSpeciesGEx(Kidney_gene_gex, "liver", "ENSG00000008710")
-#' plotSpeciesGEx(Kidney_gene_gex, "brain", "ENSG00000118762")
 setMethod(
     "plotSpeciesGEx", signature(object = "CoSIAn"),
     function(object, single_tissue, single_gene) {
@@ -152,7 +150,6 @@ setMethod(
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
-#' plotTissueGEx(Kidney_gene_gex, "h_sapiens", "ENSG00000008710")
 #' plotTissueGEx(Kidney_gene_gex, "m_musculus", "ENSG00000008710")
 setGeneric("plotTissueGEx", function(object, single_species, single_gene) {
     standardGeneric("plotTissueGEx")
@@ -185,7 +182,6 @@ setGeneric("plotTissueGEx", function(object, single_species, single_gene) {
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
-#' plotTissueGEx(Kidney_gene_gex, "h_sapiens", "ENSG00000008710")
 #' plotTissueGEx(Kidney_gene_gex, "m_musculus", "ENSG00000008710")
 setMethod(
     "plotTissueGEx", signature(object = "CoSIAn"),

@@ -35,6 +35,5 @@ Kidney_Genes <- CoSIAn(
 )
 Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
-plotTissueGEx(Kidney_gene_gex, "h_sapiens", "ENSG00000008710")
 plotTissueGEx(Kidney_gene_gex, "m_musculus", "ENSG00000008710")
 }
