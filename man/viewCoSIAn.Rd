@@ -4,10 +4,12 @@
 \alias{viewCoSIAn}
 \title{viewCoSIAn Generics}
 \usage{
-viewCoSIAn(object, ...)
+viewCoSIAn(object, slot_name)
 }
 \arguments{
 \item{object}{CoSIAn object with all user accessible slots filled}
+
+\item{slot_name}{name of output slots}
 }
 \value{
 initializes a generic function for viewCoSIAn as preparation for
@@ -27,5 +29,5 @@ Kidney_Genes <- CoSIAn(
     ortholog_database = "HomoloGene", map_tissues = "heart",
     map_species = c("d_melanogaster"), metric_type = "DS_Gene"
 )
-viewCoSIAn(Kidney_Genes)
+viewCoSIAn(Kidney_Genes, "converted_id")
 }
