@@ -151,7 +151,7 @@ CoSIA can convert input ids to any of the types listed in Table \@ref(tab:Table1
 ```{r use1,  message=FALSE, warning=FALSE}
 CoSIAn_Obj_convert <- CoSIA::getConversion(CoSIAn_Obj)
 
-head(CoSIA::viewConvertId(CoSIAn_Obj_convert))
+head(CoSIA::viewCoSIAn(CoSIAn_Obj_convert, "converted_id"))
 ```
 
 ------------------------------------------------------------------------
@@ -163,7 +163,7 @@ Now we will use the converted IDs with `getGEx` to obtain heart and kidney gene 
 ```{r use2_1,  message=FALSE, warning=FALSE}
 CoSIAn_Obj_gex <- CoSIA::getGEx(CoSIAn_Obj_convert)
 
-head(CoSIA::viewGEx(CoSIAn_Obj_gex))
+head(CoSIA::viewCoSIAn(CoSIAn_Obj_gex, "gex"), 5)
 ```
 
 These data can be visualized with `plotSpeciesGEx` to plot expression of a single gene in a single tissue across species or `plotTissueGEx` to plot expression of a single gene in a single species across tissues.
