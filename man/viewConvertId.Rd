@@ -28,6 +28,5 @@ Kidney_Genes <- CoSIAn(
     ortholog_database = "HomoloGene", map_tissues = "heart",
     map_species = c("m_musculus"), metric_type = "DS_Gene"
 )
-Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
-viewConvertId(Kidney_gene_conversion)
+viewConvertId(Kidney_Genes)
 }
