@@ -37,5 +37,4 @@ Kidney_Genes <- CoSIAn(
 Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
 plotSpeciesGEx(Kidney_gene_gex, "liver", "ENSG00000008710")
-plotSpeciesGEx(Kidney_gene_gex, "brain", "ENSG00000118762")
 }
