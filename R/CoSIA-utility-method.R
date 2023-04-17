@@ -96,8 +96,7 @@ getTissues <- function(species) {
 #'     ortholog_database = "HomoloGene", map_tissues = "heart",
 #'     map_species = c("m_musculus"), metric_type = "DS_Gene"
 #' )
-#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
-#' viewConvertId(Kidney_gene_conversion)
+#' viewConvertId(Kidney_Genes)
 setGeneric(
   "viewConvertId", 
   function(object) standardGeneric("viewConvertId"))
@@ -120,8 +119,7 @@ setGeneric(
 #'     ortholog_database = "HomoloGene", map_tissues = "heart",
 #'     map_species = c("m_musculus"), metric_type = "DS_Gene"
 #' )
-#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
-#' viewConvertId(Kidney_gene_conversion)
+#' viewConvertId(Kidney_Genes)
 setMethod(
   "viewConvertId", 
   signature(object = "CoSIAn"), 
@@ -148,9 +146,7 @@ setMethod(
 #'     map_tissues = "heart", map_species = c("m_musculus"),
 #'     metric_type = "DS_Gene"
 #' )
-#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
-#' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
-#' viewGEx(Kidney_gene_gex)
+#' viewGEx(Kidney_Genes)
 setGeneric(
   "viewGEx",
   function(object) standardGeneric("viewGEx"))
@@ -174,9 +170,7 @@ setGeneric(
 #'     map_tissues = "heart", map_species = c("m_musculus"),
 #'     metric_type = "DS_Gene"
 #' )
-#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
-#' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
-#' viewGEx(Kidney_gene_gex)
+#' viewGEx(Kidney_Genes)
 setMethod( "viewGEx",
            signature(object = "CoSIAn"),
            function(object) object@gex)
