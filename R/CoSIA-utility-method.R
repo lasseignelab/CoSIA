@@ -73,3 +73,110 @@ getTissues <- function(species) {
         "Anatomical_entity_name")] <- "Common_Anatomical_Entity_Name"
     return(common_tissue)
 }
+
+#CoSIA Accessor Functions
+
+#' viewConvertId Generics
+#'
+#' @param object CoSIAn object with all user accessible slots filled
+#'
+#' @return initializes a generic function for getConvertId as preparation for
+#' defining the getConvertId Method
+#' @export
+#'
+#' @examples
+#' Kidney_Genes <- CoSIAn(
+#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     i_species = "h_sapiens", input_id = "Ensembl_id",
+#'     o_species = c(
+#'         "d_melanogaster", "m_musculus", "h_sapiens", "d_rerio",
+#'         "c_elegans", "r_norvegicus"
+#'     ),
+#'     output_ids = c("Ensembl_id", "Symbol"), mapping_tool = "annotationDBI",
+#'     ortholog_database = "HomoloGene", map_tissues = "heart",
+#'     map_species = c("m_musculus"), metric_type = "DS_Gene"
+#' )
+#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
+#' viewConvertId(Kidney_gene_conversion)
+setGeneric(
+  "viewConvertId", 
+  function(object) standardGeneric("viewConvertId"))
+
+#' viewConvertId
+#'
+#' @param object CoSIAn object with all user accessible slots filled
+#' @return converted_id slot in CoSIAn Object
+#' @export
+#'
+#' @examples
+#' Kidney_Genes <- CoSIAn(
+#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     i_species = "h_sapiens", input_id = "Ensembl_id",
+#'     o_species = c(
+#'         "d_melanogaster", "m_musculus", "h_sapiens", "d_rerio",
+#'         "c_elegans", "r_norvegicus"
+#'     ),
+#'     output_ids = c("Ensembl_id", "Symbol"), mapping_tool = "annotationDBI",
+#'     ortholog_database = "HomoloGene", map_tissues = "heart",
+#'     map_species = c("m_musculus"), metric_type = "DS_Gene"
+#' )
+#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
+#' viewConvertId(Kidney_gene_conversion)
+setMethod(
+  "viewConvertId", 
+  signature(object = "CoSIAn"), 
+  function(object) object@converted_id)
+
+#' viewGEx Generic
+#'
+#' @param object CoSIAn object with all user accessible slots filled with
+#' converted_id slot filled
+#'
+#' @return initializes a generic function for viewGEx as preparation for
+#' defining the viewGEx Method
+#' @export
+#'
+#' @examples
+#' Kidney_Genes <- CoSIAn(
+#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     i_species = "h_sapiens", input_id = "Ensembl_id",
+#'     o_species = c(
+#'         "d_melanogaster", "m_musculus",
+#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'     ), output_ids = c("Ensembl_id", "Symbol"),
+#'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
+#'     map_tissues = "heart", map_species = c("m_musculus"),
+#'     metric_type = "DS_Gene"
+#' )
+#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
+#' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
+#' viewGEx(Kidney_gene_gex)
+setGeneric(
+  "viewGEx",
+  function(object) standardGeneric("viewGEx"))
+#' viewGEx
+#'
+#' @param object CoSIAn object with all user accessible slots filled with
+#' converted_id slot filled
+#'
+#' @return gex slot in CoSIAn Object
+#' @export
+#'
+#' @examples
+#' Kidney_Genes <- CoSIAn(
+#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     i_species = "h_sapiens", input_id = "Ensembl_id",
+#'     o_species = c(
+#'         "d_melanogaster", "m_musculus",
+#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'     ), output_ids = c("Ensembl_id", "Symbol"),
+#'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
+#'     map_tissues = "heart", map_species = c("m_musculus"),
+#'     metric_type = "DS_Gene"
+#' )
+#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
+#' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
+#' viewGEx(Kidney_gene_gex)
+setMethod( "viewGEx",
+           signature(object = "CoSIAn"),
+           function(object) object@gex)

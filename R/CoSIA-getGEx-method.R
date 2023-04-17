@@ -21,9 +21,6 @@
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
 setGeneric("getGEx", function(object) standardGeneric("getGEx"))
-setGeneric(
-  "viewGEx", 
-  function(object) standardGeneric("viewGEx"))
 # CoSIAn getGEx
 ################################################################################
 #' getGEx Method
@@ -151,10 +148,3 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
     object@gex <- data.frame(GEx_data)
     return(object)
 })
-
-#' @method view GEx
-#' @export
-setMethod(
-  "viewGEx", 
-  signature(object = "CoSIAn"), 
-  function(object) object@gex) 
