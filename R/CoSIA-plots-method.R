@@ -406,16 +406,16 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'         "h_sapiens", "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("h_sapiens", "m_musculus"),
-#'     metric_type = "CV_Species"
+#'     map_tissues = c("adult mammalian kidney","heart"), 
+#'     map_species = c("h_sapiens", "r_norvegicus"),
+#'     metric_type = "CV_Tissue"
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_metric <- getGExMetrics(Kidney_gene_conversion)
-#' plotCVGEx(Kidney_gene_metric)
+#' plot <- plotCVGEx(Kidney_gene_metric)
 setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 
 
@@ -432,16 +432,16 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'         "h_sapiens", "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("h_sapiens", "m_musculus"),
-#'     metric_type = "CV_Species"
+#'     map_tissues = c("adult mammalian kidney","heart"), 
+#'     map_species = c("h_sapiens", "r_norvegicus"),
+#'     metric_type = "CV_Tissue"
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_metric <- getGExMetrics(Kidney_gene_conversion)
-#' plotCVGEx(Kidney_gene_metric)
+#' plot <- plotCVGEx(Kidney_gene_metric)
 #' @references Dot plot in R with the dotchart function [with examples]. 
 #' R CODER. (2020, November 20). Retrieved from https://r-coder.com/dot-plot-r/ 
 setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
