@@ -5,6 +5,11 @@
 ## disease-associated kidney gene set from Natera.
 
 
+## Natera's Monogenic Kidney Disease Panel (https://www.natera.com/resource-library/renasight/385-genes-associated-with-monogenic-disorders-linked-to-kidney-disease)
+## can be downloaded using the link above. The panel is only available as a pdf
+## Genes from the pdf were manually typed into the csv 
+## file available in "/inst/extdata/raw"
+
 # Load raw data
 monogenic_kidney_genes <-
     readr::read_csv(
