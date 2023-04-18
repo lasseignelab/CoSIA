@@ -22,9 +22,10 @@ The third method `getGExMetrics` provides various methodologies in calculating m
 
 In R:
 
-``` r
-library(devtools)
-install_github("lasseignelab/CoSIA", ref= "main", auth_token = "<PAT>")
+``` {r eval=FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CoSIA")
 library(CoSIA)
 ```
 
