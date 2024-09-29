@@ -77,14 +77,15 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
     )
     eh <- ExperimentHub::ExperimentHub()
     return_filtered_Gex_data <- function(map_species) {
-        GEx_data <- data.frame(matrix(ncol = 7, nrow = 0))
+        GEx_data <- data.frame(matrix(ncol = 9, nrow = 0))
         colnames(GEx_data) <- c(
             "Anatomical_entity_name", "Ensembl_ID",
             "Sample_size", "VST", "Experiment_ID",
-            "Anatomical_entity_ID", "Species"
+            "Anatomical_entity_ID", "Species",
+            "Scaled_Median_VST", "mad"
         )
         if (any(map_species == "m_musculus_ensembl_id")) {
-            mm_EH_File <- eh[["EH7859"]]
+            mm_EH_File <- eh[["EH7859"]][[1]]
             m_ensembl_id <- id_dataframe$m_musculus
             gene_specific_data <- dplyr::filter(
                 mm_EH_File,
@@ -93,7 +94,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "r_norvegicus_ensembl_id")) {
-            rn_EH_File <- eh[["EH7860"]]
+            rn_EH_File <- eh[["EH7860"]][[1]]
             r_ensembl_id <- id_dataframe$r_norvegicus
             gene_specific_data <- dplyr::filter(
                 rn_EH_File,
@@ -102,7 +103,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "d_rerio_ensembl_id")) {
-            dr_EH_File <- eh[["EH7861"]]
+            dr_EH_File <- eh[["EH7861"]][[1]]
             dr_ensembl_id <- id_dataframe$d_rerio
             gene_specific_data <- dplyr::filter(
                 dr_EH_File,
@@ -111,7 +112,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "h_sapiens_ensembl_id")) {
-            hs_EH_File <- eh[["EH7858"]]
+            hs_EH_File <- eh[["EH7858"]][[1]]
             hs_ensembl_id <- id_dataframe$h_sapiens
             gene_specific_data <- dplyr::filter(
                 hs_EH_File,
@@ -120,7 +121,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "c_elegans_ensembl_id")) {
-            ce_EH_File <- eh[["EH7863"]]
+            ce_EH_File <- eh[["EH7863"]][[1]]
             c_ensembl_id <- id_dataframe$c_elegans
             gene_specific_data <- dplyr::filter(
                 ce_EH_File,
@@ -129,7 +130,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
             GEx_data <- rbind(GEx_data, gene_specific_data)
             GEx_data <- as.data.frame(GEx_data)
         } else if (any(map_species == "d_melanogaster_ensembl_id")) {
-            dm_EH_File <- eh[["EH7862"]]
+            dm_EH_File <- eh[["EH7862"]][[1]]
             dm_ensembl_id <- id_dataframe$d_melanogaster
             gene_specific_data <- dplyr::filter(
                 dm_EH_File,
@@ -145,7 +146,7 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
         return(GEx_data)
     }
     GEx_data <- lapply(map_species, return_filtered_Gex_data)
-    GEx_data <- as.data.frame(do.call(rbind, GEx_data))
+    GEx_data <- dplyr::bind_rows(GEx_data)
     GEx_data <- dplyr::filter(GEx_data, Anatomical_entity_name %in% map_tissues)
     rownames(GEx_data) <- NULL
     object@gex <- data.frame(GEx_data)
