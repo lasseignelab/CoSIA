@@ -1,7 +1,7 @@
 Package: CoSIA
 Type: Package
 Title: An Investigation Across Different Species and Tissues
-Version: 0.99.10
+Version: 1.4.0
 Authors@R:
   c(person(given = "Anisha",
            family = "Haldar",
@@ -75,3 +75,4 @@ biocViews: Software, BiologicalQuestion, GeneExpression,
 BugReports: https://github.com/lasseignelab/CoSIA/issues
 URL: https://www.lasseigne.org/
 VignetteBuilder: knitr
+PackageStatus: Deprecated
