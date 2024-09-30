@@ -21,10 +21,30 @@
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
 setGeneric("getGEx", function(object) standardGeneric("getGEx"))
-setGeneric(
-  "viewGEx", 
-  function(object) standardGeneric("viewGEx"))
-# CoSIAn getGEx
+
+#' viewGEx Generic
+#'
+#' @param object CoSIAn object with all user accessible slots filled with
+#' converted_id and gex slots filled
+#' @return initializes a generic function for viewGEx as preparation for
+#' defining the viewGEx Method
+#' @export
+#' @examples
+#' Kidney_Genes <- CoSIAn(
+#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     i_species = "h_sapiens", input_id = "Ensembl_id",
+#'     o_species = c(
+#'         "d_melanogaster", "m_musculus",
+#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'     ),
+#'     output_ids = c("Ensembl_id", "Symbol"), mapping_tool = "annotationDBI",
+#'     ortholog_database = "HomoloGene", map_tissues = "heart",
+#'     map_species = c("m_musculus"), metric_type = "DS_Gene"
+#' )
+#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
+#' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
+#' CoSIA::viewGEx(Kidney_gene_gex)
+setGeneric("viewGEx", function(object) standardGeneric("viewGEx"))
 ################################################################################
 #' getGEx Method
 #' @method get GEx
@@ -153,8 +173,28 @@ setMethod("getGEx", signature(object = "CoSIAn"), function(object) {
     return(object)
 })
 
+#' viewGEx Method
 #' @method view GEx
+#' #' @param object CoSIAn object with all user accessible slots filled with
+#' converted_id and gex slots filled
+#' @return gene expression values in the gex slot
 #' @export
+#'
+#' @examples
+#' Kidney_Genes <- CoSIAn(
+#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     i_species = "h_sapiens", input_id = "Ensembl_id",
+#'     o_species = c(
+#'         "d_melanogaster", "m_musculus",
+#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'     ),
+#'     output_ids = c("Ensembl_id", "Symbol"), mapping_tool = "annotationDBI",
+#'     ortholog_database = "HomoloGene", map_tissues = "heart",
+#'     map_species = c("m_musculus"), metric_type = "DS_Gene"
+#' )
+#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
+#' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
+#' CoSIA::viewGEx(Kidney_gene_gex)
 setMethod(
   "viewGEx", 
   signature(object = "CoSIAn"), 
