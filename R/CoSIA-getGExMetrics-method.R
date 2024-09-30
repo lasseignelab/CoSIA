@@ -110,34 +110,35 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     metric_type <- as.character(metric_type)
     CoSIAdata_load <- function(map_species) {
         eh <- ExperimentHub::ExperimentHub()
-        merged_CoSIAdata <- data.frame(matrix(ncol = 7, nrow = 0))
+        merged_CoSIAdata <- data.frame(matrix(ncol = 9, nrow = 0))
         colnames(merged_CoSIAdata) <- c(
             "Anatomical_entity_name", "Ensembl_ID",
             "Sample_size", "VST", "Experiment_ID",
-            "Anatomical_entity_ID", "Species"
+            "Anatomical_entity_ID", "Species",
+            "Scaled_Median_VST", "mad"
         )
         if (any(map_species == "Mus_musculus")) {
-            mm_EH_File <- eh[["EH7859"]]
+            mm_EH_File <- eh[["EH7859"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, mm_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(map_species == "Rattus_norvegicus")) {
-            rn_EH_File <- eh[["EH7860"]]
+            rn_EH_File <- eh[["EH7860"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, rn_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(map_species == "Danio_rerio")) {
-            dr_EH_File <- eh[["EH7861"]]
+            dr_EH_File <- eh[["EH7861"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, dr_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(map_species == "Homo_sapiens")) {
-            hs_EH_File <- eh[["EH7858"]]
+            hs_EH_File <- eh[["EH7858"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, hs_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(map_species == "Caenorhabditis_elegans")) {
-            ce_EH_File <- eh[["EH7863"]]
+            ce_EH_File <- eh[["EH7863"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, ce_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(map_species == "Drosophila_melanogaster")) {
-            dm_EH_File <- eh[["EH7862"]]
+            dm_EH_File <- eh[["EH7862"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, dm_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else {
@@ -149,7 +150,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     }
 
     merged_CoSIAdata <- lapply(map_species, CoSIAdata_load)
-    filter_species <- as.data.frame(do.call(rbind, merged_CoSIAdata))
+    filter_species <- dplyr::bind_rows(merged_CoSIAdata)
     rm(merged_CoSIAdata)
     
     #Adapted from the Mkdescr package under the license (LGPL-3)
@@ -199,11 +200,11 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         )
         id <- as.vector(t(id_dataframe))
         filter_gene <- dplyr::filter(filter_tissue, Ensembl_ID %in% id)
-        filter_gex <- tidyr::separate_rows(filter_gene, VST)
+        filter_gex <- filter_gene %>% tidyr::unnest(VST)
         filter_gex$VST <- as.numeric(filter_gex$VST)
         CV_Tissue <- filter_gex %>%
-            group_by(Ensembl_ID, Anatomical_entity_name, Species) %>%
-            summarise(CV_Tissue = CV_function(VST, na.rm = FALSE))
+            dplyr::group_by(Ensembl_ID, Anatomical_entity_name, Species) %>%
+            dplyr::summarise(CV_Tissue = CV_function(VST, na.rm = FALSE))
         cv_tissue <- tidyr::pivot_wider(CV_Tissue,
             names_from = Species,
             values_from = CV_Tissue
@@ -249,11 +250,11 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
     CV_Species <- function(map_species, map_tissues) {
         id <- as.vector(t(id_dataframe))
         filter_gene <- dplyr::filter(filter_species, Ensembl_ID %in% id)
-        filter_gex <- tidyr::separate_rows(filter_gene, VST)
+        filter_gex <- filter_gene %>% tidyr::unnest(VST)
         filter_gex$VST <- as.numeric(filter_gex$VST)
         CV_Species <- filter_gex %>%
-            group_by(Ensembl_ID, Species) %>%
-            summarise(CV_Species = CV_function(VST, na.rm = FALSE))
+            dplyr::group_by(Ensembl_ID, Species) %>%
+            dplyr::summarise(CV_Species = CV_function(VST, na.rm = FALSE))
         cv_species <- tidyr::pivot_wider(CV_Species,
             names_from = Species,
             values_from = CV_Species
