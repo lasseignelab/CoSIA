@@ -19,9 +19,29 @@
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 setGeneric("getConversion", function(object) standardGeneric("getConversion"))
-setGeneric(
-  "viewConvertId", 
-  function(object) standardGeneric("viewConvertId"))
+
+#' viewConvertId Generic
+#'
+#' @param object CoSIAn object with all user accessible slots filled
+#'
+#' @return initializes a generic function for viewConvertId as preparation for
+#' defining the viewConvertId Method
+#' @export
+#' @examples
+#' Kidney_Genes <- CoSIAn(
+#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     i_species = "h_sapiens", input_id = "Ensembl_id",
+#'     o_species = c(
+#'         "d_melanogaster", "m_musculus", "h_sapiens", "d_rerio",
+#'         "c_elegans", "r_norvegicus"
+#'     ),
+#'     output_ids = c("Ensembl_id", "Symbol"), mapping_tool = "annotationDBI",
+#'     ortholog_database = "HomoloGene", map_tissues = "heart",
+#'     map_species = c("m_musculus"), metric_type = "DS_Gene"
+#' )
+#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
+#' CoSIA::viewConvertId(Kidney_gene_conversion)
+setGeneric("viewConvertId", function(object) standardGeneric("viewConvertId"))
 ################################################################################
 #' getConversion Method
 #' @method get conversions
@@ -205,12 +225,29 @@ setMethod("getConversion", signature(object = "CoSIAn"), function(object) {
     return(object)
 })
 
-#' @method view conversions
+#' viewConvertId Method
+#' 
+#' @method view converted ids
+#' @param object CoSIAn object with all user accessible slots filled
+#' @return contents in slot converted_id
 #' @export
-setMethod(
-  "viewConvertId", 
-  signature(object = "CoSIAn"), 
-  function(object) object@converted_id)
+#'
+#' @examples
+#' Kidney_Genes <- CoSIAn(
+#'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
+#'     i_species = "h_sapiens", input_id = "Ensembl_id",
+#'     o_species = c(
+#'         "d_melanogaster", "m_musculus", "h_sapiens", "d_rerio",
+#'         "c_elegans", "r_norvegicus"
+#'     ),
+#'     output_ids = c("Ensembl_id", "Symbol"), mapping_tool = "annotationDBI",
+#'     ortholog_database = "HomoloGene", map_tissues = "heart",
+#'     map_species = c("m_musculus"), metric_type = "DS_Gene"
+#' )
+#' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
+#' CoSIA::viewConvertId(Kidney_gene_conversion)
+setMethod("viewConvertId",signature(object = "CoSIAn"), 
+          function(object) object@converted_id)
 
 ## Species Functions
 # Caenorhabditis elegans
