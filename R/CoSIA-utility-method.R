@@ -17,34 +17,35 @@ getTissues <- function(species) {
     # Loading CoSIAdata
     CoSIAdata_load <- function(species) {
         eh <- ExperimentHub::ExperimentHub()
-        merged_CoSIAdata <- data.frame(matrix(ncol = 7, nrow = 0))
+        merged_CoSIAdata <- data.frame(matrix(ncol = 9, nrow = 0))
         colnames(merged_CoSIAdata) <- c(
             "Anatomical_entity_name", "Ensembl_ID",
             "Sample_size", "VST", "Experiment_ID",
-            "Anatomical_entity_ID", "Species"
+            "Anatomical_entity_ID", "Species", 
+            "Scaled_Median_VST", "mad"
         )
         if (any(species == "m_musculus")) {
-            mm_EH_File <- eh[["EH7859"]]
+            mm_EH_File <- eh[["EH7859"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, mm_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(species == "r_norvegicus")) {
-            rn_EH_File <- eh[["EH7860"]]
+            rn_EH_File <- eh[["EH7860"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, rn_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(species == "d_rerio")) {
-            dr_EH_File <- eh[["EH7861"]]
+            dr_EH_File <- eh[["EH7861"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, dr_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(species == "h_sapiens")) {
-            hs_EH_File <- eh[["EH7858"]]
+            hs_EH_File <- eh[["EH7858"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, hs_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(species == "c_elegans")) {
-            ce_EH_File <- eh[["EH7863"]]
+            ce_EH_File <- eh[["EH7863"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, ce_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else if (any(species == "d_melanogaster")) {
-            dm_EH_File <- eh[["EH7862"]]
+            dm_EH_File <- eh[["EH7862"]][[1]]
             merged_CoSIAdata <- rbind(merged_CoSIAdata, dm_EH_File)
             merged_CoSIAdata <- as.data.frame(merged_CoSIAdata)
         } else {
@@ -54,9 +55,10 @@ getTissues <- function(species) {
         }
         return(merged_CoSIAdata)
     }
-
+    
     merged_CoSIAdata <- lapply(species, CoSIAdata_load)
-    merged_CoSIAdata <- as.data.frame(do.call(rbind, merged_CoSIAdata))
+    merged_CoSIAdata <- dplyr::bind_rows(merged_CoSIAdata)
+
 
     List_of_Tissues <- merged_CoSIAdata %>%
         dplyr::group_by(Anatomical_entity_name) %>%
