@@ -10,7 +10,7 @@
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "h_sapiens", "r_norvegicus"
+#'         "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
 #'     map_tissues = "heart", map_species = c("r_norvegicus"),
@@ -35,7 +35,7 @@ setGeneric("getGExMetrics", function(object) standardGeneric("getGExMetrics"))
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "h_sapiens", "r_norvegicus"
+#'         "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
 #'     map_tissues = "heart", map_species = c("r_norvegicus"),
@@ -584,7 +584,7 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         DS_Tissue <- DS_Tissue(map_species, map_tissues)
         object@metric <- DS_Tissue
     } else if (metric_type == "DS_Gene_all") {
-        DS_Gene_all <- DS_Gene_all(map_species, map_tissues)
+        DS_Gene_all <- DS_Gene_all(map_species)
         object@metric <- DS_Gene_all
     } else if (metric_type == "DS_Tissue_all") {
         DS_Tissue_all <- DS_Tissue_all(map_species, map_tissues)
