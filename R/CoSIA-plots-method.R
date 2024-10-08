@@ -14,11 +14,10 @@
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'     "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("m_musculus"),
+#'     map_tissues = "heart", map_species = c("r_norvegicus"),
 #'     metric_type = "DS_Gene"
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
@@ -50,11 +49,10 @@ setGeneric(
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'         "d_melanogaster", "d_rerio", "c_elegans", "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("m_musculus"),
+#'     map_tissues = "heart", map_species = c("r_norvegicus"),
 #'     metric_type = "DS_Gene"
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
@@ -141,12 +139,11 @@ setMethod(
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'         "d_melanogaster", "d_rerio", "c_elegans", "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
 #'     map_tissues = "heart",
-#'     map_species = c("m_musculus"), metric_type = "DS_Gene"
+#'     map_species = c("r_norvegicus"), metric_type = "DS_Gene"
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_gex <- getGEx(Kidney_gene_conversion)
@@ -173,11 +170,10 @@ setGeneric("plotTissueGEx", function(object, single_species, single_gene) {
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'         "d_melanogaster", "d_rerio", "c_elegans", "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("m_musculus"),
+#'     map_tissues = "heart", map_species = c("r_norvegicus"),
 #'     metric_type = "DS_Gene"
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
@@ -279,11 +275,10 @@ setMethod(
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'     "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("m_musculus"),
+#'     map_tissues = "heart", map_species = c("r_norvegicus"),
 #'     metric_type = "DS_Gene"
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
@@ -304,11 +299,10 @@ setGeneric("plotDSGEx", function(object) standardGeneric("plotDSGEx"))
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id", o_species = c(
-#'         "d_melanogaster", "m_musculus",
-#'         "h_sapiens", "d_rerio", "c_elegans", "r_norvegicus"
+#'     "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = "heart", map_species = c("m_musculus"),
+#'     map_tissues = "heart", map_species = c("r_norvegicus"),
 #'     metric_type = "DS_Gene"
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)

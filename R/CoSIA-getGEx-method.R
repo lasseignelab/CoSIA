@@ -10,9 +10,7 @@
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id",
-#'     o_species = c(
-#'         "h_sapiens", "r_norvegicus"
-#'     ), output_ids = c("Ensembl_id", "Symbol"),
+#'     o_species = c("r_norvegicus"), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
 #'     map_tissues = "heart", map_species = c("r_norvegicus"),
 #'     metric_type = "DS_Gene"
@@ -33,9 +31,7 @@ setGeneric("getGEx", function(object) standardGeneric("getGEx"))
 #' Kidney_Genes <- CoSIAn(
 #'     gene_set = c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217"),
 #'     i_species = "h_sapiens", input_id = "Ensembl_id",
-#'     o_species = c(
-#'         "h_sapiens", "r_norvegicus"
-#'     ), output_ids = c("Ensembl_id", "Symbol"),
+#'     o_species = c("r_norvegicus"), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
 #'     map_tissues = "heart", map_species = c("r_norvegicus"),
 #'     metric_type = "DS_Gene"

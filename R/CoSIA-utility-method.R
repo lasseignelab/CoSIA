@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-#' tissue <- getTissues(c("m_musculus"))
+#' tissue <- getTissues(c("d_rerio"))
 getTissues <- function(species) {
     # Loading CoSIAdata
     CoSIAdata_load <- function(species) {
@@ -99,6 +99,7 @@ getTissues <- function(species) {
 #'     map_species = c("d_melanogaster"), metric_type = "DS_Gene"
 #' )
 #' viewCoSIAn(Kidney_Genes, "converted_id")
+#' 
 setGeneric(
   "viewCoSIAn", 
   function(object, slot_name) standardGeneric("viewCoSIAn"))
