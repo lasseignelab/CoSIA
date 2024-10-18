@@ -101,7 +101,7 @@ CoSIA::getTissues("d_rerio")
 ...or tissues shared across a list of species:
 
 ```{r getTissues_2, warning=FALSE, message=FALSE}
-CoSIA::getTissues(c("h_sapiens", "r_norvegicus"))
+CoSIA::getTissues(c("m_musculus", "r_norvegicus"))
 ```
 
 *NOTE*: To compare across all shared tissues for your selected species, you can assign the `getTissues` output to an object as input for `map_tissues` when initializing a CoSIAn object.
@@ -158,7 +158,7 @@ head(CoSIA::viewCoSIAn(CoSIAn_Obj_convert, "converted_id"))
 
 Now we will use the converted IDs with `getGEx` to obtain heart and kidney gene expression data for human, mouse and rat curated from Bgee.
 
-```{r use2_1,  message=FALSE, warning=FALSE}
+```{r use2_1,  message=FALSE, warning=FALSE, eval=FALSE}
 CoSIAn_Obj_gex <- CoSIA::getGEx(CoSIAn_Obj_convert)
 
 head(CoSIA::viewCoSIAn(CoSIAn_Obj_gex, "gex"), 5)
@@ -173,7 +173,7 @@ CoSIAn_Obj_gexplot <- CoSIA::plotSpeciesGEx(CoSIAn_Obj_gex, "adult mammalian kid
 
 CoSIAn_Obj_gexplot
 ```
-<img src="../inst/images/CoSIA_vignette_gex_TACO1.png" alt="Figure 2. Gene Expression of TACO1 in Kidney Across Selected Species" width="703"/>
+<img src="../inst/images/CoSIA_vignette_gex_TACO1.png" alt="Figure 3. Gene Expression of TACO1 in Kidney Across Selected Species" width="703"/>
 
 CoSIA produces an interactive plot of expression values for TACO1 in kidney for human mouse and rat. Hovering over the plot displays sample-specific VST read count values. For file size compliance, we have included a static plot for this output. 
 *NOTE:* Expression values are not meant to be compared across species in this plot. The next two use cases demonstrate appropriate methods for comparing gene expression patterns across species.
@@ -184,7 +184,7 @@ CoSIA produces an interactive plot of expression values for TACO1 in kidney for 
 
 Calculating and visualizing median-based coefficient of variation allows for a relative comparison of gene expression variability between species. In CoSIA, CV is calculated as the standard deviation over the median using VST read count values. In the section \@ref(initializing-a-cosian-object), we set `metric_type= "CV_Species"` to calculate CV for the monogenic kidney gene set across human and rat.
 
-```{r plotCVGEx, dpi=200, fig.height=13, fig.width=6, fig.cap = "Gene Expression Variability Across Species in Kidney Tissue", fig.wide=TRUE, message=FALSE, warning=FALSE}
+```{r plotCVGEx, dpi=200, fig.height=13, fig.width=6, fig.cap = "Gene Expression Variability Across Species in Kidney Tissue", fig.wide=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
 
 CoSIAn_Obj_CV <- CoSIA::getGExMetrics(CoSIAn_Obj_convert)
 
@@ -192,6 +192,7 @@ CoSIAn_Obj_CVplot <- CoSIA::plotCVGEx(CoSIAn_Obj_CV)
 
 CoSIAn_Obj_CVplot
 ```
+<img src="../inst/images/CoSIA_CV_example.png" alt="Figure 4. Gene Expression Variability Across Species in Kidney Tissue" width="703"/>
 
 Here we see relatively low variability in gene expression of most genes in rat and human, with the exception of relatively high levels of variation in `metric_type= "CV_Tissue"` displays the variability of gene expression for the monogenic gene set across selected, shared tissues.
 
@@ -225,7 +226,7 @@ CoSIAn_Obj_DSplot <- CoSIA::plotDSGEx(CoSIAn_Obj_DS)
 
 CoSIAn_Obj_DSplot
 ```
-<img src="../inst/images/DS_Gene_example.png" alt="Figure 3. Diversity vs Specificity of Genes in Geneset Across Anatomical Entity Names" width="703"/>
+<img src="../inst/images/CoSIA_DS_Gene_example.png" alt="Figure 5. Diversity vs Specificity of Genes in Geneset Across Anatomical Entity Names" width="703"/>
 
 There is low specificity in kidney tissue, indicating there are more genes from the set that are expressed in kidney. We see higher specificity in heart tissue, indicating that there are fewer genes from the set that are expressed in heart.
 
