@@ -230,11 +230,13 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
             nrow(id_dataframe)]
         id_dataframe <- id_dataframe %>%
             dplyr::select(order(colnames(id_dataframe), decreasing = TRUE))
-        id_dataframe <- id_dataframe %>%
-            dplyr::filter(dplyr::if_all(
-                tidyselect::starts_with("Anatomical_entity_name"),
-                ~ Anatomical_entity_name.x == .x
-            ))
+        if ("Anatomical_entity_name.x" %in% colnames(id_dataframe)) {
+            id_dataframe <- id_dataframe %>%
+                dplyr::filter(dplyr::if_all(
+                    tidyselect::starts_with("Anatomical_entity_name"),
+                    ~ Anatomical_entity_name.x == .x
+                ))
+        }
         duplicated_columns <- duplicated(as.list(id_dataframe))
         id_dataframe <- id_dataframe[!duplicated_columns]
         id_dataframe <- id_dataframe %>%
