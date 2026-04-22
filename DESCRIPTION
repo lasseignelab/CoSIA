@@ -80,3 +80,4 @@ biocViews: Software, BiologicalQuestion, GeneExpression,
 BugReports: https://github.com/lasseignelab/CoSIA/issues
 URL: https://www.lasseigne.org/
 VignetteBuilder: knitr
+Config/testthat/edition: 3
