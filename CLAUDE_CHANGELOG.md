@@ -6,6 +6,8 @@ Record of all changes made by Claude Code in this repository.
 
 ## 2026-04-23
 
+- **Added GitHub Actions workflow** (`.github/workflows/test.yml`) — runs the test suite on every push and pull request to `devel` and `main`. Uses the official `bioconductor/bioconductor_docker:RELEASE_3_22` container. Caches R packages (keyed to `DESCRIPTION`) and ExperimentHub data (static key since datasets EH7858–EH7863 are versioned) to minimise run time.
+
 - **Added validation scripts** (`validation/`) — three scripts for comparing Bioconductor release vs dev outputs to verify correctness of the CV_Tissue merge rewrite: `01_run_bioc.R`, `02_run_dev.R`, `03_compare.R`. Tests single-species (must match exactly), two-species, and three-species cases. Includes manual spot-check instructions.
 - **Updated `.Rbuildignore`** — added `validation/`, `CLAUDE.md`, and `CLAUDE_CHANGELOG.md` so they are excluded from the package tarball.
 
