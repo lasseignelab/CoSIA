@@ -4,6 +4,11 @@ Record of all changes made by Claude Code in this repository.
 
 ---
 
+## 2026-04-23
+
+- **Added validation scripts** (`validation/`) — three scripts for comparing Bioconductor release vs dev outputs to verify correctness of the CV_Tissue merge rewrite: `01_run_bioc.R`, `02_run_dev.R`, `03_compare.R`. Tests single-species (must match exactly), two-species, and three-species cases. Includes manual spot-check instructions.
+- **Updated `.Rbuildignore`** — added `validation/`, `CLAUDE.md`, and `CLAUDE_CHANGELOG.md` so they are excluded from the package tarball.
+
 ## 2026-04-22
 
 - **Created `CLAUDE.md`** — initial guidance file documenting project overview, common commands, architecture, key files, and conventions.
