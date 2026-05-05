@@ -1,30 +1,41 @@
 # validation/01_run_bioc.R
 #
-# Run this script FIRST using the unmodified Bioconductor release version of
-# CoSIA to capture reference outputs.
+# Captures outputs from the Bioconductor production version (1.11.1) which
+# contains the CV_Tissue bug. Metrics other than CV_Tissue are expected to
+# succeed and provide reference values for comparison with 1.11.2.
 #
-# Usage (from repo root, with Bioconductor CoSIA installed):
+# NOTE ON VERSION LOADING (Singularity)
+# --------------------------------------
+# If your container bind-mounts a cache home directory and you have previously
+# run devtools::install(), a newer dev version may shadow the container's
+# installed version. Check what is loaded:
+#
+#   Rscript -e "cat(find.package('CoSIA'),'\n'); cat(as.character(packageVersion('CoSIA')),'\n')"
+#
+# To remove a shadowing dev install from your cache home:
+#   find ${CACHE_BASE}/home/R -type d -name "CoSIA" -exec rm -rf {} +
+#
+# Usage (from repo root, with production 1.11.1 loaded):
 #   Rscript validation/01_run_bioc.R
 #
 # Output: validation/output/bioc_results.rds
 
-stopifnot(
-    "CoSIA must be installed from Bioconductor, not loaded from source.
-     Run: BiocManager::install('CoSIA') in a clean R session first." =
-        "CoSIA" %in% installed.packages()[, "Package"]
-)
-
 library(CoSIA)
 
-cat("CoSIA version:", as.character(packageVersion("CoSIA")), "\n")
-cat("Running with Bioconductor release version.\n\n")
+loaded_version <- as.character(packageVersion("CoSIA"))
+loaded_path    <- find.package("CoSIA")
+
+cat("CoSIA version  :", loaded_version, "\n")
+cat("CoSIA path     :", loaded_path, "\n\n")
+
+if (loaded_version != "1.11.1") {
+    warning("Expected production version 1.11.1 but found ", loaded_version,
+            ". See NOTE ON VERSION LOADING above.\n",
+            "Continuing — results will document whatever version is loaded.")
+}
 
 dir.create("validation/output", showWarnings = FALSE, recursive = TRUE)
 
-# ---------------------------------------------------------------------------
-# Shared inputs
-# Three kidney genes used in the CoSIA vignette (human Ensembl IDs)
-# ---------------------------------------------------------------------------
 GENE_SET   <- c("ENSG00000008710", "ENSG00000118762", "ENSG00000152217")
 I_SPECIES  <- "h_sapiens"
 INPUT_ID   <- "Ensembl_id"
@@ -32,63 +43,102 @@ OUTPUT_IDS <- c("Ensembl_id", "Symbol")
 TOOL       <- "annotationDBI"
 ORTHO_DB   <- "HomoloGene"
 TISSUE     <- "heart"
+MULTI_SPECIES <- c("h_sapiens", "m_musculus", "r_norvegicus")
 
-run_cv_tissue <- function(o_species, map_species, label) {
-    cat("--- Running CV_Tissue:", label, "---\n")
+make_obj <- function(map_species, map_tissues, metric_type,
+                     o_species = map_species) {
     obj <- CoSIAn(
-        gene_set         = GENE_SET,
-        i_species        = I_SPECIES,
-        input_id         = INPUT_ID,
-        o_species        = o_species,
-        output_ids       = OUTPUT_IDS,
-        mapping_tool     = TOOL,
+        gene_set          = GENE_SET,
+        i_species         = I_SPECIES,
+        input_id          = INPUT_ID,
+        o_species         = o_species,
+        output_ids        = OUTPUT_IDS,
+        mapping_tool      = TOOL,
         ortholog_database = ORTHO_DB,
-        map_tissues      = TISSUE,
-        map_species      = map_species,
-        metric_type      = "CV_Tissue"
+        map_tissues       = map_tissues,
+        map_species       = map_species,
+        metric_type       = metric_type
     )
-    obj <- getConversion(obj)
-    obj <- getGExMetrics(obj)
-    metric <- obj@metric
-    cat("  Rows:", nrow(metric), " Cols:", ncol(metric), "\n")
-    cat("  Columns:", paste(colnames(metric), collapse = ", "), "\n\n")
-    metric
+    getConversion(obj)
+}
+
+run_metric <- function(label, ...) {
+    cat("---", label, "---\n")
+    tryCatch({
+        obj    <- make_obj(...)
+        obj    <- getGExMetrics(obj)
+        metric <- obj@metric
+        cat("  SUCCESS — Rows:", nrow(metric), " Cols:", ncol(metric), "\n")
+        cat("  Columns:", paste(colnames(metric), collapse = ", "), "\n\n")
+        metric
+    }, error = function(e) {
+        cat("  ERROR:", conditionMessage(e), "\n\n")
+        NULL
+    })
 }
 
 results <- list(
+    version = loaded_version,
+    path    = loaded_path,
 
-    # Case 1: single species — the code path that was unaffected by the
-    # merge bug; results here MUST match the dev version exactly.
-    cv_tissue_single = run_cv_tissue(
-        o_species  = "h_sapiens",
-        map_species = "h_sapiens",
-        label      = "single species (h_sapiens)"
+    # CV_Tissue — expected to crash in 1.11.1 (the known bug)
+    cv_tissue_single = run_metric(
+        "CV_Tissue single species",
+        map_species  = I_SPECIES,
+        map_tissues  = TISSUE,
+        metric_type  = "CV_Tissue"
+    ),
+    cv_tissue_multi = run_metric(
+        "CV_Tissue multi-species",
+        map_species  = MULTI_SPECIES,
+        map_tissues  = TISSUE,
+        metric_type  = "CV_Tissue",
+        o_species    = MULTI_SPECIES
     ),
 
-    # Case 2: two species — simplest multi-species case affected by the bug.
-    cv_tissue_two = tryCatch(
-        run_cv_tissue(
-            o_species  = c("h_sapiens", "m_musculus"),
-            map_species = c("h_sapiens", "m_musculus"),
-            label      = "two species (h_sapiens + m_musculus)"
-        ),
-        error = function(e) {
-            cat("  ERROR:", conditionMessage(e), "\n\n")
-            NULL
-        }
+    # CV_Species — expected to succeed; values used as reference
+    cv_species = run_metric(
+        "CV_Species",
+        map_species  = MULTI_SPECIES,
+        map_tissues  = TISSUE,
+        metric_type  = "CV_Species",
+        o_species    = MULTI_SPECIES
     ),
 
-    # Case 3: three species — the case shown in the bug report.
-    cv_tissue_three = tryCatch(
-        run_cv_tissue(
-            o_species  = c("h_sapiens", "m_musculus", "r_norvegicus"),
-            map_species = c("h_sapiens", "m_musculus", "r_norvegicus"),
-            label      = "three species (h_sapiens + m_musculus + r_norvegicus)"
-        ),
-        error = function(e) {
-            cat("  ERROR:", conditionMessage(e), "\n\n")
-            NULL
-        }
+    # DS_Gene — expected to succeed; values used as reference
+    ds_gene = run_metric(
+        "DS_Gene",
+        map_species  = MULTI_SPECIES,
+        map_tissues  = TISSUE,
+        metric_type  = "DS_Gene",
+        o_species    = MULTI_SPECIES
+    ),
+
+    # DS_Gene_all — expected to succeed; values used as reference
+    ds_gene_all = run_metric(
+        "DS_Gene_all",
+        map_species  = MULTI_SPECIES,
+        map_tissues  = TISSUE,
+        metric_type  = "DS_Gene_all",
+        o_species    = MULTI_SPECIES
+    ),
+
+    # DS_Tissue — expected to succeed; values used as reference
+    ds_tissue = run_metric(
+        "DS_Tissue",
+        map_species  = MULTI_SPECIES,
+        map_tissues  = TISSUE,
+        metric_type  = "DS_Tissue",
+        o_species    = MULTI_SPECIES
+    ),
+
+    # DS_Tissue_all — expected to succeed; values used as reference
+    ds_tissue_all = run_metric(
+        "DS_Tissue_all",
+        map_species  = MULTI_SPECIES,
+        map_tissues  = TISSUE,
+        metric_type  = "DS_Tissue_all",
+        o_species    = MULTI_SPECIES
     )
 )
 
