@@ -4,6 +4,11 @@ Record of all changes made by Claude Code in this repository.
 
 ---
 
+## 2026-05-05
+
+- **Bumped version** `DESCRIPTION`: 1.11.1 → 1.11.2. 1.11.1 is the current Bioconductor production version (with the CV_Tissue bug); 1.11.2 is the fixed release.
+- **Revised validation scripts** — clarified that 1.11.1 is the production version, not a Bioconductor release from a separate branch. Rewrote all three scripts to cover all six metric types. `01_run_bioc.R`: tests all metrics against 1.11.1, expects CV_Tissue to crash, captures reference values for working metrics. `02_run_dev.R`: tests all metrics against 1.11.2, all should succeed. `03_compare.R`: three-part strategy — (1) confirm CV_Tissue crashes in 1.11.1 and succeeds in 1.11.2 with structural checks + cross-species consistency check; (2) exact value match for unchanged metrics (CV_Species, DS_*); (3) manual spot-check instructions.
+
 ## 2026-04-23
 
 - **Added GitHub Actions workflow** (`.github/workflows/test.yml`) — runs the test suite on every push and pull request to `devel` and `main`. Uses the official `bioconductor/bioconductor_docker:RELEASE_3_22` container. Caches R packages (keyed to `DESCRIPTION`) and ExperimentHub data (static key since datasets EH7858–EH7863 are versioned) to minimise run time.

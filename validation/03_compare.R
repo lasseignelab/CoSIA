@@ -1,12 +1,14 @@
 # validation/03_compare.R
 #
-# Run this script THIRD to compare Bioconductor vs dev outputs.
+# Compares production (1.11.1) vs fixed dev (1.11.2) outputs.
 #
-# Usage (from repo root):
+# Strategy:
+#   - Metrics that work in 1.11.1 (CV_Species, DS_*): values must match exactly
+#   - CV_Tissue: 1.11.1 crashes (confirms bug), 1.11.2 succeeds (confirms fix)
+#     and is validated structurally + by manual spot-check
+#
+# Usage (from repo root, after running 01 and 02):
 #   Rscript validation/03_compare.R
-#
-# Requires both validation/output/bioc_results.rds and
-# validation/output/dev_results.rds to exist.
 
 stopifnot(
     "Run 01_run_bioc.R first" = file.exists("validation/output/bioc_results.rds"),
@@ -15,6 +17,9 @@ stopifnot(
 
 bioc <- readRDS("validation/output/bioc_results.rds")
 dev  <- readRDS("validation/output/dev_results.rds")
+
+cat("Production version :", bioc$version, "\n")
+cat("Dev version        :", dev$version, "\n\n")
 
 pass <- 0L
 fail <- 0L
@@ -30,147 +35,141 @@ check <- function(label, expr) {
     }
 }
 
-structural_checks <- function(df, label) {
-    cat("\n  Structural checks for", label, "\n")
-    check("is a data.frame",         is.data.frame(df))
-    check("has rows",                nrow(df) > 0)
-    check("has Anatomical_entity_name column",
-          "Anatomical_entity_name" %in% colnames(df))
-    check("has at least one CV_tissue column",
-          any(grepl("CV_[Tt]issue", colnames(df))))
-    check("no duplicate rows",       nrow(df) == nrow(unique(df)))
-    check("no duplicate col names",  !anyDuplicated(colnames(df)))
+compare_exact <- function(b, d, label) {
+    if (is.null(b)) {
+        cat("  SKIP:", label, "— production version errored, no reference\n")
+        return()
+    }
+    if (is.null(d)) {
+        cat("  FAIL:", label, "— dev version errored\n")
+        fail <<- fail + 1L
+        return()
+    }
+    sort_df <- function(df) df[do.call(order, lapply(df, identity)), ]
+    eq <- all.equal(sort_df(b), sort_df(d), check.attributes = FALSE)
+    if (isTRUE(eq)) {
+        check(paste(label, "— values identical between versions"), TRUE)
+    } else {
+        cat("  FAIL:", label, "— values differ:\n")
+        cat("   ", paste(utils::head(eq, 5), collapse = "\n    "), "\n")
+        fail <<- fail + 1L
+    }
+}
 
-    cv_cols <- grep("CV_[Tt]issue", colnames(df), value = TRUE)
+structural_checks <- function(df, label) {
+    check(paste(label, "is a data.frame"),
+          is.data.frame(df))
+    check(paste(label, "has rows"),
+          nrow(df) > 0)
+    check(paste(label, "has Anatomical_entity_name"),
+          "Anatomical_entity_name" %in% colnames(df))
+    check(paste(label, "has CV_tissue column"),
+          any(grepl("CV_[Tt]issue", colnames(df), ignore.case = TRUE)))
+    check(paste(label, "no duplicate rows"),
+          nrow(df) == nrow(unique(df)))
+    check(paste(label, "no duplicate column names"),
+          !anyDuplicated(colnames(df)))
+    check(paste(label, "no all-NA columns"),
+          !any(vapply(df, function(x) all(is.na(x)), logical(1))))
+    cv_cols <- grep("CV_[Tt]issue", colnames(df), value = TRUE, ignore.case = TRUE)
     for (col in cv_cols) {
         vals <- df[[col]][!is.na(df[[col]])]
-        check(paste("CV values non-negative in", col), all(vals >= 0))
+        check(paste(label, "—", col, "values non-negative"),
+              length(vals) > 0 && all(vals >= 0))
     }
+    n_genes   <- length(unique(df[[1]]))
+    n_tissues <- length(unique(df$Anatomical_entity_name))
+    cat("  INFO:", n_genes, "genes x", n_tissues, "tissues =",
+        nrow(unique(df[, 1:2])), "gene-tissue rows (", nrow(df), "total)\n")
 }
 
 # ---------------------------------------------------------------------------
 cat("========================================\n")
-cat("CASE 1: Single species (h_sapiens)\n")
-cat("Expected: dev result MUST match Bioconductor exactly.\n")
-cat("========================================\n")
+cat("PART 1: CV_Tissue — confirm bug and fix\n")
+cat("========================================\n\n")
 
-b <- bioc$cv_tissue_single
-d <- dev$cv_tissue_single
+for (case in c("cv_tissue_single", "cv_tissue_multi")) {
+    label <- gsub("cv_tissue_", "", case)
+    b <- bioc[[case]]
+    d <- dev[[case]]
 
-if (is.null(b)) {
-    cat("  SKIP: Bioconductor version errored — cannot compare.\n")
-} else if (is.null(d)) {
-    cat("  FAIL: Dev version errored on single-species case.\n")
-    fail <- fail + 1L
-} else {
-    structural_checks(d, "dev single-species")
-
-    # Sort both the same way before comparing values
-    sort_df <- function(df) {
-        df[do.call(order, as.list(df[, seq_len(min(2, ncol(df)))])), ]
-    }
-    b_sorted <- sort_df(b)
-    d_sorted <- sort_df(d)
-
-    cat("\n  Value comparison (single-species must match exactly):\n")
-    eq <- all.equal(b_sorted, d_sorted, check.attributes = FALSE)
-    if (isTRUE(eq)) {
-        cat("  PASS: dev result is identical to Bioconductor result.\n")
+    cat("--- CV_Tissue", label, "---\n")
+    if (is.null(b)) {
+        cat("  PASS: production version crashed (bug confirmed)\n")
         pass <- pass + 1L
     } else {
-        cat("  FAIL: differences found:\n")
-        cat("   ", paste(eq, collapse = "\n    "), "\n")
+        cat("  NOTE: production version did not crash —",
+            "bug may already be fixed upstream\n")
+    }
+    if (is.null(d)) {
+        cat("  FAIL: dev version crashed — fix not working\n\n")
         fail <- fail + 1L
+    } else {
+        structural_checks(d, paste("dev CV_Tissue", label))
+        cat("\n")
     }
 }
 
-# ---------------------------------------------------------------------------
-cat("\n========================================\n")
-cat("CASE 2: Two species (h_sapiens + m_musculus)\n")
-cat("Expected: Bioconductor may crash; dev should produce valid output.\n")
-cat("========================================\n")
-
-b2 <- bioc$cv_tissue_two
-d2 <- dev$cv_tissue_two
-
-if (is.null(b2)) {
-    cat("  NOTE: Bioconductor version crashed (expected — known bug).\n")
-} else {
-    cat("  NOTE: Bioconductor version did not crash.\n")
-    structural_checks(b2, "bioc two-species")
-}
-
-if (is.null(d2)) {
-    cat("  FAIL: Dev version errored on two-species case.\n")
-    fail <- fail + 1L
-} else {
-    structural_checks(d2, "dev two-species")
-
-    if (!is.null(b2)) {
-        cat("\n  Value comparison (two-species):\n")
-        eq <- all.equal(b2, d2, check.attributes = FALSE)
-        if (isTRUE(eq)) {
-            cat("  PASS: results are identical.\n")
-            pass <- pass + 1L
-        } else {
-            cat("  INFO: results differ (may be expected if old code was wrong):\n")
-            cat("   ", paste(eq, collapse = "\n    "), "\n")
-        }
+# Cross-case consistency: h_sapiens CV values must be the same whether run
+# alone or alongside other species (expression data doesn't change)
+d_single <- dev$cv_tissue_single
+d_multi  <- dev$cv_tissue_multi
+if (!is.null(d_single) && !is.null(d_multi)) {
+    hs_single <- grep("h_sapiens_CV", colnames(d_single), value = TRUE)
+    hs_multi  <- grep("h_sapiens_CV", colnames(d_multi),  value = TRUE)
+    id_col    <- grep("ensembl_id",   colnames(d_single), value = TRUE)[1]
+    if (length(hs_single) == 1 && length(hs_multi) == 1) {
+        merged <- merge(
+            d_single[, c(id_col, "Anatomical_entity_name", hs_single)],
+            d_multi[,  c(id_col, "Anatomical_entity_name", hs_multi)],
+            by = c(id_col, "Anatomical_entity_name")
+        )
+        check(
+            "h_sapiens CV_tissue values identical in single vs multi-species run",
+            nrow(merged) > 0 && isTRUE(all.equal(merged[[3]], merged[[4]],
+                                                   tolerance = 1e-10))
+        )
     }
 }
+cat("\n")
 
 # ---------------------------------------------------------------------------
-cat("\n========================================\n")
-cat("CASE 3: Three species (h_sapiens + m_musculus + r_norvegicus)\n")
-cat("Expected: Bioconductor crashes; dev produces valid output.\n")
 cat("========================================\n")
+cat("PART 2: Unchanged metrics must match exactly\n")
+cat("========================================\n\n")
 
-b3 <- bioc$cv_tissue_three
-d3 <- dev$cv_tissue_three
-
-if (is.null(b3)) {
-    cat("  NOTE: Bioconductor version crashed (expected — known bug).\n")
-} else {
-    cat("  NOTE: Bioconductor version did not crash.\n")
-    structural_checks(b3, "bioc three-species")
-}
-
-if (is.null(d3)) {
-    cat("  FAIL: Dev version errored on three-species case.\n")
-    fail <- fail + 1L
-} else {
-    structural_checks(d3, "dev three-species")
-}
+compare_exact(bioc$cv_species,   dev$cv_species,   "CV_Species")
+compare_exact(bioc$ds_gene,      dev$ds_gene,      "DS_Gene")
+compare_exact(bioc$ds_gene_all,  dev$ds_gene_all,  "DS_Gene_all")
+compare_exact(bioc$ds_tissue,    dev$ds_tissue,    "DS_Tissue")
+compare_exact(bioc$ds_tissue_all, dev$ds_tissue_all, "DS_Tissue_all")
 
 # ---------------------------------------------------------------------------
 cat("\n========================================\n")
-cat("Manual spot-check instructions\n")
+cat("PART 3: Manual spot-check for CV_Tissue values\n")
 cat("========================================\n")
 cat("
-To verify a CV value by hand:
+To verify a CV value against raw ExperimentHub data:
 
-  1. Load the ExperimentHub data for the species of interest:
-       eh <- ExperimentHub::ExperimentHub()
-       hs_data <- eh[['EH7858']][[1]]   # h_sapiens
+  devtools::load_all('.')
+  eh      <- ExperimentHub::ExperimentHub()
+  hs_data <- eh[['EH7858']][[1]]
 
-  2. Filter to one gene + one tissue:
-       gene_data <- dplyr::filter(hs_data,
-           Ensembl_ID == '<ensembl_id>',
-           Anatomical_entity_name == 'heart')
+  gene_tissue <- dplyr::filter(hs_data,
+      Ensembl_ID == 'ENSG00000008710',
+      Anatomical_entity_name == 'heart')
 
-  3. Compute CV manually (sd / median):
-       vst <- as.numeric(unlist(gene_data$VST))
-       manual_cv <- sd(vst) / median(vst)
+  vst       <- as.numeric(unlist(gene_tissue$VST))
+  manual_cv <- sd(vst) / median(vst)
+  cat('Manual CV:', manual_cv, '\\n')
 
-  4. Compare to the value in dev$cv_tissue_single or dev$cv_tissue_three.
+  # Compare to dev result:
+  d <- readRDS('validation/output/dev_results.rds')
+  d$cv_tissue_single[d$cv_tissue_single[[1]] == 'ENSG00000008710', ]
 
 ExperimentHub IDs:
-  h_sapiens       EH7858
-  m_musculus      EH7859
-  r_norvegicus    EH7860
-  d_rerio         EH7861
-  d_melanogaster  EH7862
-  c_elegans       EH7863
+  h_sapiens EH7858 | m_musculus EH7859 | r_norvegicus EH7860
+  d_rerio   EH7861 | d_melanogaster EH7862 | c_elegans EH7863
 ")
 
 # ---------------------------------------------------------------------------
