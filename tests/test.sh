@@ -4,9 +4,23 @@ set -euo pipefail
 PROJECT_PATH="/data/user/$USER/CoSIA"
 DEV_PATH="/data/user/$USER/CoSIA"
 CONTAINER_PATH="$PROJECT_PATH/bin/container"
+SIF="${CONTAINER_PATH}/bioc_cosia_1.10.0.sif"
+SIF_URI="${COSIA_SIF_URI:-docker://lizzyr/bioc_cosia:1.10.0}"
+
+ensure_sif() {
+    mkdir -p "$CONTAINER_PATH"
+    if [[ -f "$SIF" ]]; then
+        return
+    fi
+    echo "SIF not found: $SIF"
+    echo "Pulling from $SIF_URI ..."
+    singularity pull "$SIF" "$SIF_URI"
+}
 
 CACHE_BASE="/data/user/$USER/bioconductor/bioc-cache"
 TMP_BASE="/data/user/$USER/bioconductor/bioc-tmp"
+
+ensure_sif
 
 mkdir -p \
   "$CACHE_BASE/home" \
@@ -32,5 +46,5 @@ singularity exec --cleanenv \
   --env EXPERIMENT_HUB_CACHE="${CACHE_BASE}/experimenthub" \
   --env BFC_CACHE="${CACHE_BASE}/biocfilecache" \
   --pwd "${PROJECT_PATH}" \
-  "${CONTAINER_PATH}/bioc_cosia_1.10.0.sif" \
+  "$SIF" \
   Rscript -e "devtools::test()"
