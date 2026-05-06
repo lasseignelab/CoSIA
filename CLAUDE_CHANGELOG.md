@@ -4,6 +4,10 @@ Record of all changes made by Claude Code in this repository.
 
 ---
 
+## 2026-04-21
+
+- **Added SIF auto-download** to `tests/test.sh` and `validation/validate.sh` — both scripts now check for the SIF file at `$CONTAINER_PATH/bioc_cosia_1.10.0.sif` before running. If missing, they pull it via `singularity pull` from `docker://lizzyr/bioc_cosia:1.10.0`. The source URI can be overridden with the `COSIA_SIF_URI` environment variable.
+
 ## 2026-05-05
 
 - **Bumped version** `DESCRIPTION`: 1.11.1 → 1.11.2. 1.11.1 is the current Bioconductor production version (with the CV_Tissue bug); 1.11.2 is the fixed release.
