@@ -124,11 +124,17 @@ setGeneric(
 #' )
 #' viewCoSIAn(Kidney_Genes, "converted_id")
 setMethod(
-  "viewCoSIAn", 
-  signature(object = "CoSIAn"), 
-  function(object, slot_name) 
-    ifelse(slot_name == "converted_id", object@converted_id, 
-           ifelse(slot_name == "gex", object@gex, 
-                  ifelse(slot_name == "metric", object@metric, 
-                         stop("User provided slot does not exist"))))
-  )
+  "viewCoSIAn",
+  signature(object = "CoSIAn"),
+  function(object, slot_name) {
+    if (slot_name == "converted_id") {
+        object@converted_id
+    } else if (slot_name == "gex") {
+        object@gex
+    } else if (slot_name == "metric") {
+        object@metric
+    } else {
+        stop("User provided slot does not exist")
+    }
+  }
+)

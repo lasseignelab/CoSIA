@@ -202,49 +202,56 @@ setMethod("getGExMetrics", signature(object = "CoSIAn"), function(object) {
         filter_gene <- dplyr::filter(filter_tissue, Ensembl_ID %in% id)
         filter_gex <- filter_gene %>% tidyr::unnest(VST)
         filter_gex$VST <- as.numeric(filter_gex$VST)
-        CV_Tissue <- filter_gex %>%
+        cv_long <- filter_gex %>%
             dplyr::group_by(Ensembl_ID, Anatomical_entity_name, Species) %>%
-            dplyr::summarise(CV_Tissue = CV_function(VST, na.rm = FALSE))
-        cv_tissue <- tidyr::pivot_wider(CV_Tissue,
-            names_from = Species,
-            values_from = CV_Tissue
+            dplyr::summarise(CV_val = CV_function(VST, na.rm = FALSE),
+                             .groups = "drop")
+
+        formal_to_cv <- c(
+            Homo_sapiens            = "h_sapiens_CV_tissue",
+            Mus_musculus            = "m_musculus_CV_tissue",
+            Rattus_norvegicus       = "r_norvegicus_CV_tissue",
+            Danio_rerio             = "d_rerio_CV_Tissue",
+            Drosophila_melanogaster = "d_melanogaster_CV_tissue",
+            Caenorhabditis_elegans  = "c_elegans_CV_tissue"
         )
-        colnames(cv_tissue)[which(names(cv_tissue) ==
-            "Homo_sapiens")] <- "h_sapiens_CV_tissue"
-        colnames(cv_tissue)[which(names(cv_tissue) ==
-            "Mus_musculus")] <- "m_musculus_CV_tissue"
-        colnames(cv_tissue)[which(names(cv_tissue) ==
-            "Rattus_norvegicus")] <- "r_norvegicus_CV_tissue"
-        colnames(cv_tissue)[which(names(cv_tissue) ==
-            "Danio_rerio")] <- "d_rerio_CV_Tissue"
-        colnames(cv_tissue)[which(names(cv_tissue) ==
-            "Drosophila_melanogaster")] <- "d_melanogaster_CV_tissue"
-        colnames(cv_tissue)[which(names(cv_tissue) ==
-            "Caenorhabditis_elegans")] <- "c_elegans_CV_tissue"
-        for (i in seq_len(length(colnames(id_dataframe)))) {
-            id <- colnames(id_dataframe)[i]
-            id_dataframe <- id_dataframe %>%
-                merge(., cv_tissue, by.x = id, by.y = "Ensembl_ID")
+        formal_to_id_col <- c(
+            Homo_sapiens            = "h_sapiens_ensembl_id",
+            Mus_musculus            = "m_musculus_ensembl_id",
+            Rattus_norvegicus       = "r_norvegicus_ensembl_id",
+            Danio_rerio             = "d_rerio_ensembl_id",
+            Drosophila_melanogaster = "d_melanogaster_ensembl_id",
+            Caenorhabditis_elegans  = "c_elegans_ensembl_id"
+        )
+
+        result <- NULL
+        for (species_id_col in colnames(id_dataframe)) {
+            formal <- names(formal_to_id_col)[
+                formal_to_id_col == species_id_col]
+            if (length(formal) == 0) next
+            cv_col <- formal_to_cv[[formal]]
+
+            species_cv <- cv_long %>%
+                dplyr::filter(Species == formal) %>%
+                dplyr::select(Ensembl_ID, Anatomical_entity_name, CV_val) %>%
+                dplyr::rename(!!cv_col := CV_val)
+
+            joined <- dplyr::left_join(
+                id_dataframe, species_cv,
+                by = stats::setNames("Ensembl_ID", species_id_col)
+            )
+
+            if (is.null(result)) {
+                result <- joined
+            } else {
+                join_keys <- c(colnames(id_dataframe), "Anatomical_entity_name")
+                result <- dplyr::left_join(result, joined, by = join_keys)
+            }
         }
-        id_dataframe <- id_dataframe[, colSums(is.na(id_dataframe)) <
-            nrow(id_dataframe)]
-        id_dataframe <- id_dataframe %>%
-            dplyr::select(order(colnames(id_dataframe), decreasing = TRUE))
-        id_dataframe <- id_dataframe %>%
-            dplyr::filter(dplyr::if_all(
-                tidyselect::starts_with("Anatomical_entity_name"),
-                ~ Anatomical_entity_name.x == .x
-            ))
-        duplicated_columns <- duplicated(as.list(id_dataframe))
-        id_dataframe <- id_dataframe[!duplicated_columns]
-        id_dataframe <- id_dataframe %>%
-            dplyr::rename_with(~ stringr::str_remove(., c(".x")))
-        CV_Tissue <- id_dataframe %>%
-            dplyr::rename_with(~ stringr::str_remove(., c(".y")))
-        colnames(CV_Tissue)[which(names(CV_Tissue) ==
-            "Anatomical_enti_name.y")] <- "Anatomical_entity_name"
-        CV_Tissue <- unique(CV_Tissue)
-        return(CV_Tissue)
+
+        result <- unique(result)
+        rownames(result) <- NULL
+        return(result)
     }
 
     CV_Species <- function(map_species, map_tissues) {

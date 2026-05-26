@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^doc$
 ^Meta$
+^validation$
+^CLAUDE\.md$
+^CLAUDE_CHANGELOG\.md$
