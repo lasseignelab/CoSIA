@@ -74,7 +74,7 @@ setMethod(
         filter_gex <- filter_gex[
             filter_gex$Anatomical_entity_name %in% single_tissue,
         ]
-        filter_gex <- tidyr::separate_rows(filter_gex, VST)
+        filter_gex <- tidyr::unnest(filter_gex, VST)
         filter_gex$VST <- as.numeric(filter_gex$VST)
         filter_gex <- as.data.frame(filter_gex)
         brewer.pal.info <- RColorBrewer::brewer.pal.info
@@ -212,7 +212,7 @@ setMethod(
         ids <- as.character(ids)
         filter_gex <- gex_dataframe[gex_dataframe$Ensembl_ID %in% ids, ]
         filter_gex <- filter_gex[filter_gex$Species %in% single_species, ]
-        filter_gex <- tidyr::separate_rows(filter_gex, VST)
+        filter_gex <- tidyr::unnest(filter_gex, VST)
         filter_gex$VST <- as.numeric(filter_gex$VST)
 
         brewer.pal.info <- RColorBrewer::brewer.pal.info
