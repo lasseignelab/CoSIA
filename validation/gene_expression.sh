@@ -4,7 +4,7 @@ set -euo pipefail
 PROJECT_PATH="$(pwd)"
 CONTAINER_PATH="$PROJECT_PATH/bin/container"
 SIF="${CONTAINER_PATH}/bioc_cosia_1.10.1.sif"
-SIF_URI="${COSIA_SIF_URI:-docker://acrumley/bioc_cosia:1.10.1}"
+SIF_URI="${COSIA_SIF_URI:-docker://lasseignelab/bioc_cosia:1.10.1}"
 
 ensure_sif() {
     mkdir -p "$CONTAINER_PATH"
