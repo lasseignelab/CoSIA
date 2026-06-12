@@ -102,6 +102,7 @@ setMethod(
         fig <- fig %>%
             plotly::add_trace(
                 type = "violin",
+                mode = NULL,
                 spanmode = "hard",
                 showlegend = FALSE
             )
@@ -242,6 +243,7 @@ setMethod(
         fig <- fig %>%
             plotly::add_trace(
                 type = "violin",
+                mode = NULL,
                 spanmode = "hard",
                 showlegend = FALSE
             )
