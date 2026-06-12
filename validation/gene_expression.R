@@ -53,7 +53,7 @@ run_metric <- function(label, ...) {
     NULL
   })
 }
-  
+
 gex_species_multi = run_metric(
   "DS_Gene multi-species",
   map_species  = MULTI_SPECIES,
@@ -62,4 +62,8 @@ gex_species_multi = run_metric(
   o_species    = MULTI_SPECIES
 )
 
-print(CoSIA::plotSpeciesGEx(gex_species_multi, "brain", "ENSG00000008710"))
+# print(CoSIA::plotSpeciesGEx(gex_species_multi, "brain", "ENSG00000008710"))
+
+dir.create("validation/output", showWarnings = FALSE, recursive = TRUE)
+p <- CoSIA::plotSpeciesGEx(gex_species_multi, "brain", "ENSG00000008710")
+plotly::save_image(p, "validation/output/gex_plot.png", width = 800, height = 600, scale = 2)
