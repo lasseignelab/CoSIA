@@ -43,6 +43,7 @@ singularity exec --cleanenv \
   --env ANNOTATION_HUB_CACHE="${CACHE_BASE}/annotationhub" \
   --env EXPERIMENT_HUB_CACHE="${CACHE_BASE}/experimenthub" \
   --env BFC_CACHE="${CACHE_BASE}/biocfilecache" \
+  --env RETICULATE_PYTHON="/usr/bin/python3" \
   --pwd "${PROJECT_PATH}" \
   "$SIF" \
-  Rscript -e "devtools::test()"
+  Rscript validation/gene_expression.R
