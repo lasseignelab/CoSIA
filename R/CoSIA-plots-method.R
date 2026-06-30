@@ -102,6 +102,7 @@ setMethod(
         fig <- fig %>%
             plotly::add_trace(
                 type = "violin",
+                mode = NULL,
                 spanmode = "hard",
                 showlegend = FALSE
             )
@@ -242,6 +243,7 @@ setMethod(
         fig <- fig %>%
             plotly::add_trace(
                 type = "violin",
+                mode = NULL,
                 spanmode = "hard",
                 showlegend = FALSE
             )
@@ -403,7 +405,7 @@ setMethod("plotDSGEx", signature(object = "CoSIAn"), function(object) {
 #'         "h_sapiens", "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = c("adult mammalian kidney","heart"), 
+#'     map_tissues = c("adult mammalian kidney","heart"),
 #'     map_species = c("h_sapiens", "r_norvegicus"),
 #'     metric_type = "CV_Tissue"
 #' )
@@ -429,15 +431,15 @@ setGeneric("plotCVGEx", function(object) standardGeneric("plotCVGEx"))
 #'         "h_sapiens", "r_norvegicus"
 #'     ), output_ids = c("Ensembl_id", "Symbol"),
 #'     mapping_tool = "annotationDBI", ortholog_database = "HomoloGene",
-#'     map_tissues = c("adult mammalian kidney","heart"), 
+#'     map_tissues = c("adult mammalian kidney","heart"),
 #'     map_species = c("h_sapiens", "r_norvegicus"),
 #'     metric_type = "CV_Tissue"
 #' )
 #' Kidney_gene_conversion <- CoSIA::getConversion(Kidney_Genes)
 #' Kidney_gene_metric <- getGExMetrics(Kidney_gene_conversion)
 #' plot <- plotCVGEx(Kidney_gene_metric)
-#' @references Dot plot in R with the dotchart function [with examples]. 
-#' R CODER. (2020, November 20). Retrieved from https://r-coder.com/dot-plot-r/ 
+#' @references Dot plot in R with the dotchart function [with examples].
+#' R CODER. (2020, November 20). Retrieved from https://r-coder.com/dot-plot-r/
 setMethod("plotCVGEx", signature(object = "CoSIAn"), function(object) {
     # set object slots into variables
     metric_type <- object@metric_type
