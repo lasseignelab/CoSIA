@@ -1,7 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^doc$
+^docker$
 ^Meta$
 ^validation$
 ^CLAUDE\.md$
 ^CLAUDE_CHANGELOG\.md$
+^\.positai$
+^\.claude$
