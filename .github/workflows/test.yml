@@ -1,0 +1,47 @@
+name: Run Test Suite
+
+on:
+  push:
+    branches: [devel, main]
+  pull_request:
+    branches: [devel, main]
+
+jobs:
+  test:
+    name: Bioconductor RELEASE_3_22
+    runs-on: ubuntu-latest
+    container:
+      image: bioconductor/bioconductor_docker:RELEASE_3_22
+
+    env:
+      R_LIBS_USER: /usr/local/lib/R/host-site-library
+      EXPERIMENT_HUB_CACHE: /root/.cache/R/ExperimentHub
+      ANNOTATION_HUB_CACHE: /root/.cache/R/AnnotationHub
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: /usr/local/lib/R/host-site-library
+          key: bioc-RELEASE_3_22-${{ hashFiles('DESCRIPTION') }}
+          restore-keys: |
+            bioc-RELEASE_3_22-
+
+      - name: Cache ExperimentHub data
+        uses: actions/cache@v4
+        with:
+          path: /root/.cache/R/ExperimentHub
+          key: experimenthub-cosia-EH7858-EH7863-v1
+
+      - name: Install package dependencies
+        run: |
+          options(repos = BiocManager::repositories())
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Run test suite
+        run: devtools::test(reporter = testthat::check_reporter())
+        shell: Rscript {0}
